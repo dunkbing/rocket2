@@ -17,8 +17,11 @@ const PLACE_TRIES := 8         # attempts to find a non-overlapping spot before 
 
 var pool: Array = []
 var gap_y := SCREEN_H * 0.5    # center of the clear lane, random-walks over time
+var running := true
+var spawn_timer: Timer
 
 func _ready() -> void:
+    add_to_group("hud")  # receives on_death() from rocket.die()'s call_group
     for i in POOL_SIZE:
         var a = ASTEROID.instantiate()
         _deactivate(a)
@@ -26,19 +29,25 @@ func _ready() -> void:
         add_child(a)
         pool.append(a)
 
-    var t := Timer.new()
-    t.wait_time = SPAWN_INTERVAL
-    t.timeout.connect(_spawn_cluster)
-    add_child(t)
-    t.start()
+    spawn_timer = Timer.new()
+    spawn_timer.wait_time = SPAWN_INTERVAL
+    spawn_timer.timeout.connect(_spawn_cluster)
+    add_child(spawn_timer)
+    spawn_timer.start()
 
 func _process(delta: float) -> void:
+    if not running:
+        return
     for a in pool:
         if not a.visible:
             continue
         a.position.x -= SPEED * delta
         if a.position.x < -40.0:
             _deactivate(a)
+
+func on_death() -> void:
+    running = false
+    spawn_timer.stop()  # stop spawning new clusters too
 
 func _spawn_cluster() -> void:
     # keep gap_y far enough from edges that BOTH bands always have room for an asteroid
@@ -98,5 +107,6 @@ func _get_free():
             return a
     return null
 
-func _on_hit(_body: Node) -> void:
-    get_tree().reload_current_scene()  # ponytail: game over = reset; swap for real UI later
+func _on_hit(body: Node) -> void:
+    if body.has_method("die"):
+        body.die()  # rocket plays its explosion + tells the HUD to show the death panel

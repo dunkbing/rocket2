@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="rocket2"
-run/main_scene="uid://cycnwg42r8lsd"
+run/main_scene="res://main_menu.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
 
