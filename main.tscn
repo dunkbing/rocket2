@@ -1,8 +1,17 @@
 [gd_scene format=3 uid="uid://cycnwg42r8lsd"]
 
 [ext_resource type="PackedScene" uid="uid://djbaiefjm15tv" path="res://rocket.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://cncgkuybi5txp" path="res://hud.tscn" id="3_1bvp3"]
+[ext_resource type="Script" uid="uid://cf85io3gq0f87" path="res://asteroid_field.gd" id="3_h2yge"]
 
 [node name="Main" type="Node2D" unique_id=512084551]
 
 [node name="Rocket" parent="." unique_id=183115029 instance=ExtResource("1_ig7tw")]
 position = Vector2(150, 260)
+
+[node name="Timer" type="Timer" parent="." unique_id=1864533079]
+
+[node name="AsteroidField" type="Node2D" parent="." unique_id=1387999633]
+script = ExtResource("3_h2yge")
+
+[node name="HUD" parent="." unique_id=1372647904 instance=ExtResource("3_1bvp3")]

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cb1dkn6sfyxym"]
+
+[ext_resource type="Texture2D" uid="uid://bbc5ai3osb2fv" path="res://assets/rocket.png" id="1_u87q6"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rh748"]
+radius = 14.0
+height = 28.0
+
+[node name="Asteroid" type="Area2D" unique_id=1254519483]
+collision_layer = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1116532903]
+texture = ExtResource("1_u87q6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=348058972]
+shape = SubResource("CapsuleShape2D_rh748")

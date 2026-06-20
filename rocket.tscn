@@ -45,7 +45,7 @@ curve = SubResource("Curve_5gt1y")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5gt1y"]
 particle_flag_disable_z = true
 direction = Vector3(-1, 0, 0)
-spread = 40.0
+spread = 30.0
 initial_velocity_min = 40.0
 initial_velocity_max = 80.0
 angular_velocity_min = -180.00002
@@ -55,7 +55,23 @@ scale_min = 2.0
 scale_max = 4.0
 scale_curve = SubResource("CurveTexture_tpb7v")
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_r2l15"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 120.0
+initial_velocity_max = 280.0
+angular_velocity_min = -180.00002
+angular_velocity_max = 179.99998
+gravity = Vector3(0, 0, 0)
+damping_min = 100.00001
+damping_max = 200.00002
+scale_min = 3.0
+scale_max = 6.0
+scale_curve = SubResource("CurveTexture_5gt1y")
+color_ramp = SubResource("GradientTexture1D_5gt1y")
+
 [node name="Rocket" type="RigidBody2D" unique_id=183115029]
+collision_mask = 2
 continuous_cd = 1
 script = ExtResource("2_rkt")
 
@@ -66,9 +82,10 @@ texture = ExtResource("1_fj03e")
 shape = SubResource("CapsuleShape2D_rh748")
 
 [node name="Fire" type="GPUParticles2D" parent="." unique_id=1841097489]
+z_index = 1
 position = Vector2(-17, 0)
 amount = 100
-lifetime = 0.7
+lifetime = 0.5
 process_material = SubResource("ParticleProcessMaterial_rh748")
 
 [node name="Smoke" type="GPUParticles2D" parent="." unique_id=753562461]
@@ -76,3 +93,12 @@ position = Vector2(-17, 0)
 amount = 20
 lifetime = 1.5
 process_material = SubResource("ParticleProcessMaterial_5gt1y")
+
+[node name="Explosion" type="GPUParticles2D" parent="." unique_id=948243112]
+z_index = 2
+emitting = false
+amount = 64
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_r2l15")

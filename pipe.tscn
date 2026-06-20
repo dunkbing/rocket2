@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://e6t1avg3aqe7"]
+
+[ext_resource type="Script" uid="uid://c0vvmulca8j1j" path="res://pipe.gd" id="1_78010"]
+[ext_resource type="Texture2D" uid="uid://c8a23ti5wqpoq" path="res://assets/pipe-green.png" id="1_bepn3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bepn3"]
+size = Vector2(47, 318)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_78010"]
+size = Vector2(48, 320)
+
+[node name="Pipe" type="Area2D" unique_id=227877045]
+script = ExtResource("1_78010")
+
+[node name="Top" type="Sprite2D" parent="." unique_id=850322340]
+position = Vector2(0, -220)
+texture = ExtResource("1_bepn3")
+flip_v = true
+
+[node name="Bottom" type="Sprite2D" parent="." unique_id=1309797478]
+position = Vector2(0, 220)
+texture = ExtResource("1_bepn3")
+
+[node name="TopCol" type="CollisionShape2D" parent="." unique_id=536650682]
+position = Vector2(-0.5, -221)
+shape = SubResource("RectangleShape2D_bepn3")
+
+[node name="BottomCol" type="CollisionShape2D" parent="." unique_id=424102436]
+position = Vector2(0, 220)
+shape = SubResource("RectangleShape2D_78010")
