@@ -24,4 +24,5 @@ func die() -> void:
     $Fire.emitting = false
     $Smoke.emitting = false
     $Explosion.emitting = true
+    $Explosion2.emitting = true
     get_tree().call_group("hud", "on_death")

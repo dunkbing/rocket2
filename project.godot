@@ -24,6 +24,10 @@ window/size/window_height_override=1536
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[gui]
+
+theme/custom="uid://bfocsgmbg6oeb"
+
 [input]
 
 thrust={
