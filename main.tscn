@@ -1,17 +1,56 @@
 [gd_scene format=3 uid="uid://cycnwg42r8lsd"]
 
 [ext_resource type="PackedScene" uid="uid://djbaiefjm15tv" path="res://rocket.tscn" id="1_ig7tw"]
-[ext_resource type="PackedScene" uid="uid://cncgkuybi5txp" path="res://hud.tscn" id="3_1bvp3"]
-[ext_resource type="Script" uid="uid://cf85io3gq0f87" path="res://asteroid_field.gd" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://oxko16ddhws5" path="res://follow_camera.gd" id="2_cam"]
+[ext_resource type="Script" uid="uid://bmwuuljl2q0f2" path="res://asteroid_spawner.gd" id="3_spw"]
+[ext_resource type="PackedScene" uid="uid://cb1dkn6sfyxym" path="res://asteroid.tscn" id="4_ast"]
+[ext_resource type="PackedScene" uid="uid://cncgkuybi5txp" path="res://hud.tscn" id="5_hud"]
+[ext_resource type="Shader" uid="uid://d2q2eg2j68iyx" path="res://vignette.gdshader" id="6_7mycd"]
+
+[sub_resource type="Environment" id="Environment_2ueok"]
+background_mode = 3
+glow_enabled = true
+glow_levels/3 = 0.48
+glow_levels/4 = 0.48
+glow_levels/5 = 0.53
+glow_intensity = 0.8
+glow_bloom = 0.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lquwl"]
+shader = ExtResource("6_7mycd")
+shader_parameter/radius = 0.25
+shader_parameter/softness = 0.45
+shader_parameter/intensity = 0.65
 
 [node name="Main" type="Node2D" unique_id=512084551]
 
-[node name="Rocket" parent="." unique_id=183115029 instance=ExtResource("1_ig7tw")]
-position = Vector2(150, 260)
+[node name="Rocket" parent="." unique_id=183115029 node_paths=PackedStringArray("vignette", "camera") instance=ExtResource("1_ig7tw")]
+position = Vector2(144, 256)
+vignette = NodePath("../PostFX/ColorRect")
+camera = NodePath("../Camera2D")
 
-[node name="Timer" type="Timer" parent="." unique_id=1864533079]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=482363291 node_paths=PackedStringArray("target")]
+script = ExtResource("2_cam")
+target = NodePath("../Rocket")
 
-[node name="AsteroidField" type="Node2D" parent="." unique_id=1387999633]
-script = ExtResource("3_h2yge")
+[node name="AsteroidSpawner" type="Node2D" parent="." unique_id=999638244 node_paths=PackedStringArray("rocket")]
+script = ExtResource("3_spw")
+asteroid_scene = ExtResource("4_ast")
+rocket = NodePath("../Rocket")
 
-[node name="HUD" parent="." unique_id=1372647904 instance=ExtResource("3_1bvp3")]
+[node name="HUD" parent="." unique_id=1372647904 instance=ExtResource("5_hud")]
+layer = 2
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=876088466]
+environment = SubResource("Environment_2ueok")
+
+[node name="PostFX" type="CanvasLayer" parent="." unique_id=1982149608]
+
+[node name="ColorRect" type="ColorRect" parent="PostFX" unique_id=1615709649]
+material = SubResource("ShaderMaterial_lquwl")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

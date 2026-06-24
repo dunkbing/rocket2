@@ -1,17 +1,21 @@
 [gd_scene format=3 uid="uid://cb1dkn6sfyxym"]
 
-[ext_resource type="Texture2D" uid="uid://b81rbkfcqcr00" path="res://assets/asteroid.png" id="1_u87q6"]
+[ext_resource type="Script" uid="uid://cesm6001h2rrh" path="res://asteroid.gd" id="2_ast"]
+[ext_resource type="PackedScene" uid="uid://ceka20ur5pqpo" path="res://explosion.tscn" id="3_exp"]
+[ext_resource type="Texture2D" uid="uid://bnaonn3fbafu3" path="res://assets/Asterroid SSAAAA-01.png" id="3_gm5ib"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rh748"]
-radius = 8.0
-height = 16.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_ast"]
+radius = 14.0
 
-[node name="Asteroid" type="Area2D" unique_id=1254519483]
+[node name="Asteroid" type="StaticBody2D" unique_id=1254519483]
 collision_layer = 2
+collision_mask = 0
+script = ExtResource("2_ast")
+explosion_scene = ExtResource("3_exp")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1116532903]
-texture = ExtResource("1_u87q6")
+texture = ExtResource("3_gm5ib")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=348058972]
-position = Vector2(0, -1)
-shape = SubResource("CapsuleShape2D_rh748")
+visible = false
+shape = SubResource("CircleShape2D_ast")

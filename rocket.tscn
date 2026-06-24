@@ -4,8 +4,7 @@
 [ext_resource type="Script" uid="uid://bsrl15bch4xk2" path="res://rocket.gd" id="2_rkt"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rh748"]
-radius = 13.0
-height = 26.0
+radius = 11.0
 
 [sub_resource type="Gradient" id="Gradient_5gt1y"]
 offsets = PackedFloat32Array(0, 0.54188484, 0.9947644)
@@ -55,54 +54,6 @@ scale_min = 2.0
 scale_max = 4.0
 scale_curve = SubResource("CurveTexture_tpb7v")
 
-[sub_resource type="Gradient" id="Gradient_r2l15"]
-interpolation_mode = 1
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_duwuw"]
-gradient = SubResource("Gradient_r2l15")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.5, 0)
-
-[sub_resource type="Gradient" id="Gradient_tpb7v"]
-colors = PackedColorArray(0.8798001, 0.44106263, 5.7756904e-07, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_r2l15"]
-gradient = SubResource("Gradient_tpb7v")
-
-[sub_resource type="Curve" id="Curve_cum1y"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.4044234, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_546ky"]
-curve = SubResource("Curve_cum1y")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2ueok"]
-particle_flag_disable_z = true
-emission_shape = 1
-emission_sphere_radius = 20.0
-gravity = Vector3(0, 0, 0)
-scale_min = 0.099999994
-scale_max = 0.5
-scale_curve = SubResource("CurveTexture_546ky")
-color_ramp = SubResource("GradientTexture1D_r2l15")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_r2l15"]
-particle_flag_disable_z = true
-spread = 180.0
-initial_velocity_min = 120.0
-initial_velocity_max = 280.0
-angular_velocity_min = -180.00002
-angular_velocity_max = 179.99998
-gravity = Vector3(0, 0, 0)
-damping_min = 100.00001
-damping_max = 200.00002
-scale_min = 3.0
-scale_max = 6.0
-scale_curve = SubResource("CurveTexture_5gt1y")
-color_ramp = SubResource("GradientTexture1D_5gt1y")
-
 [node name="Rocket" type="RigidBody2D" unique_id=183115029]
 collision_mask = 2
 continuous_cd = 1
@@ -112,35 +63,20 @@ script = ExtResource("2_rkt")
 texture = ExtResource("1_fj03e")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2113321071]
+rotation = 1.5708
 shape = SubResource("CapsuleShape2D_rh748")
 
 [node name="Fire" type="GPUParticles2D" parent="." unique_id=1841097489]
 z_index = 1
 position = Vector2(-17, 0)
+emitting = false
 amount = 100
 lifetime = 0.5
 process_material = SubResource("ParticleProcessMaterial_rh748")
 
 [node name="Smoke" type="GPUParticles2D" parent="." unique_id=753562461]
 position = Vector2(-17, 0)
+emitting = false
 amount = 20
 lifetime = 1.5
 process_material = SubResource("ParticleProcessMaterial_5gt1y")
-
-[node name="Explosion2" type="GPUParticles2D" parent="." unique_id=592696253]
-emitting = false
-amount = 32
-texture = SubResource("GradientTexture2D_duwuw")
-lifetime = 0.5
-one_shot = true
-explosiveness = 1.0
-process_material = SubResource("ParticleProcessMaterial_2ueok")
-
-[node name="Explosion" type="GPUParticles2D" parent="." unique_id=948243112]
-z_index = 2
-emitting = false
-amount = 64
-lifetime = 0.6
-one_shot = true
-explosiveness = 1.0
-process_material = SubResource("ParticleProcessMaterial_r2l15")

@@ -1,31 +1,21 @@
 extends CanvasLayer
 
-var time := 0.0
-var running := true
+var score := 0
 @onready var PauseButton = $PauseButton
 @onready var ResumeButton = $PauseMenu/Panel/VBoxContainer/ResumeButton
 @onready var RestartButton = $PauseMenu/Panel/VBoxContainer/RestartButton
-@onready var DeathRestartButton = $DeathPanel/Panel/VBoxContainer/RestartButton
 
 func _ready() -> void:
-    add_to_group("hud")  # rocket.die() calls on_death() via this group
+    add_to_group("hud")  # asteroids reach us via this group
     PauseButton.pressed.connect(_pause)
     ResumeButton.pressed.connect(_resume)
     RestartButton.pressed.connect(_restart)
-    DeathRestartButton.pressed.connect(_restart)
+    $Label.text = str(score)
 
-func _process(delta: float) -> void:
-    if not running:
-        return
-    time += delta
-    $Label.text = str(int(time))  # whole seconds survived; int() makes it tick up once per second
-
-func on_death() -> void:
-    running = false
-    $PauseButton.hide()
-    await get_tree().create_timer(0.7).timeout  # let the explosion play before the panel covers it
-    $DeathPanel/Panel/VBoxContainer/ScoreLabel.text = "Score: " + str(int(time))
-    $DeathPanel.show()
+# Called by each asteroid when the rocket destroys it.
+func on_asteroid_destroyed() -> void:
+    score += 1
+    $Label.text = str(score)
 
 func _pause() -> void:
     get_tree().paused = true
