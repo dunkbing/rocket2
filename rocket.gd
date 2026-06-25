@@ -22,7 +22,8 @@ extends RigidBody2D
 @export var vignette: ColorRect
 @export var camera: Camera2D
 @export_range(0.5, 2.0, 0.05) var normal_camera_zoom: float = 1.0
-@export_range(0.5, 2.0, 0.05) var aim_camera_zoom: float = 1.2
+## Below 1.0 = zoom OUT while aiming (wider view to see where you're shooting).
+@export_range(0.5, 2.0, 0.05) var aim_camera_zoom: float = 0.8
 
 @export_group("Charge (aim timer)")
 ## How long (real seconds) you may hold a drag before time runs out. If the
@@ -32,6 +33,10 @@ extends RigidBody2D
 @export var death_explosion_scene: PackedScene
 ## Seconds to let the death explosion play before the Game Over popup appears.
 @export var death_popup_delay: float = 0.8
+## Camera shake strength (pixels) when the rocket dies.
+@export var death_shake_strength: float = 16.0
+## How long the death camera shake lasts (seconds).
+@export var death_shake_duration: float = 0.4
 
 @export_group("Fuel")
 ## Maximum fuel. The fuel bar shows the current amount as a fraction of this.
@@ -239,6 +244,8 @@ func _die() -> void:
         var fx: Node2D = death_explosion_scene.instantiate()
         fx.global_position = global_position
         get_tree().current_scene.add_child(fx)
+    if camera and camera.has_method("shake"):
+        camera.shake(death_shake_strength, death_shake_duration)
     # Deferred: _die() may run inside a physics collision callback, where
     # changing physics state directly is ignored.
     set_deferred("freeze", true)
