@@ -58,6 +58,7 @@ scale_curve = SubResource("CurveTexture_tpb7v")
 collision_mask = 2
 continuous_cd = 1
 script = ExtResource("2_rkt")
+punch_through_speed = 600.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=336697748]
 texture = ExtResource("1_fj03e")

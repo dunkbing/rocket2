@@ -3,7 +3,7 @@ extends Node2D
 ## The asteroid scene to pool.
 @export var asteroid_scene: PackedScene
 ## How many asteroids live in the pool (also the max alive at once).
-@export var pool_size: int = 24
+@export var pool_size: int = 50
 ## Random size range applied to each asteroid when (re)spawned.
 @export var min_scale: float = 0.8
 @export var max_scale: float = 2.0

@@ -24,6 +24,16 @@ extends RigidBody2D
 @export_range(0.5, 2.0, 0.05) var normal_camera_zoom: float = 1.0
 @export_range(0.5, 2.0, 0.05) var aim_camera_zoom: float = 1.2
 
+@export_group("Impact")
+## Speed the rocket keeps after smashing an asteroid so it punches through and
+## keeps flying instead of stopping dead. If it was already faster, it keeps its
+## own speed; this is just the floor.
+@export var punch_through_speed: float = 400.0
+## How much the post-hit direction is pulled toward straight-up (0 = keep
+## heading, 1 = always straight up). The rocket keeps its horizontal lean but
+## never gets blasted downward.
+@export_range(0.0, 1.0, 0.05) var punch_upward_bias: float = 0.55
+
 var _aiming: bool = false
 var _drag_start: Vector2 = Vector2.ZERO
 var _launched: bool = false
@@ -34,6 +44,10 @@ var dot_color: Color = Color(1, 1, 1, 0.8)
 
 var _aim_effect_tween: Tween
 var _camera_tween: Tween
+
+## Velocity to re-apply on the next physics frame so a hit doesn't stop us.
+var _punch_velocity: Vector2 = Vector2.ZERO
+var _punch_pending: bool = false
 
 
 func _ready() -> void:
@@ -50,6 +64,21 @@ func _ready() -> void:
 func _on_body_entered(body: Node) -> void:
     # Asteroids add themselves to the "asteroids" group in their _ready().
     if body.is_in_group("asteroids") and body.has_method("explode"):
+        # Capture our travel direction NOW, before the collision solver can slow
+        # us. We re-apply it in _integrate_forces so the rocket punches through.
+        if _launched:
+            var direction: Vector2 = linear_velocity
+            if direction.length() < 1.0:
+                direction = Vector2.RIGHT.rotated(rotation)
+            direction = direction.normalized()
+            # First make sure we're never pointing down, then blend toward
+            # straight-up so even a fast horizontal hit reliably pops upward
+            # while keeping its left/right lean.
+            direction.y = -absf(direction.y)
+            direction = direction.lerp(Vector2.UP, punch_upward_bias)
+            var speed: float = maxf(linear_velocity.length(), punch_through_speed)
+            _punch_velocity = direction.normalized() * speed
+            _punch_pending = true
         body.explode()
 
 
@@ -111,6 +140,11 @@ func _launch() -> void:
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
     if not _launched:
         return
+    # Runs AFTER collision resolution, so this overrides the velocity the solver
+    # zeroed out when we rammed the (static) asteroid.
+    if _punch_pending:
+        state.linear_velocity = _punch_velocity
+        _punch_pending = false
     var velocity: Vector2 = state.linear_velocity
     if velocity.length() > 1.0:
         var xform := state.transform
