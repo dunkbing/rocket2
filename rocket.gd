@@ -90,7 +90,7 @@ func _ready() -> void:
     body_entered.connect(_on_body_entered)
     _fuel = max_fuel
     _push_fuel()
-    _push_charge(0.0)
+    _push_charge(1.0)  # full when idle; only drains while dragging
 
 
 func _process(delta: float) -> void:
@@ -188,7 +188,7 @@ func _launch_velocity() -> Vector2:
 
 func _launch() -> void:
     _set_aim_effect(false)
-    _push_charge(0.0)  # released in time — reset the aim-timer bar
+    _push_charge(1.0)  # released in time — reset the aim-timer bar to full
     var velocity: Vector2 = _launch_velocity()
     _clear_trajectory()
     if velocity.length() <= 0.0:

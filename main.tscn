@@ -48,7 +48,7 @@ red_asteroid_scene = ExtResource("5_5vw27")
 rocket = NodePath("../Rocket")
 
 [node name="HUD" parent="." unique_id=1372647904 instance=ExtResource("5_hud")]
-layer = 2
+layer = 0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=876088466]
 environment = SubResource("Environment_2ueok")

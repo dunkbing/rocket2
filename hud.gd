@@ -19,7 +19,7 @@ func _ready() -> void:
     DeathRestartButton.pressed.connect(_restart)
     $Label.text = str(score)
     # Sensible defaults in case the rocket's first emit beat us into the tree.
-    ChargeBar.value = 0.0
+    ChargeBar.value = 1.0
     FuelBar.value = 1.0
 
 # Called by each asteroid when the rocket destroys it.
