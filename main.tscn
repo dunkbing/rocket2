@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://oxko16ddhws5" path="res://follow_camera.gd" id="2_cam"]
 [ext_resource type="Script" uid="uid://bmwuuljl2q0f2" path="res://asteroid_spawner.gd" id="3_spw"]
 [ext_resource type="PackedScene" uid="uid://cb1dkn6sfyxym" path="res://asteroid.tscn" id="4_ast"]
+[ext_resource type="PackedScene" uid="uid://bax5fyrxmnr56" path="res://red_asteroid.tscn" id="5_5vw27"]
 [ext_resource type="PackedScene" uid="uid://cncgkuybi5txp" path="res://hud.tscn" id="5_hud"]
 [ext_resource type="Shader" uid="uid://d2q2eg2j68iyx" path="res://vignette.gdshader" id="6_7mycd"]
 [ext_resource type="Shader" uid="uid://kk1nlybn5fde" path="res://chromatic_aberration.gdshader" id="7_272bh"]
@@ -43,6 +44,7 @@ target = NodePath("../Rocket")
 [node name="AsteroidSpawner" type="Node2D" parent="." unique_id=999638244 node_paths=PackedStringArray("rocket")]
 script = ExtResource("3_spw")
 asteroid_scene = ExtResource("4_ast")
+red_asteroid_scene = ExtResource("5_5vw27")
 rocket = NodePath("../Rocket")
 
 [node name="HUD" parent="." unique_id=1372647904 instance=ExtResource("5_hud")]

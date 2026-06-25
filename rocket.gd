@@ -24,6 +24,23 @@ extends RigidBody2D
 @export_range(0.5, 2.0, 0.05) var normal_camera_zoom: float = 1.0
 @export_range(0.5, 2.0, 0.05) var aim_camera_zoom: float = 1.2
 
+@export_group("Charge (aim timer)")
+## How long (real seconds) you may hold a drag before time runs out. If the
+## charge bar empties before you release, the rocket dies and explodes.
+@export var aim_time_limit: float = 1.2
+## Explosion spawned when the rocket dies. Assign explosion.tscn in the editor.
+@export var death_explosion_scene: PackedScene
+## Seconds to let the death explosion play before the Game Over popup appears.
+@export var death_popup_delay: float = 0.8
+
+@export_group("Fuel")
+## Maximum fuel. The fuel bar shows the current amount as a fraction of this.
+@export var max_fuel: float = 100.0
+## Fuel burned per second while the rocket is flying.
+@export var fuel_drain_rate: float = 14.0
+## Fuel restored each time the rocket destroys an asteroid.
+@export var fuel_refill: float = 35.0
+
 @export_group("Impact")
 ## Speed the rocket keeps after smashing an asteroid so it punches through and
 ## keeps flying instead of stopping dead. If it was already faster, it keeps its
@@ -49,6 +66,13 @@ var _camera_tween: Tween
 var _punch_velocity: Vector2 = Vector2.ZERO
 var _punch_pending: bool = false
 
+## Real seconds left in the current aim before the rocket times out and dies.
+var _aim_time_left: float = 0.0
+## Current fuel; drains in flight, refills on hits. Drag is blocked at 0.
+var _fuel: float = 0.0
+## Set once the rocket has timed out — ignores all further input.
+var _dead: bool = false
+
 
 func _ready() -> void:
     # Rocket sits still until launched.
@@ -59,11 +83,38 @@ func _ready() -> void:
     contact_monitor = true
     max_contacts_reported = 4
     body_entered.connect(_on_body_entered)
+    _fuel = max_fuel
+    _push_fuel()
+    _push_charge(0.0)
+
+
+func _process(delta: float) -> void:
+    if _dead:
+        return
+    if _aiming:
+        # Count down in REAL time so the aim slow-mo doesn't stretch the timer.
+        var real_delta: float = delta / maxf(Engine.time_scale, 0.0001)
+        _aim_time_left -= real_delta
+        _push_charge(clampf(_aim_time_left / aim_time_limit, 0.0, 1.0))
+        if _aim_time_left <= 0.0:
+            _die()
+    elif _launched and not freeze:
+        # Burn fuel while coasting through space.
+        _fuel = maxf(_fuel - fuel_drain_rate * delta, 0.0)
+        _push_fuel()
 
 
 func _on_body_entered(body: Node) -> void:
+    # Deadly red asteroids kill on contact — check this first, since they're
+    # also in the "asteroids" group via the shared script.
+    if body.is_in_group("hazards"):
+        _die()
+        return
     # Asteroids add themselves to the "asteroids" group in their _ready().
     if body.is_in_group("asteroids") and body.has_method("explode"):
+        # Smashing an asteroid tops the fuel back up.
+        _fuel = minf(_fuel + fuel_refill, max_fuel)
+        _push_fuel()
         # Capture our travel direction NOW, before the collision solver can slow
         # us. We re-apply it in _integrate_forces so the rocket punches through.
         if _launched:
@@ -83,6 +134,8 @@ func _on_body_entered(body: Node) -> void:
 
 
 func _input(event: InputEvent) -> void:
+    if _dead:
+        return
     if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
         if event.pressed:
             # Start a drag from anywhere on screen — the launch direction comes
@@ -102,8 +155,13 @@ func _input(event: InputEvent) -> void:
 
 ## Begin a new aim, stopping the rocket wherever it currently is.
 func _start_aim() -> void:
+    # Out of fuel: the player can't drag/launch anymore.
+    if _fuel <= 0.0:
+        return
     _aiming = true
     _launched = false
+    _aim_time_left = aim_time_limit
+    _push_charge(1.0)
     _drag_start = get_global_mouse_position()
     # Halt any current motion and hold the rocket still while aiming.
     freeze = true
@@ -125,6 +183,7 @@ func _launch_velocity() -> Vector2:
 
 func _launch() -> void:
     _set_aim_effect(false)
+    _push_charge(0.0)  # released in time — reset the aim-timer bar
     var velocity: Vector2 = _launch_velocity()
     _clear_trajectory()
     if velocity.length() <= 0.0:
@@ -138,6 +197,12 @@ func _launch() -> void:
 # While flying, keep the nose pointed along the current velocity so the rocket
 # follows its arc instead of staying at a fixed angle.
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+    if _dead:
+        # Hard stop: zero velocity every frame so gravity can't keep pulling the
+        # corpse down (freeze set during a collision callback isn't reliable).
+        state.linear_velocity = Vector2.ZERO
+        state.angular_velocity = 0.0
+        return
     if not _launched:
         return
     # Runs AFTER collision resolution, so this overrides the velocity the solver
@@ -157,6 +222,41 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 func _set_exhaust(on: bool) -> void:
     $Fire.emitting = on
     $Smoke.emitting = on
+
+
+## Aim timed out while still dragging — blow the rocket up and end the run.
+func _die() -> void:
+    if _dead:
+        return
+    _dead = true
+    _aiming = false
+    _launched = false
+    _set_aim_effect(false)
+    _set_exhaust(false)
+    _clear_trajectory()
+    _push_charge(0.0)
+    if death_explosion_scene:
+        var fx: Node2D = death_explosion_scene.instantiate()
+        fx.global_position = global_position
+        get_tree().current_scene.add_child(fx)
+    # Deferred: _die() may run inside a physics collision callback, where
+    # changing physics state directly is ignored.
+    set_deferred("freeze", true)
+    set_deferred("linear_velocity", Vector2.ZERO)
+    hide()
+    # Let the explosion play out, then show the Game Over popup.
+    await get_tree().create_timer(death_popup_delay).timeout
+    get_tree().call_group("hud", "on_rocket_dead")
+
+
+## Push the current aim-timer fill (0..1) to the HUD.
+func _push_charge(ratio: float) -> void:
+    get_tree().call_group("hud", "set_charge", ratio)
+
+
+## Push the current fuel fill (0..1) to the HUD.
+func _push_fuel() -> void:
+    get_tree().call_group("hud", "set_fuel", _fuel / max_fuel)
 
 
 ## Simulate where the rocket will travel and store dots along that arc.

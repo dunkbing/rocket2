@@ -2,11 +2,10 @@ extends Node2D
 
 ## The asteroid scene to pool.
 @export var asteroid_scene: PackedScene
+## The deadly red asteroid scene. Spawned at 1/3 the count of normal asteroids.
+@export var red_asteroid_scene: PackedScene
 ## How many asteroids live in the pool (also the max alive at once).
 @export var pool_size: int = 50
-## Random size range applied to each asteroid when (re)spawned.
-@export var min_scale: float = 0.8
-@export var max_scale: float = 2.0
 ## Asteroids (re)spawn in a ring around the rocket: never closer than min,
 ## never farther than max — so they always appear away from the rocket.
 @export var spawn_min_radius: float = 260.0
@@ -31,8 +30,17 @@ func _ready() -> void:
     if asteroid_scene == null:
         push_warning("AsteroidSpawner: no asteroid_scene assigned.")
         return
-    for i in pool_size:
-        var asteroid: Node2D = asteroid_scene.instantiate()
+    _fill_pool(asteroid_scene, pool_size)
+    # Deadly red asteroids: one third as many as the normal ones.
+    if red_asteroid_scene:
+        _fill_pool(red_asteroid_scene, int(pool_size / 3.0))
+
+
+## Instance `count` copies of `scene` into the shared pool. They all use the
+## same pooling/recycle path, so red and normal asteroids mix freely.
+func _fill_pool(scene: PackedScene, count: int) -> void:
+    for i in count:
+        var asteroid: Node2D = scene.instantiate()
         asteroid.pool = self
         add_child(asteroid)
         _pool.append(asteroid)
@@ -63,7 +71,7 @@ func _replenish_asteroids() -> void:
     var farthest: Node2D = null
     var farthest_distance: float = spawn_max_radius
     for asteroid in _pool:
-        if not asteroid.visible:
+        if not asteroid.active:
             continue
         var distance: float = asteroid.global_position.distance_to(rocket.global_position)
         var clearance: float = _asteroid_radius(asteroid) + offscreen_margin
@@ -75,8 +83,6 @@ func _replenish_asteroids() -> void:
 
 
 func _activate(asteroid: Node2D) -> void:
-    asteroid.rotation = randf() * TAU
-    asteroid.scale = Vector2.ONE * randf_range(min_scale, max_scale)
     asteroid.global_position = _spawn_position(asteroid)
     asteroid.reset_for_spawn()
 
@@ -135,7 +141,7 @@ func _asteroid_radius(asteroid: Node2D) -> float:
 
 func _overlaps(pos: Vector2, skip: Node2D, radius: float) -> bool:
     for asteroid in _pool:
-        if asteroid == skip or not asteroid.visible:
+        if asteroid == skip or not asteroid.active:
             continue
         var other_radius: float = _asteroid_radius(asteroid)
         if pos.distance_to(asteroid.global_position) < radius + other_radius + 8.0:

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://djbaiefjm15tv"]
 
 [ext_resource type="Texture2D" uid="uid://bbc5ai3osb2fv" path="res://assets/rocket.png" id="1_fj03e"]
+[ext_resource type="PackedScene" uid="uid://ceka20ur5pqpo" path="res://explosion.tscn" id="2_r2l15"]
 [ext_resource type="Script" uid="uid://bsrl15bch4xk2" path="res://rocket.gd" id="2_rkt"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rh748"]
@@ -58,6 +59,7 @@ scale_curve = SubResource("CurveTexture_tpb7v")
 collision_mask = 2
 continuous_cd = 1
 script = ExtResource("2_rkt")
+death_explosion_scene = ExtResource("2_r2l15")
 punch_through_speed = 600.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=336697748]
