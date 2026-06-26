@@ -1,12 +1,14 @@
 extends StaticBody2D
 
-## Set by the spawner so a destroyed asteroid can return to the pool.
-var pool: Node = null
+## Emitted when the death sequence finishes. The ObjectPool listens for this and
+## despawns us automatically — so we need no back-reference to the pool/spawner.
+signal died
 
-## True while this asteroid is live in the field. The spawner reads this to
-## decide what to recycle / avoid overlapping — we can't use the node's
-## `visible` for that anymore, since the node stays shown while its embedded
-## explosion plays.
+## How long to linger after exploding (so the embedded explosion particles can
+## finish) before reporting that we're done and ready to be recycled.
+@export var death_duration: float = 1.2
+
+## True while live in the field. The spawner reads this for its placement logic.
 var active: bool = false
 
 @onready var _collision: CollisionShape2D = $CollisionShape2D
@@ -36,28 +38,26 @@ func _do_explode() -> void:
     _collision.set_deferred("disabled", true)
     _play_explosion()
     get_tree().call_group("hud", "on_asteroid_destroyed")
-    if pool:
-        pool.recycle(self)
-    else:
-        queue_free()
+    # Linger so the explosion plays out, then let the pool recycle us.
+    await get_tree().create_timer(death_duration).timeout
+    died.emit()
 
 
-## Fire the asteroid's own explosion, falling back to a spawned scene if this
-## variant has no embedded particle node.
+## Fire the asteroid's own explosion (variants without one simply skip it).
 func _play_explosion() -> void:
     if _explosion:
         _explosion.restart()  # one-shot burst at the asteroid's position
 
 
-## Make this asteroid live again at its new position (called by the spawner).
-func reset_for_spawn() -> void:
+## ObjectPool hook: bring this asteroid to life (the spawner positions it after).
+func on_spawned() -> void:
     active = true
     _sprite.show()
     _collision.set_deferred("disabled", false)
 
 
-## Park this asteroid: hidden and non-collidable while it waits in the pool.
-func deactivate() -> void:
+## ObjectPool hook: park this asteroid (hidden, non-collidable) for reuse.
+func on_despawned() -> void:
     active = false
     _sprite.hide()
     _collision.set_deferred("disabled", true)

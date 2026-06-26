@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://cmfd3jritdhvb"]
+
+[ext_resource type="Script" uid="uid://cesm6001h2rrh" path="res://asteroid.gd" id="1_qduwi"]
+[ext_resource type="Texture2D" uid="uid://dcru8t04vsxfd" path="res://assets/gold.png" id="2_qduwi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ast"]
+radius = 14.0
+
+[sub_resource type="Gradient" id="Gradient_circle"]
+interpolation_mode = 1
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gm5ib"]
+gradient = SubResource("Gradient_circle")
+width = 8
+height = 8
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="Gradient" id="Gradient_gm5ib"]
+interpolation_mode = 1
+colors = PackedColorArray(0.3491902, 0.3491902, 0.3491902, 1, 0.5370987, 0.5370987, 0.5370987, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_gm5ib"]
+gradient = SubResource("Gradient_gm5ib")
+
+[sub_resource type="Curve" id="Curve_gm5ib"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_q7epf"]
+curve = SubResource("Curve_gm5ib")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2ueok"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+initial_velocity_min = 150.0
+initial_velocity_max = 300.0
+angular_velocity_min = -360.0
+angular_velocity_max = 359.99997
+gravity = Vector3(0, 0, 0)
+damping_min = 80.0
+damping_max = 150.0
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_q7epf")
+color_initial_ramp = SubResource("GradientTexture1D_gm5ib")
+
+[node name="GoldAsteroid" type="StaticBody2D" unique_id=1254519483 groups=["gold"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_qduwi")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1116532903]
+texture = ExtResource("2_qduwi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=348058972]
+visible = false
+shape = SubResource("CircleShape2D_ast")
+
+[node name="Explosion" type="GPUParticles2D" parent="." unique_id=2128565426]
+emitting = false
+amount = 30
+texture = SubResource("GradientTexture2D_gm5ib")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_2ueok")

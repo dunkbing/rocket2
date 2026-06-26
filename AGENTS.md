@@ -46,5 +46,6 @@ Cross-node communication uses **Godot groups** rather than direct references, wh
 ## Conventions
 
 - GDGuide style as in existing files: 4 spaces for indentation; `snake_case` files and methods; private members prefixed `_`; tuning values exposed as `@export` with `##` doc comments. Each script `extends` a Godot node type (no `class_name` declarations in use).
+- Keep code comments short and concise. Prefer clear names and small functions over long explanatory comments.
 - Do not automatically edit `.tscn` scene files directly. Prefer guiding scene changes through the Godot editor, or ask for explicit confirmation before making scene-file edits.
 - Every `.gd` has a paired `.gd.uid`; every `.tscn`/resource is referenced by `uid://` — don't hand-edit UIDs, and keep script/scene UID references intact when renaming.

@@ -81,6 +81,7 @@ var _dead: bool = false
 
 func _ready() -> void:
     # Rocket sits still until launched.
+    add_to_group("player")  # the minimap finds us via this group
     freeze = true
     _set_exhaust(false)
     _clear_trajectory()
@@ -121,7 +122,9 @@ func _on_body_entered(body: Node) -> void:
         _fuel = minf(_fuel + fuel_refill, max_fuel)
         _push_fuel()
         $HitSound.play()   # impact thud
-        #$CoinSound.play()  # score-up ding
+        # Gold asteroids reward a coin ding on top of the normal hit.
+        if body.is_in_group("gold"):
+            $CoinSound.play()
         # Capture our travel direction NOW, before the collision solver can slow
         # us. We re-apply it in _integrate_forces so the rocket punches through.
         if _launched:

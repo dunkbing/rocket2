@@ -15,6 +15,10 @@ run/main_scene="res://main_menu.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://bs44pf7h3eqs7"
+
 [display]
 
 window/size/viewport_width=288

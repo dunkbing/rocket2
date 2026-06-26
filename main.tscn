@@ -7,7 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://cb1dkn6sfyxym" path="res://asteroid.tscn" id="4_ast"]
 [ext_resource type="PackedScene" uid="uid://bax5fyrxmnr56" path="res://red_asteroid.tscn" id="5_5vw27"]
 [ext_resource type="PackedScene" uid="uid://cncgkuybi5txp" path="res://hud.tscn" id="5_hud"]
+[ext_resource type="PackedScene" uid="uid://458oy8efyvam" path="res://object_pool.tscn" id="5_kek77"]
 [ext_resource type="Shader" uid="uid://d2q2eg2j68iyx" path="res://vignette.gdshader" id="6_7mycd"]
+[ext_resource type="PackedScene" uid="uid://cmfd3jritdhvb" path="res://gold_asteroid.tscn" id="7_4c57u"]
 [ext_resource type="Shader" uid="uid://kk1nlybn5fde" path="res://chromatic_aberration.gdshader" id="7_272bh"]
 
 [sub_resource type="Environment" id="Environment_2ueok"]
@@ -48,9 +50,18 @@ target = NodePath("../Rocket")
 
 [node name="AsteroidSpawner" type="Node2D" parent="." unique_id=999638244 node_paths=PackedStringArray("rocket")]
 script = ExtResource("3_spw")
-asteroid_scene = ExtResource("4_ast")
-red_asteroid_scene = ExtResource("5_5vw27")
 rocket = NodePath("../Rocket")
+
+[node name="AsteroidPool" parent="AsteroidSpawner" unique_id=1381087159 instance=ExtResource("5_kek77")]
+scene = ExtResource("4_ast")
+size = 50
+
+[node name="RedAsteroidPool" parent="AsteroidSpawner" unique_id=971688508 instance=ExtResource("5_kek77")]
+scene = ExtResource("5_5vw27")
+
+[node name="GoldAsteroidPool" parent="AsteroidSpawner" unique_id=458988853 instance=ExtResource("5_kek77")]
+scene = ExtResource("7_4c57u")
+size = 6
 
 [node name="HUD" parent="." unique_id=1372647904 instance=ExtResource("5_hud")]
 layer = 0

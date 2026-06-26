@@ -1,76 +1,71 @@
 extends Node2D
 
-## The asteroid scene to pool.
-@export var asteroid_scene: PackedScene
-## The deadly red asteroid scene. Spawned at 1/3 the count of normal asteroids.
-@export var red_asteroid_scene: PackedScene
-## How many asteroids live in the pool (also the max alive at once).
-@export var pool_size: int = 50
-## Asteroids (re)spawn in a ring around the rocket: never closer than min,
-## never farther than max — so they always appear away from the rocket.
+## This node only decides WHERE asteroids appear and keeps the field populated.
+## Pooling is delegated to the ObjectPool child nodes below; each pool's
+## scene/size is configured on the pool node itself.
+
+## Ring around the rocket where asteroids appear: never closer than min, never
+## farther than max — so they always show up away from the rocket.
 @export var spawn_min_radius: float = 260.0
 @export var spawn_max_radius: float = 720.0
 ## How often to move asteroids that the rocket has left behind.
 @export var spawn_check_interval: float = 0.25
-## Extra distance outside the viewport required before an asteroid can appear
-## or be recycled. This prevents popping at the edge of the screen.
+## Extra off-screen distance required before an asteroid can appear/reposition.
 @export var offscreen_margin: float = 32.0
-## Seconds before a destroyed asteroid respawns somewhere else.
-@export var respawn_delay: float = 1.2
 ## The rocket to spawn around / keep clear of.
 @export var rocket: Node2D
-## Tries to find a ring spot not overlapping another asteroid before giving up.
+## Tries to find a non-overlapping ring spot before giving up.
 @export var place_tries: int = 12
 
-var _pool: Array[Node2D] = []
+@onready var _pools: Array[ObjectPool] = [
+    $AsteroidPool,
+    $RedAsteroidPool,
+    $GoldAsteroidPool,
+]
+
+## Asteroids currently active in the field (used by the placement algorithm).
+var _active: Array[Node2D] = []
 var _spawn_check_elapsed: float = 0.0
 
 
 func _ready() -> void:
-    if asteroid_scene == null:
-        push_warning("AsteroidSpawner: no asteroid_scene assigned.")
-        return
-    _fill_pool(asteroid_scene, pool_size)
-    # Deadly red asteroids: one third as many as the normal ones.
-    if red_asteroid_scene:
-        _fill_pool(red_asteroid_scene, int(pool_size / 3.0))
-
-
-## Instance `count` copies of `scene` into the shared pool. They all use the
-## same pooling/recycle path, so red and normal asteroids mix freely.
-func _fill_pool(scene: PackedScene, count: int) -> void:
-    for i in count:
-        var asteroid: Node2D = scene.instantiate()
-        asteroid.pool = self
-        add_child(asteroid)
-        _pool.append(asteroid)
-        _activate(asteroid)
+    for pool in _pools:
+        pool.spawned.connect(_on_asteroid_spawned)
+        # When a pool despawns a dead asteroid, immediately bring one back.
+        pool.despawned.connect(_on_asteroid_despawned.bind(pool))
+        for i in pool.size:
+            pool.spawn()
 
 
 func _process(delta: float) -> void:
-    if rocket == null or _pool.is_empty():
+    if rocket == null or _active.is_empty():
         return
     _spawn_check_elapsed += delta
     if _spawn_check_elapsed < spawn_check_interval:
         return
     _spawn_check_elapsed = 0.0
-    _replenish_asteroids()
+    _replenish()
 
 
-## Hand a destroyed asteroid back to the pool; it reappears later elsewhere.
-func recycle(asteroid: Node2D) -> void:
-    asteroid.deactivate()
-    await get_tree().create_timer(respawn_delay).timeout
-    if is_instance_valid(asteroid) and is_inside_tree():
-        _activate(asteroid)
+## A freshly spawned asteroid: track it and place it in the ring.
+func _on_asteroid_spawned(asteroid: Node2D) -> void:
+    if not _active.has(asteroid):
+        _active.append(asteroid)
+    asteroid.global_position = _spawn_position(asteroid)
 
 
-## Move one asteroid left outside the spawn ring back near the rocket. Only an
+## A destroyed asteroid was parked by its pool: drop it and spawn a fresh one.
+func _on_asteroid_despawned(asteroid: Node2D, pool: ObjectPool) -> void:
+    _active.erase(asteroid)
+    pool.spawn()
+
+
+## Move one asteroid the rocket has left far behind back near it. Only an
 ## asteroid fully outside the viewport is eligible, so it never visibly pops.
-func _replenish_asteroids() -> void:
+func _replenish() -> void:
     var farthest: Node2D = null
     var farthest_distance: float = spawn_max_radius
-    for asteroid in _pool:
+    for asteroid in _active:
         if not asteroid.active:
             continue
         var distance: float = asteroid.global_position.distance_to(rocket.global_position)
@@ -79,12 +74,7 @@ func _replenish_asteroids() -> void:
             farthest = asteroid
             farthest_distance = distance
     if farthest != null:
-        _activate(farthest)
-
-
-func _activate(asteroid: Node2D) -> void:
-    asteroid.global_position = _spawn_position(asteroid)
-    asteroid.reset_for_spawn()
+        farthest.global_position = _spawn_position(farthest)
 
 
 ## A point in the ring around the rocket, outside the viewport and avoiding
@@ -140,7 +130,7 @@ func _asteroid_radius(asteroid: Node2D) -> float:
 
 
 func _overlaps(pos: Vector2, skip: Node2D, radius: float) -> bool:
-    for asteroid in _pool:
+    for asteroid in _active:
         if asteroid == skip or not asteroid.active:
             continue
         var other_radius: float = _asteroid_radius(asteroid)

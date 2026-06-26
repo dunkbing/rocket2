@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cncgkuybi5txp"]
 
 [ext_resource type="Script" uid="uid://cfyj1ffvx3srs" path="res://hud.gd" id="1_hud"]
+[ext_resource type="Script" uid="uid://badm0ow0ll8dh" path="res://minimap.gd" id="2_64ctp"]
 
 [sub_resource type="StyleBoxFlat" id="panel_sb"]
 bg_color = Color(0.11, 0.12, 0.17, 0.96)
@@ -188,10 +189,14 @@ text = "Restart"
 
 [node name="ChargeBar" type="ProgressBar" parent="." unique_id=327738866]
 custom_minimum_size = Vector2(120, 6)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
 offset_left = 12.0
-offset_top = 8.0
-offset_right = 112.0
-offset_bottom = 12.0
+offset_top = -32.0
+offset_right = 132.0
+offset_bottom = -26.0
+grow_vertical = 0
 theme_override_styles/background = SubResource("StyleBoxFlat_p0ukn")
 theme_override_styles/fill = SubResource("StyleBoxFlat_37p78")
 max_value = 1.0
@@ -200,12 +205,26 @@ show_percentage = false
 
 [node name="FuelBar" type="ProgressBar" parent="." unique_id=1446420544]
 custom_minimum_size = Vector2(120, 12)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
 offset_left = 12.0
-offset_top = 18.0
+offset_top = -24.0
 offset_right = 132.0
-offset_bottom = 30.0
+offset_bottom = -12.0
+grow_vertical = 0
 theme_override_styles/background = SubResource("StyleBoxFlat_p0ukn")
 theme_override_styles/fill = SubResource("StyleBoxFlat_64ctp")
 max_value = 1.0
 value = 1.0
 show_percentage = false
+
+[node name="Minimap" type="Control" parent="." unique_id=1150562180]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 204.0
+offset_top = 428.0
+offset_right = 276.0
+offset_bottom = 500.0
+mouse_filter = 2
+script = ExtResource("2_64ctp")
