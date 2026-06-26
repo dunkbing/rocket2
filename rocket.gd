@@ -120,6 +120,8 @@ func _on_body_entered(body: Node) -> void:
         # Smashing an asteroid tops the fuel back up.
         _fuel = minf(_fuel + fuel_refill, max_fuel)
         _push_fuel()
+        $HitSound.play()   # impact thud
+        #$CoinSound.play()  # score-up ding
         # Capture our travel direction NOW, before the collision solver can slow
         # us. We re-apply it in _integrate_forces so the rocket punches through.
         if _launched:
@@ -197,6 +199,7 @@ func _launch() -> void:
     freeze = false
     linear_velocity = velocity
     _set_exhaust(true)
+    $ShootSound.play()
 
 
 # While flying, keep the nose pointed along the current velocity so the rocket
@@ -240,6 +243,7 @@ func _die() -> void:
     _set_exhaust(false)
     _clear_trajectory()
     _push_charge(0.0)
+    $DeathSound.play()
     if death_explosion_scene:
         var fx: Node2D = death_explosion_scene.instantiate()
         fx.global_position = global_position
@@ -290,13 +294,17 @@ func _clear_trajectory() -> void:
     queue_redraw()
 
 
-# Draw the trajectory as dots that shrink with distance from the rocket.
+# Draw the trajectory as pixel squares that shrink with distance from the
+# rocket. We snap to whole pixels and use draw_rect (no anti-aliasing) so the
+# markers read as crisp blocks instead of smooth circles.
 func _draw() -> void:
     var count: int = _dots.size()
     for i in count:
         var t: float = float(i) / float(maxi(count - 1, 1))
-        var radius: float = lerpf(dot_start_radius, dot_end_radius, t)
-        draw_circle(_dots[i], radius, dot_color)
+        # dot_*_radius is treated as half the square's side here.
+        var side: float = maxf(roundf(lerpf(dot_start_radius, dot_end_radius, t) * 2.0), 1.0)
+        var top_left: Vector2 = _dots[i].round() - Vector2(side, side) * 0.5
+        draw_rect(Rect2(top_left, Vector2(side, side)), dot_color)
 
 
 func _set_aim_effect(active: bool) -> void:

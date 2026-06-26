@@ -3,6 +3,10 @@
 [ext_resource type="Texture2D" uid="uid://bbc5ai3osb2fv" path="res://assets/rocket.png" id="1_fj03e"]
 [ext_resource type="PackedScene" uid="uid://ceka20ur5pqpo" path="res://explosion.tscn" id="2_r2l15"]
 [ext_resource type="Script" uid="uid://bsrl15bch4xk2" path="res://rocket.gd" id="2_rkt"]
+[ext_resource type="AudioStream" uid="uid://dvexbpaqqpjyo" path="res://assets/audio/shoot.wav" id="4_tpb7v"]
+[ext_resource type="AudioStream" uid="uid://7vmvylnweqoc" path="res://assets/audio/explosion.wav" id="5_cum1y"]
+[ext_resource type="AudioStream" uid="uid://c44k6ifffc1eu" path="res://assets/audio/hit.wav" id="6_546ky"]
+[ext_resource type="AudioStream" uid="uid://bjleko7gp18by" path="res://assets/audio/pickup_coin.wav" id="7_awr8v"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rh748"]
 radius = 11.0
@@ -83,3 +87,19 @@ emitting = false
 amount = 20
 lifetime = 1.5
 process_material = SubResource("ParticleProcessMaterial_5gt1y")
+
+[node name="ShootSound" type="AudioStreamPlayer" parent="." unique_id=952309874]
+stream = ExtResource("4_tpb7v")
+bus = &"SFX"
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="." unique_id=219550488]
+stream = ExtResource("5_cum1y")
+bus = &"SFX"
+
+[node name="HitSound" type="AudioStreamPlayer" parent="." unique_id=1354494444]
+stream = ExtResource("6_546ky")
+bus = &"SFX"
+
+[node name="CoinSound" type="AudioStreamPlayer" parent="." unique_id=781675633]
+stream = ExtResource("7_awr8v")
+bus = &"SFX"
