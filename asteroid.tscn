@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cb1dkn6sfyxym"]
 
 [ext_resource type="Script" uid="uid://cesm6001h2rrh" path="res://asteroid.gd" id="2_ast"]
+[ext_resource type="PackedScene" uid="uid://30e74xg5mtn1" path="res://floating_text.tscn" id="2_gm5ib"]
 [ext_resource type="Texture2D" uid="uid://bbc5ai3osb2fv" path="res://assets/rocket.png" id="3_gm5ib"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ast"]
@@ -52,6 +53,9 @@ color_initial_ramp = SubResource("GradientTexture1D_gm5ib")
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("2_ast")
+floating_text_scene = ExtResource("2_gm5ib")
+score = 100
+coin = 5
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1116532903]
 texture = ExtResource("3_gm5ib")

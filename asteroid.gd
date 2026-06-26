@@ -8,6 +8,13 @@ signal died
 ## finish) before reporting that we're done and ready to be recycled.
 @export var death_duration: float = 1.2
 
+## Floating text scene shown on destruction (assign floating_text.tscn).
+@export var floating_text_scene: PackedScene
+## Score awarded when destroyed (shown as "+score").
+@export var score: int = 1
+## Coins awarded when destroyed (shown as "+coin$"; 0 hides the coin line).
+@export var coin: int = 0
+
 ## True while live in the field. The spawner reads this for its placement logic.
 var active: bool = false
 
@@ -37,7 +44,8 @@ func _do_explode() -> void:
     _sprite.hide()
     _collision.set_deferred("disabled", true)
     _play_explosion()
-    get_tree().call_group("hud", "on_asteroid_destroyed")
+    _show_floating_text()
+    get_tree().call_group("game_state", "add_stats", score, coin)
     # Linger so the explosion plays out, then let the pool recycle us.
     await get_tree().create_timer(death_duration).timeout
     died.emit()
@@ -47,6 +55,18 @@ func _do_explode() -> void:
 func _play_explosion() -> void:
     if _explosion:
         _explosion.restart()  # one-shot burst at the asteroid's position
+
+
+## Spawn the floating score text into the scene so it outlives this asteroid.
+## The scene's AnimationPlayer handles the rise/fade and frees it.
+func _show_floating_text() -> void:
+    if floating_text_scene == null:
+        return
+    var popup: Node = floating_text_scene.instantiate()
+    if popup.has_method("setup"):
+        popup.setup(score, coin)
+    get_tree().current_scene.add_child(popup)
+    popup.global_position = global_position
 
 
 ## ObjectPool hook: bring this asteroid to life (the spawner positions it after).

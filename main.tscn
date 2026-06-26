@@ -11,6 +11,7 @@
 [ext_resource type="Shader" uid="uid://d2q2eg2j68iyx" path="res://vignette.gdshader" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://cmfd3jritdhvb" path="res://gold_asteroid.tscn" id="7_4c57u"]
 [ext_resource type="Shader" uid="uid://kk1nlybn5fde" path="res://chromatic_aberration.gdshader" id="7_272bh"]
+[ext_resource type="Script" uid="uid://bjalyupt8hqyr" path="res://game_state.gd" id="12_dg77c"]
 
 [sub_resource type="Environment" id="Environment_2ueok"]
 background_mode = 3
@@ -88,3 +89,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="GameState" type="Node" parent="." unique_id=1433314615]
+script = ExtResource("12_dg77c")

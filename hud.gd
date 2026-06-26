@@ -8,24 +8,34 @@ extends CanvasLayer
 @onready var DeathRestartButton = $DeathPanel/Panel/VBoxContainer/RestartButton
 @onready var DeathScoreLabel = $DeathPanel/Panel/VBoxContainer/ScoreLabel
 
-var score := 0
+## Latest values pushed from GameState; cached for the game-over panel.
+var _score := 0
+var _coin := 0
 
 
 func _ready() -> void:
-    add_to_group("hud")  # the rocket & asteroids reach us via this group
+    add_to_group("hud")  # the game state & rocket reach us via this group
     PauseButton.pressed.connect(_pause)
     ResumeButton.pressed.connect(_resume)
     RestartButton.pressed.connect(_restart)
     DeathRestartButton.pressed.connect(_restart)
-    $Label.text = str(score)
+    $ScoreLabel.text = str(_score)
+    $CoinLabel.text = "%d$" % _coin
     # Sensible defaults in case the rocket's first emit beat us into the tree.
     ChargeBar.value = 1.0
     FuelBar.value = 1.0
 
-# Called by each asteroid when the rocket destroys it.
-func on_asteroid_destroyed() -> void:
-    score += 1
-    $Label.text = str(score)
+# --- Stat display (called via the "hud" group from GameState) ---
+
+## Show the session score.
+func set_score(value: int) -> void:
+    _score = value
+    $ScoreLabel.text = str(value)
+
+## Show the session coin count.
+func set_coin(value: int) -> void:
+    _coin = value
+    $CoinLabel.text = "%d$" % value
 
 # --- Rocket telemetry (called via the "hud" group from rocket.gd) ---
 
@@ -39,7 +49,7 @@ func set_fuel(ratio: float) -> void:
 
 ## The rocket ran out of aim time and exploded — end the run.
 func on_rocket_dead() -> void:
-    DeathScoreLabel.text = "Score: " + str(score)
+    DeathScoreLabel.text = "Score: " + str(_score)
     $DeathPanel.show()
 
 func _pause() -> void:

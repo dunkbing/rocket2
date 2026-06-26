@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cmfd3jritdhvb"]
 
 [ext_resource type="Script" uid="uid://cesm6001h2rrh" path="res://asteroid.gd" id="1_qduwi"]
+[ext_resource type="PackedScene" uid="uid://30e74xg5mtn1" path="res://floating_text.tscn" id="2_cfnh1"]
 [ext_resource type="Texture2D" uid="uid://dcru8t04vsxfd" path="res://assets/gold.png" id="2_qduwi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ast"]
@@ -52,6 +53,9 @@ color_initial_ramp = SubResource("GradientTexture1D_gm5ib")
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_qduwi")
+floating_text_scene = ExtResource("2_cfnh1")
+score = 200
+coin = 50
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1116532903]
 texture = ExtResource("2_qduwi")
