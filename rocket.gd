@@ -143,7 +143,7 @@ func _on_body_entered(body: Node) -> void:
         body.explode()
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
     if _dead:
         return
     if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -168,6 +168,7 @@ func _start_aim() -> void:
     # Out of fuel: the player can't drag/launch anymore.
     if _fuel <= 0.0:
         return
+    get_tree().call_group("hud", "hide_bottom_tabs")
     _aiming = true
     _launched = false
     _aim_time_left = aim_time_limit

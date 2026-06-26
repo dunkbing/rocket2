@@ -42,10 +42,50 @@ border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
 anti_aliasing = false
 
+[sub_resource type="StyleBoxFlat" id="bottom_tabs_sb"]
+bg_color = Color(0.08, 0.085, 0.115, 0.95)
+border_width_top = 2
+border_color = Color(1, 1, 1, 0.16)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+
+[sub_resource type="StyleBoxFlat" id="tab_button_sb"]
+bg_color = Color(0.16, 0.18, 0.23, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.12)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="tab_button_pressed_sb"]
+bg_color = Color(1, 0.91627353, 0.5370987, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 0.7)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
 [node name="HUD" type="CanvasLayer" unique_id=1372647904]
 script = ExtResource("1_hud")
 
-[node name="ScoreLabel" type="Label" parent="." unique_id=1441902931]
+[node name="GameUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ScoreLabel" type="Label" parent="GameUI" unique_id=1441902931]
 offset_left = 12.0
 offset_top = 8.0
 offset_right = 200.0
@@ -56,7 +96,7 @@ theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 36
 text = "0"
 
-[node name="CoinLabel" type="Label" parent="." unique_id=1825539372]
+[node name="CoinLabel" type="Label" parent="GameUI" unique_id=1825539372]
 offset_left = 12.0
 offset_top = 42.0
 offset_right = 200.0
@@ -67,7 +107,7 @@ theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 24
 text = "0$"
 
-[node name="PauseButton" type="Button" parent="." unique_id=1353499646]
+[node name="PauseButton" type="Button" parent="GameUI" unique_id=1353499646]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -200,7 +240,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Restart"
 
-[node name="ChargeBar" type="ProgressBar" parent="." unique_id=327738866]
+[node name="ChargeBar" type="ProgressBar" parent="GameUI" unique_id=327738866]
 custom_minimum_size = Vector2(120, 6)
 anchors_preset = 2
 anchor_top = 1.0
@@ -216,7 +256,7 @@ max_value = 1.0
 value = 1.0
 show_percentage = false
 
-[node name="FuelBar" type="ProgressBar" parent="." unique_id=1446420544]
+[node name="FuelBar" type="ProgressBar" parent="GameUI" unique_id=1446420544]
 custom_minimum_size = Vector2(120, 12)
 anchors_preset = 2
 anchor_top = 1.0
@@ -232,7 +272,7 @@ max_value = 1.0
 value = 1.0
 show_percentage = false
 
-[node name="Minimap" type="Control" parent="." unique_id=1150562180]
+[node name="Minimap" type="Control" parent="GameUI" unique_id=1150562180]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 204.0
@@ -241,3 +281,75 @@ offset_right = 276.0
 offset_bottom = 500.0
 mouse_filter = 2
 script = ExtResource("2_64ctp")
+
+[node name="BottomTabs" type="Control" parent="."]
+layout_mode = 3
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -72.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Panel" type="Panel" parent="BottomTabs"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_styles/panel = SubResource("bottom_tabs_sb")
+
+[node name="MarginContainer" type="MarginContainer" parent="BottomTabs/Panel"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BottomTabs/Panel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="PlayButton" type="Button" parent="BottomTabs/Panel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_pressed_color = Color(0.08, 0.075, 0.055, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("tab_button_sb")
+theme_override_styles/hover = SubResource("tab_button_sb")
+theme_override_styles/pressed = SubResource("tab_button_pressed_sb")
+theme_override_styles/focus = SubResource("tab_button_pressed_sb")
+toggle_mode = true
+button_pressed = true
+text = "Play"
+
+[node name="UpgradeButton" type="Button" parent="BottomTabs/Panel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_pressed_color = Color(0.08, 0.075, 0.055, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("tab_button_sb")
+theme_override_styles/hover = SubResource("tab_button_sb")
+theme_override_styles/pressed = SubResource("tab_button_pressed_sb")
+theme_override_styles/focus = SubResource("tab_button_pressed_sb")
+toggle_mode = true
+text = "Upgrade"
+
+[node name="ShopButton" type="Button" parent="BottomTabs/Panel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_pressed_color = Color(0.08, 0.075, 0.055, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("tab_button_sb")
+theme_override_styles/hover = SubResource("tab_button_sb")
+theme_override_styles/pressed = SubResource("tab_button_pressed_sb")
+theme_override_styles/focus = SubResource("tab_button_pressed_sb")
+toggle_mode = true
+text = "Shop"
