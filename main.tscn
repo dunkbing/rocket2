@@ -1,17 +1,94 @@
 [gd_scene format=3 uid="uid://cycnwg42r8lsd"]
 
 [ext_resource type="PackedScene" uid="uid://djbaiefjm15tv" path="res://rocket.tscn" id="1_ig7tw"]
-[ext_resource type="PackedScene" uid="uid://cncgkuybi5txp" path="res://hud.tscn" id="3_1bvp3"]
-[ext_resource type="Script" uid="uid://cf85io3gq0f87" path="res://asteroid_field.gd" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://oxko16ddhws5" path="res://follow_camera.gd" id="2_cam"]
+[ext_resource type="PackedScene" uid="uid://cia7nbtouiuwp" path="res://base.tscn" id="2_kek77"]
+[ext_resource type="Script" uid="uid://bmwuuljl2q0f2" path="res://asteroid_spawner.gd" id="3_spw"]
+[ext_resource type="PackedScene" uid="uid://cb1dkn6sfyxym" path="res://asteroid.tscn" id="4_ast"]
+[ext_resource type="PackedScene" uid="uid://bax5fyrxmnr56" path="res://red_asteroid.tscn" id="5_5vw27"]
+[ext_resource type="PackedScene" uid="uid://cncgkuybi5txp" path="res://hud.tscn" id="5_hud"]
+[ext_resource type="PackedScene" uid="uid://458oy8efyvam" path="res://object_pool.tscn" id="5_kek77"]
+[ext_resource type="Shader" uid="uid://d2q2eg2j68iyx" path="res://vignette.gdshader" id="6_7mycd"]
+[ext_resource type="PackedScene" uid="uid://cmfd3jritdhvb" path="res://gold_asteroid.tscn" id="7_4c57u"]
+[ext_resource type="Shader" uid="uid://kk1nlybn5fde" path="res://chromatic_aberration.gdshader" id="7_272bh"]
+[ext_resource type="Script" uid="uid://bjalyupt8hqyr" path="res://game_state.gd" id="12_dg77c"]
+
+[sub_resource type="Environment" id="Environment_2ueok"]
+background_mode = 3
+glow_enabled = true
+glow_levels/3 = 0.48
+glow_levels/4 = 0.48
+glow_levels/5 = 0.53
+glow_intensity = 0.8
+glow_bloom = 0.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lquwl"]
+shader = ExtResource("6_7mycd")
+shader_parameter/radius = 0.25
+shader_parameter/softness = 0.45
+shader_parameter/intensity = 0.65
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7mycd"]
+shader = ExtResource("7_272bh")
+shader_parameter/strength = 0.003
+shader_parameter/edge_start = 0.2000000095
+shader_parameter/edge_end = 0.7
 
 [node name="Main" type="Node2D" unique_id=512084551]
 
-[node name="Rocket" parent="." unique_id=183115029 instance=ExtResource("1_ig7tw")]
-position = Vector2(150, 260)
+[node name="Rocket" parent="." unique_id=183115029 node_paths=PackedStringArray("vignette", "camera") instance=ExtResource("1_ig7tw")]
+position = Vector2(144, 385)
+rotation = -1.5707964
+vignette = NodePath("../PostFX/VignetteRect")
+camera = NodePath("../Camera2D")
 
-[node name="Timer" type="Timer" parent="." unique_id=1864533079]
+[node name="Base" parent="." unique_id=50186384 instance=ExtResource("2_kek77")]
+position = Vector2(144, 455)
 
-[node name="AsteroidField" type="Node2D" parent="." unique_id=1387999633]
-script = ExtResource("3_h2yge")
+[node name="Camera2D" type="Camera2D" parent="." unique_id=482363291 node_paths=PackedStringArray("target")]
+script = ExtResource("2_cam")
+target = NodePath("../Rocket")
 
-[node name="HUD" parent="." unique_id=1372647904 instance=ExtResource("3_1bvp3")]
+[node name="AsteroidSpawner" type="Node2D" parent="." unique_id=999638244 node_paths=PackedStringArray("rocket")]
+script = ExtResource("3_spw")
+rocket = NodePath("../Rocket")
+
+[node name="AsteroidPool" parent="AsteroidSpawner" unique_id=1381087159 instance=ExtResource("5_kek77")]
+scene = ExtResource("4_ast")
+size = 50
+
+[node name="RedAsteroidPool" parent="AsteroidSpawner" unique_id=971688508 instance=ExtResource("5_kek77")]
+scene = ExtResource("5_5vw27")
+
+[node name="GoldAsteroidPool" parent="AsteroidSpawner" unique_id=458988853 instance=ExtResource("5_kek77")]
+scene = ExtResource("7_4c57u")
+size = 6
+
+[node name="HUD" parent="." unique_id=1372647904 instance=ExtResource("5_hud")]
+layer = 0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=876088466]
+environment = SubResource("Environment_2ueok")
+
+[node name="PostFX" type="CanvasLayer" parent="." unique_id=1982149608]
+
+[node name="VignetteRect" type="ColorRect" parent="PostFX" unique_id=1615709649]
+material = SubResource("ShaderMaterial_lquwl")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ChromaticAberrationRect" type="ColorRect" parent="PostFX" unique_id=1754120696]
+material = SubResource("ShaderMaterial_7mycd")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="GameState" type="Node" parent="." unique_id=1433314615]
+script = ExtResource("12_dg77c")

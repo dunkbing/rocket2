@@ -1,11 +1,15 @@
 [gd_scene format=3 uid="uid://djbaiefjm15tv"]
 
 [ext_resource type="Texture2D" uid="uid://bbc5ai3osb2fv" path="res://assets/rocket.png" id="1_fj03e"]
+[ext_resource type="PackedScene" uid="uid://ceka20ur5pqpo" path="res://explosion.tscn" id="2_r2l15"]
 [ext_resource type="Script" uid="uid://bsrl15bch4xk2" path="res://rocket.gd" id="2_rkt"]
+[ext_resource type="AudioStream" uid="uid://dvexbpaqqpjyo" path="res://assets/audio/shoot.wav" id="4_tpb7v"]
+[ext_resource type="AudioStream" uid="uid://7vmvylnweqoc" path="res://assets/audio/explosion.wav" id="5_cum1y"]
+[ext_resource type="AudioStream" uid="uid://c44k6ifffc1eu" path="res://assets/audio/hit.wav" id="6_546ky"]
+[ext_resource type="AudioStream" uid="uid://bjleko7gp18by" path="res://assets/audio/pickup_coin.wav" id="7_awr8v"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rh748"]
-radius = 13.0
-height = 26.0
+radius = 11.0
 
 [sub_resource type="Gradient" id="Gradient_5gt1y"]
 offsets = PackedFloat32Array(0, 0.54188484, 0.9947644)
@@ -55,50 +59,50 @@ scale_min = 2.0
 scale_max = 4.0
 scale_curve = SubResource("CurveTexture_tpb7v")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_r2l15"]
-particle_flag_disable_z = true
-spread = 180.0
-initial_velocity_min = 120.0
-initial_velocity_max = 280.0
-angular_velocity_min = -180.00002
-angular_velocity_max = 179.99998
-gravity = Vector3(0, 0, 0)
-damping_min = 100.00001
-damping_max = 200.00002
-scale_min = 3.0
-scale_max = 6.0
-scale_curve = SubResource("CurveTexture_5gt1y")
-color_ramp = SubResource("GradientTexture1D_5gt1y")
-
 [node name="Rocket" type="RigidBody2D" unique_id=183115029]
 collision_mask = 2
+gravity_scale = 0.5
 continuous_cd = 1
 script = ExtResource("2_rkt")
+power = 4.0
+max_launch_speed = 600.0
+death_explosion_scene = ExtResource("2_r2l15")
+punch_through_speed = 600.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=336697748]
 texture = ExtResource("1_fj03e")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2113321071]
+rotation = 1.5708
 shape = SubResource("CapsuleShape2D_rh748")
 
 [node name="Fire" type="GPUParticles2D" parent="." unique_id=1841097489]
 z_index = 1
 position = Vector2(-17, 0)
+emitting = false
 amount = 100
 lifetime = 0.5
 process_material = SubResource("ParticleProcessMaterial_rh748")
 
 [node name="Smoke" type="GPUParticles2D" parent="." unique_id=753562461]
 position = Vector2(-17, 0)
+emitting = false
 amount = 20
 lifetime = 1.5
 process_material = SubResource("ParticleProcessMaterial_5gt1y")
 
-[node name="Explosion" type="GPUParticles2D" parent="." unique_id=948243112]
-z_index = 2
-emitting = false
-amount = 64
-lifetime = 0.6
-one_shot = true
-explosiveness = 1.0
-process_material = SubResource("ParticleProcessMaterial_r2l15")
+[node name="ShootSound" type="AudioStreamPlayer" parent="." unique_id=952309874]
+stream = ExtResource("4_tpb7v")
+bus = &"SFX"
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="." unique_id=219550488]
+stream = ExtResource("5_cum1y")
+bus = &"SFX"
+
+[node name="HitSound" type="AudioStreamPlayer" parent="." unique_id=1354494444]
+stream = ExtResource("6_546ky")
+bus = &"SFX"
+
+[node name="CoinSound" type="AudioStreamPlayer" parent="." unique_id=781675633]
+stream = ExtResource("7_awr8v")
+bus = &"SFX"

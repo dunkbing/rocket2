@@ -15,6 +15,10 @@ run/main_scene="res://main_menu.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://bs44pf7h3eqs7"
+
 [display]
 
 window/size/viewport_width=288
@@ -23,6 +27,10 @@ window/size/window_width_override=864
 window/size/window_height_override=1536
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[gui]
+
+theme/custom="uid://bfocsgmbg6oeb"
 
 [input]
 
@@ -47,3 +55,4 @@ thrust={
 textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
+viewport/hdr_2d=true

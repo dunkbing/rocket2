@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cncgkuybi5txp"]
 
 [ext_resource type="Script" uid="uid://cfyj1ffvx3srs" path="res://hud.gd" id="1_hud"]
+[ext_resource type="Script" uid="uid://badm0ow0ll8dh" path="res://minimap.gd" id="2_64ctp"]
 
 [sub_resource type="StyleBoxFlat" id="panel_sb"]
 bg_color = Color(0.11, 0.12, 0.17, 0.96)
@@ -14,19 +15,57 @@ corner_radius_top_right = 14
 corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p0ukn"]
+bg_color = Color(0.2716998, 0.29337206, 0.3491902, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37p78"]
+bg_color = Color(1, 0.91627353, 0.5370987, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_64ctp"]
+bg_color = Color(0.58383155, 0.91627353, 0.6262097, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+anti_aliasing = false
+
 [node name="HUD" type="CanvasLayer" unique_id=1372647904]
 script = ExtResource("1_hud")
 
-[node name="Label" type="Label" parent="." unique_id=1441902931]
-offset_top = 12.0
-offset_right = 288.0
-offset_bottom = 64.0
+[node name="ScoreLabel" type="Label" parent="." unique_id=1441902931]
+offset_left = 12.0
+offset_top = 8.0
+offset_right = 200.0
+offset_bottom = 44.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.7)
-theme_override_constants/outline_size = 8
-theme_override_font_sizes/font_size = 44
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 36
 text = "0"
-horizontal_alignment = 1
+
+[node name="CoinLabel" type="Label" parent="." unique_id=1825539372]
+offset_left = 12.0
+offset_top = 42.0
+offset_right = 200.0
+offset_bottom = 68.0
+theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.7)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 24
+text = "0$"
 
 [node name="PauseButton" type="Button" parent="." unique_id=1353499646]
 anchors_preset = 1
@@ -47,6 +86,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Dim" type="ColorRect" parent="PauseMenu" unique_id=1383779398]
 layout_mode = 0
@@ -101,16 +142,21 @@ text = "Restart"
 
 [node name="DeathPanel" type="Control" parent="." unique_id=1500000001]
 visible = false
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Dim" type="ColorRect" parent="DeathPanel" unique_id=1500000002]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 0.55)
 
 [node name="Panel" type="Panel" parent="DeathPanel" unique_id=1500000003]
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -124,6 +170,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("panel_sb")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="DeathPanel/Panel" unique_id=1500000004]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 24.0
@@ -152,3 +199,45 @@ custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Restart"
+
+[node name="ChargeBar" type="ProgressBar" parent="." unique_id=327738866]
+custom_minimum_size = Vector2(120, 6)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -32.0
+offset_right = 132.0
+offset_bottom = -26.0
+grow_vertical = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_p0ukn")
+theme_override_styles/fill = SubResource("StyleBoxFlat_37p78")
+max_value = 1.0
+value = 1.0
+show_percentage = false
+
+[node name="FuelBar" type="ProgressBar" parent="." unique_id=1446420544]
+custom_minimum_size = Vector2(120, 12)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -24.0
+offset_right = 132.0
+offset_bottom = -12.0
+grow_vertical = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_p0ukn")
+theme_override_styles/fill = SubResource("StyleBoxFlat_64ctp")
+max_value = 1.0
+value = 1.0
+show_percentage = false
+
+[node name="Minimap" type="Control" parent="." unique_id=1150562180]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 204.0
+offset_top = 428.0
+offset_right = 276.0
+offset_bottom = 500.0
+mouse_filter = 2
+script = ExtResource("2_64ctp")
