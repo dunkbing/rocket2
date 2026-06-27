@@ -49,6 +49,36 @@ scale_max = 3.0
 scale_curve = SubResource("CurveTexture_q7epf")
 color_initial_ramp = SubResource("GradientTexture1D_gm5ib")
 
+[sub_resource type="Gradient" id="Gradient_8gfwb"]
+offsets = PackedFloat32Array(0, 0.9903226)
+colors = PackedColorArray(0.0045364476, 0.004536448, 0.0045364476, 1, 0.050708726, 0.012920001, 0, 0.5)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_mc61r"]
+gradient = SubResource("Gradient_8gfwb")
+
+[sub_resource type="Curve" id="Curve_8gfwb"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_gm5ib"]
+curve = SubResource("Curve_8gfwb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_duwuw"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 10.0
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+angular_velocity_min = -180.00002
+angular_velocity_max = 179.99998
+gravity = Vector3(0, 0, 0)
+scale_min = 3.0
+scale_max = 5.0
+scale_curve = SubResource("CurveTexture_gm5ib")
+color_initial_ramp = SubResource("GradientTexture1D_mc61r")
+
 [node name="Asteroid" type="StaticBody2D" unique_id=1254519483]
 collision_layer = 2
 collision_mask = 0
@@ -58,6 +88,7 @@ score = 100
 coin = 5
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1116532903]
+z_index = 1
 texture = ExtResource("3_gm5ib")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=348058972]
@@ -72,3 +103,7 @@ lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_2ueok")
+
+[node name="Particles" type="GPUParticles2D" parent="." unique_id=1836885825]
+amount = 15
+process_material = SubResource("ParticleProcessMaterial_duwuw")

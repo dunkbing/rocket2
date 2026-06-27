@@ -141,7 +141,7 @@ z_index = 1
 position = Vector2(-17, 0)
 emitting = false
 amount = 100
-lifetime = 0.5
+lifetime = 0.2
 process_material = SubResource("ParticleProcessMaterial_rh748")
 
 [node name="Smoke" type="GPUParticles2D" parent="." unique_id=753562461]
