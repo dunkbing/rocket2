@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://s5pwr0a4h80x"
-path="res://.godot/imported/blue-falcon.png-798f5fc912f311a5171a42c23a47ae4e.ctex"
+uid="uid://dlh1h5tibitax"
+path="res://.godot/imported/crimson_lance.png-d9cfa18ca164db9c1d29cbb94bfa3717.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/rockets/blue-falcon.png"
-dest_files=["res://.godot/imported/blue-falcon.png-798f5fc912f311a5171a42c23a47ae4e.ctex"]
+source_file="res://assets/rockets/crimson_lance.png"
+dest_files=["res://.godot/imported/crimson_lance.png-d9cfa18ca164db9c1d29cbb94bfa3717.ctex"]
 
 [params]
 

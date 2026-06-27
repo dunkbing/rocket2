@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bh3d3g4st0ke5"
-path="res://.godot/imported/blaze-rocket.png-9b37b1d727f3d0d79ed9182c6f260a67.ctex"
+uid="uid://cvprlexr85mkg"
+path="res://.godot/imported/starstreak.png-ed05741d23cc86db37410d52c0f2f283.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/rockets/blaze-rocket.png"
-dest_files=["res://.godot/imported/blaze-rocket.png-9b37b1d727f3d0d79ed9182c6f260a67.ctex"]
+source_file="res://assets/rockets/starstreak.png"
+dest_files=["res://.godot/imported/starstreak.png-ed05741d23cc86db37410d52c0f2f283.ctex"]
 
 [params]
 

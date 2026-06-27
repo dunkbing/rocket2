@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvonsg0sm3h82"
-path="res://.godot/imported/jade-fighter.png-1ea49d4308115fa0a7a59fc19b75b392.ctex"
+uid="uid://dgldgismhlipj"
+path="res://.godot/imported/bluefin.png-54803ca7818d0f423fd1c913c0a372e4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/rockets/jade-fighter.png"
-dest_files=["res://.godot/imported/jade-fighter.png-1ea49d4308115fa0a7a59fc19b75b392.ctex"]
+source_file="res://assets/rockets/bluefin.png"
+dest_files=["res://.godot/imported/bluefin.png-54803ca7818d0f423fd1c913c0a372e4.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b81k85ktco578"
-path="res://.godot/imported/crimson-raptor.png-8f70fd701b264ae4ad429414f25302f4.ctex"
+uid="uid://bh6uywpc6llef"
+path="res://.godot/imported/bulwark.png-ffff23e9b9cb2f1cdd1989e2187a1b50.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/rockets/crimson-raptor.png"
-dest_files=["res://.godot/imported/crimson-raptor.png-8f70fd701b264ae4ad429414f25302f4.ctex"]
+source_file="res://assets/rockets/bulwark.png"
+dest_files=["res://.godot/imported/bulwark.png-ffff23e9b9cb2f1cdd1989e2187a1b50.ctex"]
 
 [params]
 

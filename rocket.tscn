@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://djbaiefjm15tv"]
 
-[ext_resource type="Texture2D" uid="uid://bbc5ai3osb2fv" path="res://assets/rocket.png" id="1_fj03e"]
 [ext_resource type="PackedScene" uid="uid://ceka20ur5pqpo" path="res://explosion.tscn" id="2_r2l15"]
 [ext_resource type="Script" uid="uid://bsrl15bch4xk2" path="res://rocket.gd" id="2_rkt"]
+[ext_resource type="Texture2D" uid="uid://bbvv54w3qcymc" path="res://assets/rockets/ghostray.png" id="3_awr8v"]
 [ext_resource type="AudioStream" uid="uid://dvexbpaqqpjyo" path="res://assets/audio/shoot.wav" id="4_tpb7v"]
 [ext_resource type="AudioStream" uid="uid://7vmvylnweqoc" path="res://assets/audio/explosion.wav" id="5_cum1y"]
 [ext_resource type="AudioStream" uid="uid://c44k6ifffc1eu" path="res://assets/audio/hit.wav" id="6_546ky"]
@@ -59,6 +59,66 @@ scale_min = 2.0
 scale_max = 4.0
 scale_curve = SubResource("CurveTexture_tpb7v")
 
+[sub_resource type="Gradient" id="Gradient_mnerj"]
+offsets = PackedFloat32Array(0, 0.54188484, 0.9947644)
+colors = PackedColorArray(0.92336816, 0.48634183, 0.050102554, 1, 0.83724713, 0.4449061, 0.23938406, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_lm57y"]
+gradient = SubResource("Gradient_mnerj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dg77c"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 40.0
+spread = 30.0
+initial_velocity_max = 50.0
+angular_velocity_min = -180.00002
+angular_velocity_max = 179.99998
+radial_velocity_min = -120.00002
+radial_velocity_max = -100.00002
+gravity = Vector3(0, 0, 0)
+damping_min = 50.000004
+damping_max = 100.00001
+scale_min = 0.79999995
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_lm57y")
+
+[sub_resource type="Gradient" id="Gradient_7htxx"]
+interpolation_mode = 1
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mnerj"]
+gradient = SubResource("Gradient_7htxx")
+width = 8
+height = 8
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="Gradient" id="Gradient_awr8v"]
+colors = PackedColorArray(1.8247963, 0.93739134, 0, 1, 1.8247963, 1.8247963, 1.8247963, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7htxx"]
+gradient = SubResource("Gradient_awr8v")
+use_hdr = true
+
+[sub_resource type="Curve" id="Curve_mnerj"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.4, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_lm57y"]
+curve = SubResource("Curve_mnerj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xk1bh"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 8.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_lm57y")
+color_ramp = SubResource("GradientTexture1D_7htxx")
+
 [node name="Rocket" type="RigidBody2D" unique_id=183115029]
 collision_mask = 2
 gravity_scale = 0.5
@@ -70,7 +130,7 @@ death_explosion_scene = ExtResource("2_r2l15")
 punch_through_speed = 600.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=336697748]
-texture = ExtResource("1_fj03e")
+texture = ExtResource("3_awr8v")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2113321071]
 rotation = 1.5708
@@ -90,6 +150,23 @@ emitting = false
 amount = 20
 lifetime = 1.5
 process_material = SubResource("ParticleProcessMaterial_5gt1y")
+
+[node name="Charge" type="GPUParticles2D" parent="." unique_id=988600825]
+z_index = -1
+position = Vector2(-17, 0)
+amount = 50
+lifetime = 0.75
+preprocess = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_dg77c")
+
+[node name="Puff" type="GPUParticles2D" parent="Charge" unique_id=1982748152]
+emitting = false
+texture = SubResource("GradientTexture2D_mnerj")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_xk1bh")
 
 [node name="ShootSound" type="AudioStreamPlayer" parent="." unique_id=952309874]
 stream = ExtResource("4_tpb7v")

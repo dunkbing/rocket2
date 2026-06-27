@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dlutte4ce1yvy"
-path="res://.godot/imported/frost-glider.png-77e1d2eb089e0584b3dc043a4034cdb3.ctex"
+uid="uid://bbvv54w3qcymc"
+path="res://.godot/imported/ghostray.png-670349ce5f5cde7a35f58f1ec2e32215.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/rockets/frost-glider.png"
-dest_files=["res://.godot/imported/frost-glider.png-77e1d2eb089e0584b3dc043a4034cdb3.ctex"]
+source_file="res://assets/rockets/ghostray.png"
+dest_files=["res://.godot/imported/ghostray.png-670349ce5f5cde7a35f58f1ec2e32215.ctex"]
 
 [params]
 

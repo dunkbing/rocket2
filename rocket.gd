@@ -37,6 +37,10 @@ extends RigidBody2D
 @export var death_shake_strength: float = 16.0
 ## How long the death camera shake lasts (seconds).
 @export var death_shake_duration: float = 0.4
+## Charge FX scale at the start of a drag (just began charging).
+@export var charge_fx_min_scale: float = 0.5
+## Charge FX scale once the charge is nearly full (held the longest).
+@export var charge_fx_max_scale: float = 1.5
 
 @export_group("Fuel")
 ## Maximum fuel. The fuel bar shows the current amount as a fraction of this.
@@ -84,6 +88,7 @@ func _ready() -> void:
     add_to_group("player")  # the minimap finds us via this group
     freeze = true
     _set_exhaust(false)
+    _set_charge_fx(false)
     _clear_trajectory()
     # Report contacts so we can blow up asteroids we hit.
     contact_monitor = true
@@ -101,7 +106,10 @@ func _process(delta: float) -> void:
         # Count down in REAL time so the aim slow-mo doesn't stretch the timer.
         var real_delta: float = delta / maxf(Engine.time_scale, 0.0001)
         _aim_time_left -= real_delta
-        _push_charge(clampf(_aim_time_left / aim_time_limit, 0.0, 1.0))
+        var charge: float = clampf(_aim_time_left / aim_time_limit, 0.0, 1.0)
+        _push_charge(charge)
+        # Grow the charge FX the longer you hold (charge counts down 1 -> 0).
+        $Charge.scale = Vector2.ONE * lerpf(charge_fx_min_scale, charge_fx_max_scale, 1.0 - charge)
         if _aim_time_left <= 0.0:
             _die()
     elif _launched and not freeze:
@@ -179,6 +187,7 @@ func _start_aim() -> void:
     linear_velocity = Vector2.ZERO
     angular_velocity = 0.0
     _set_exhaust(false)
+    _set_charge_fx(true)
     _set_aim_effect(true)
 
 
@@ -194,6 +203,7 @@ func _launch_velocity() -> Vector2:
 
 func _launch() -> void:
     _set_aim_effect(false)
+    _set_charge_fx(false)
     _push_charge(1.0)  # released in time — reset the aim-timer bar to full
     var velocity: Vector2 = _launch_velocity()
     _clear_trajectory()
@@ -203,6 +213,7 @@ func _launch() -> void:
     freeze = false
     linear_velocity = velocity
     _set_exhaust(true)
+    _play_launch_puff()
     $ShootSound.play()
 
 
@@ -236,6 +247,24 @@ func _set_exhaust(on: bool) -> void:
     $Smoke.emitting = on
 
 
+## Turn the charge-up particles on or off (shown while aiming/charging).
+## Boost speed_scale by the inverse of the aim slow-mo so the swirl keeps
+## running at real-time speed instead of crawling along with everything else.
+func _set_charge_fx(on: bool) -> void:
+    $Charge.speed_scale = (1.0 / maxf(aim_time_scale, 0.0001)) if on else 1.0
+    $Charge.emitting = on
+    # Reset to the starting size each time charging begins/ends.
+    $Charge.scale = Vector2.ONE * charge_fx_min_scale
+
+
+## One-shot puff burst fired the instant the rocket launches. Slow-mo is already
+## off by launch, so no speed_scale boost is needed.
+func _play_launch_puff() -> void:
+    $Charge/Puff.visible = true
+    $Charge/Puff.speed_scale = 1.0
+    $Charge/Puff.restart()
+
+
 ## Aim timed out while still dragging — blow the rocket up and end the run.
 func _die() -> void:
     if _dead:
@@ -245,6 +274,7 @@ func _die() -> void:
     _launched = false
     _set_aim_effect(false)
     _set_exhaust(false)
+    _set_charge_fx(false)
     _clear_trajectory()
     _push_charge(0.0)
     $DeathSound.play()
