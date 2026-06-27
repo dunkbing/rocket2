@@ -59,6 +59,8 @@ extends RigidBody2D
 ## heading, 1 = always straight up). The rocket keeps its horizontal lean but
 ## never gets blasted downward.
 @export_range(0.0, 1.0, 0.05) var punch_upward_bias: float = 0.55
+## Soft haptic buzz length (ms) on the phone when smashing an asteroid. 0 = off.
+var hit_haptic_ms: int = 20
 
 var _aiming: bool = false
 var _drag_start: Vector2 = Vector2.ZERO
@@ -130,6 +132,8 @@ func _on_body_entered(body: Node) -> void:
         _fuel = minf(_fuel + fuel_refill, max_fuel)
         _push_fuel()
         $HitSound.play()   # impact thud
+        # Soft buzz: short, low amplitude. No-op on desktop.
+        Input.vibrate_handheld(hit_haptic_ms, 0.4)
         # Gold asteroids reward a coin ding on top of the normal hit.
         if body.is_in_group("gold"):
             $CoinSound.play()
@@ -176,7 +180,7 @@ func _start_aim() -> void:
     # Out of fuel: the player can't drag/launch anymore.
     if _fuel <= 0.0:
         return
-    get_tree().call_group("hud", "hide_bottom_tabs")
+    get_tree().call_group("hud", "enter_game_mode")
     _aiming = true
     _launched = false
     _aim_time_left = aim_time_limit

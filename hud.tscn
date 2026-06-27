@@ -282,8 +282,56 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Restart"
 
-[node name="BottomTabs" type="Control" parent="." unique_id=967261697]
+[node name="MenuUI" type="Control" parent="." unique_id=967261697]
 layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MenuStats" type="VBoxContainer" parent="MenuUI" unique_id=2000000001]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 12.0
+offset_top = 8.0
+offset_right = 200.0
+offset_bottom = 80.0
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="HighScoreLabel" type="Label" parent="MenuUI/MenuStats" unique_id=2000000002]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.7)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 28
+text = "Best: 0"
+
+[node name="CoinLabel" type="Label" parent="MenuUI/MenuStats" unique_id=2000000003]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.7)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 24
+text = "0$"
+
+[node name="SettingsButton" type="Button" parent="MenuUI" unique_id=2000000004]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -48.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 48.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 22
+text = "⚙"
+
+[node name="BottomTabs" type="Panel" parent="MenuUI" unique_id=1598187884]
+layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -291,14 +339,9 @@ anchor_bottom = 1.0
 offset_top = -72.0
 grow_horizontal = 2
 grow_vertical = 0
-
-[node name="Panel" type="Panel" parent="BottomTabs" unique_id=1598187884]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
 theme_override_styles/panel = SubResource("bottom_tabs_sb")
 
-[node name="MarginContainer" type="MarginContainer" parent="BottomTabs/Panel" unique_id=1575720349]
+[node name="MarginContainer" type="MarginContainer" parent="MenuUI/BottomTabs" unique_id=1575720349]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -311,11 +354,11 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="BottomTabs/Panel/MarginContainer" unique_id=2051287552]
+[node name="HBoxContainer" type="HBoxContainer" parent="MenuUI/BottomTabs/MarginContainer" unique_id=2051287552]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="UpgradeButton" type="Button" parent="BottomTabs/Panel/MarginContainer/HBoxContainer" unique_id=1081194274]
+[node name="UpgradeButton" type="Button" parent="MenuUI/BottomTabs/MarginContainer/HBoxContainer" unique_id=1081194274]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -328,7 +371,7 @@ theme_override_styles/focus = SubResource("tab_button_pressed_sb")
 toggle_mode = true
 text = "Upgrade"
 
-[node name="PlayButton" type="Button" parent="BottomTabs/Panel/MarginContainer/HBoxContainer" unique_id=441573882]
+[node name="PlayButton" type="Button" parent="MenuUI/BottomTabs/MarginContainer/HBoxContainer" unique_id=441573882]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -342,7 +385,7 @@ toggle_mode = true
 button_pressed = true
 text = "Play"
 
-[node name="ShopButton" type="Button" parent="BottomTabs/Panel/MarginContainer/HBoxContainer" unique_id=277360745]
+[node name="ShopButton" type="Button" parent="MenuUI/BottomTabs/MarginContainer/HBoxContainer" unique_id=277360745]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -354,3 +397,69 @@ theme_override_styles/hover = SubResource("tab_button_sb")
 theme_override_styles/focus = SubResource("tab_button_pressed_sb")
 toggle_mode = true
 text = "Shop"
+
+[node name="SettingsPanel" type="Control" parent="MenuUI" unique_id=2000000005]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="MenuUI/SettingsPanel" unique_id=2000000006]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.55)
+
+[node name="Panel" type="Panel" parent="MenuUI/SettingsPanel" unique_id=2000000007]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -110.0
+offset_right = 120.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("panel_sb")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuUI/SettingsPanel/Panel" unique_id=2000000008]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Title" type="Label" parent="MenuUI/SettingsPanel/Panel/VBoxContainer" unique_id=2000000009]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "SETTINGS"
+horizontal_alignment = 1
+
+[node name="SoundCheck" type="CheckBox" parent="MenuUI/SettingsPanel/Panel/VBoxContainer" unique_id=2000000010]
+layout_mode = 2
+button_pressed = true
+theme_override_font_sizes/font_size = 20
+text = "Sound Effects"
+
+[node name="MusicCheck" type="CheckBox" parent="MenuUI/SettingsPanel/Panel/VBoxContainer" unique_id=2000000011]
+layout_mode = 2
+button_pressed = true
+theme_override_font_sizes/font_size = 20
+text = "Music"
+
+[node name="CloseButton" type="Button" parent="MenuUI/SettingsPanel/Panel/VBoxContainer" unique_id=2000000012]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Close"

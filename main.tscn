@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://cmfd3jritdhvb" path="res://gold_asteroid.tscn" id="7_4c57u"]
 [ext_resource type="Shader" uid="uid://kk1nlybn5fde" path="res://chromatic_aberration.gdshader" id="7_272bh"]
 [ext_resource type="Script" uid="uid://bjalyupt8hqyr" path="res://game_state.gd" id="12_dg77c"]
+[ext_resource type="AudioStream" uid="uid://bss4rydgemxop" path="res://assets/audio/music.wav" id="13_ycdy4"]
 
 [sub_resource type="Environment" id="Environment_2ueok"]
 background_mode = 3
@@ -55,14 +56,15 @@ rocket = NodePath("../Rocket")
 
 [node name="AsteroidPool" parent="AsteroidSpawner" unique_id=1381087159 instance=ExtResource("5_kek77")]
 scene = ExtResource("4_ast")
-size = 50
+size = 70
 
 [node name="RedAsteroidPool" parent="AsteroidSpawner" unique_id=971688508 instance=ExtResource("5_kek77")]
 scene = ExtResource("5_5vw27")
+size = 25
 
 [node name="GoldAsteroidPool" parent="AsteroidSpawner" unique_id=458988853 instance=ExtResource("5_kek77")]
 scene = ExtResource("7_4c57u")
-size = 6
+size = 15
 
 [node name="HUD" parent="." unique_id=1372647904 instance=ExtResource("5_hud")]
 layer = 0
@@ -92,3 +94,8 @@ mouse_filter = 2
 
 [node name="GameState" type="Node" parent="." unique_id=1433314615]
 script = ExtResource("12_dg77c")
+
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=78927563]
+stream = ExtResource("13_ycdy4")
+autoplay = true
+bus = &"Music"
