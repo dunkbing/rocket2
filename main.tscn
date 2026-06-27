@@ -13,6 +13,7 @@
 [ext_resource type="Shader" uid="uid://kk1nlybn5fde" path="res://chromatic_aberration.gdshader" id="7_272bh"]
 [ext_resource type="Script" uid="uid://bjalyupt8hqyr" path="res://game_state.gd" id="12_dg77c"]
 [ext_resource type="AudioStream" uid="uid://bss4rydgemxop" path="res://assets/audio/music.wav" id="13_ycdy4"]
+[ext_resource type="Shader" uid="uid://bioc8ydx3rfki" path="res://red_vignette.gdshader" id="14_lowfuel"]
 
 [sub_resource type="Environment" id="Environment_2ueok"]
 background_mode = 3
@@ -34,6 +35,13 @@ shader = ExtResource("7_272bh")
 shader_parameter/strength = 0.003
 shader_parameter/edge_start = 0.2000000095
 shader_parameter/edge_end = 0.7
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lowfuel"]
+shader = ExtResource("14_lowfuel")
+shader_parameter/radius = 0.15
+shader_parameter/softness = 0.5
+shader_parameter/intensity = 0.0
+shader_parameter/vignette_color = Color(1, 0, 0, 1)
 
 [node name="Main" type="Node2D" unique_id=512084551]
 
@@ -66,8 +74,9 @@ size = 25
 scene = ExtResource("7_4c57u")
 size = 15
 
-[node name="HUD" parent="." unique_id=1372647904 instance=ExtResource("5_hud")]
+[node name="HUD" parent="." unique_id=1372647904 node_paths=PackedStringArray("low_fuel_overlay") instance=ExtResource("5_hud")]
 layer = 0
+low_fuel_overlay = NodePath("../PostFX/LowFuelRect")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=876088466]
 environment = SubResource("Environment_2ueok")
@@ -85,6 +94,15 @@ mouse_filter = 2
 
 [node name="ChromaticAberrationRect" type="ColorRect" parent="PostFX" unique_id=1754120696]
 material = SubResource("ShaderMaterial_7mycd")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="LowFuelRect" type="ColorRect" parent="PostFX" unique_id=1900000001]
+material = SubResource("ShaderMaterial_lowfuel")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

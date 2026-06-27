@@ -1,6 +1,15 @@
 extends CanvasLayer
 
+## Full-screen red vignette (lives on the PostFX layer) pulsed when fuel is low.
+@export var low_fuel_overlay: ColorRect
+
+## Fuel fraction at/below which the low-fuel warning kicks in.
+const LOW_FUEL_RATIO := 0.25
+## Peak alpha of the red screen vignette at the top of each pulse.
+const LOW_FUEL_INTENSITY := 0.2
+
 @onready var GameUI: Control = $GameUI
+@onready var LowFuelLabel: Label = $GameUI/LowFuelLabel
 @onready var ScoreLabel: Label = $GameUI/ScoreLabel
 @onready var CoinLabel: Label = $GameUI/CoinLabel
 @onready var PauseButton = $GameUI/PauseButton
@@ -25,6 +34,10 @@ extends CanvasLayer
 ## Latest values pushed from GameState; cached for the game-over panel.
 var _score := 0
 var _coin := 0
+
+## True while the low-fuel warning is active; the looping pulse tween.
+var _low_fuel := false
+var _low_fuel_tween: Tween
 
 
 func _ready() -> void:
@@ -81,9 +94,36 @@ func set_charge(ratio: float) -> void:
 ## Fuel fill, 0..1. Drains in flight, refills on asteroid hits.
 func set_fuel(ratio: float) -> void:
     FuelBar.value = ratio
+    var low := ratio <= LOW_FUEL_RATIO
+    if low != _low_fuel:
+        _set_low_fuel(low)
+
+## Toggle the blinking low-fuel warning (red label + red screen vignette).
+func _set_low_fuel(on: bool) -> void:
+    _low_fuel = on
+    if _low_fuel_tween and _low_fuel_tween.is_valid():
+        _low_fuel_tween.kill()
+    LowFuelLabel.visible = on
+    if not on:
+        _pulse_low_fuel(0.0)        # calm: label opaque, vignette off
+        LowFuelLabel.modulate.a = 1.0
+        return
+    _low_fuel_tween = create_tween().set_loops()
+    _low_fuel_tween.set_ignore_time_scale(true)
+    _low_fuel_tween.set_trans(Tween.TRANS_SINE)
+    _low_fuel_tween.tween_method(_pulse_low_fuel, 0.0, 1.0, 0.45)
+    _low_fuel_tween.tween_method(_pulse_low_fuel, 1.0, 0.0, 0.45)
+
+## Drive both warning visuals from one 0..1 value (0 = calm, 1 = full alarm).
+func _pulse_low_fuel(v: float) -> void:
+    LowFuelLabel.modulate.a = lerpf(0.15, 1.0, v)
+    var mat = (low_fuel_overlay.material as ShaderMaterial) if low_fuel_overlay else null
+    if mat:
+        mat.set_shader_parameter("intensity", v * LOW_FUEL_INTENSITY)
 
 ## The rocket ran out of aim time and exploded — end the run.
 func on_rocket_dead() -> void:
+    _set_low_fuel(false)
     DeathScoreLabel.text = "Score: " + str(_score)
     $DeathPanel.show()
 
