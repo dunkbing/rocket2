@@ -10,12 +10,22 @@ extends Node2D
 @export var spawn_max_radius: float = 720.0
 ## How often to move asteroids that the rocket has left behind.
 @export var spawn_check_interval: float = 0.25
-## Extra off-screen distance required before an asteroid can appear/reposition.
-@export var offscreen_margin: float = 32.0
+
 ## The rocket to spawn around / keep clear of.
 @export var rocket: Node2D
 ## Tries to find a non-overlapping ring spot before giving up.
 @export var place_tries: int = 12
+
+@export_group("Split")
+## Hard cap on live normal asteroids so repeated splits can't flood the field.
+@export var max_split_asteroids: int = 110
+
+## The four diagonal directions a destroyed asteroid splinters into.
+const _SPLIT_DIRS: Array[Vector2] = [
+    Vector2(-1, -1), Vector2(1, -1), Vector2(-1, 1), Vector2(1, 1),
+]
+## Extra off-screen distance required before an asteroid can appear/reposition.
+var offscreen_margin: float = 32.0
 
 @onready var _pools: Array[ObjectPool] = [
     $AsteroidPool,
@@ -29,6 +39,9 @@ var _spawn_check_elapsed: float = 0.0
 
 
 func _ready() -> void:
+    add_to_group("asteroid_spawner")  # destroyed asteroids reach us via this group
+    # Splits need spare capacity; the base pool is fully utilized, so let it grow.
+    $AsteroidPool.allow_growth = true
     for pool in _pools:
         pool.spawned.connect(_on_asteroid_spawned)
         # When a pool despawns a dead asteroid, immediately bring one back.
@@ -58,6 +71,32 @@ func _on_asteroid_spawned(asteroid: Node2D) -> void:
 func _on_asteroid_despawned(asteroid: Node2D, pool: ObjectPool) -> void:
     _active.erase(asteroid)
     pool.spawn()
+
+
+## A destroyed asteroid asks to maybe split. Roll the chance stored in GameState
+## and, on success, spawn four splinters around the blast point.
+func try_split(origin: Vector2) -> void:
+    var game_state: Node = get_tree().get_first_node_in_group("game_state")
+    if game_state == null or randf() >= game_state.asteroid_split_chance:
+        return
+    for dir in _SPLIT_DIRS:
+        if $AsteroidPool.active_count() >= max_split_asteroids:
+            return  # field is full; stop splitting
+        var asteroid: Node2D = $AsteroidPool.spawn()
+        if asteroid == null:
+            return
+        # spawn() parked it on the ring; start it at the blast point and push it
+        # out along its diagonal so it flies apart instead of popping into place.
+        asteroid.global_position = origin
+        # Stay intangible while overlapping at the center, then collide once settled.
+        asteroid.set_collision_enabled(false)
+        var split_offset: float = 72.0
+        var target: Vector2 = origin + dir.normalized() * split_offset
+        var tween: Tween = create_tween()
+        var split_push_time: float = 0.35
+        tween.tween_property(asteroid, "global_position", target, split_push_time) \
+            .set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+        tween.finished.connect(asteroid.set_collision_enabled.bind(true))
 
 
 ## Move one asteroid the rocket has left far behind back near it. Only an

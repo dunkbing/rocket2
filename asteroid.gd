@@ -46,6 +46,8 @@ func _do_explode() -> void:
     _play_explosion()
     _show_floating_text()
     get_tree().call_group("game_state", "add_stats", score, coin)
+    # Chance-based split into four (rolled & spawned by the asteroid spawner).
+    get_tree().call_group("asteroid_spawner", "try_split", global_position)
     # Linger so the explosion plays out, then let the pool recycle us.
     await get_tree().create_timer(death_duration).timeout
     died.emit()
@@ -67,6 +69,11 @@ func _show_floating_text() -> void:
         popup.setup(score, coin)
     get_tree().current_scene.add_child(popup)
     popup.global_position = global_position
+
+
+## Enable/disable collision (used while split splinters fly out from the blast).
+func set_collision_enabled(on: bool) -> void:
+    _collision.set_deferred("disabled", not on)
 
 
 ## ObjectPool hook: bring this asteroid to life (the spawner positions it after).

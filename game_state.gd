@@ -15,6 +15,10 @@ var high_score: int = 0
 ## Total coins collected across all sessions (persisted).
 var total_coin: int = 0
 
+## Chance (0..1) that a destroyed asteroid splits into 4 new ones. Kept here so
+## it can be raised by upgrades later; the asteroid spawner reads it on each hit.
+@export_range(0.0, 1.0, 0.05) var asteroid_split_chance: float = 0.25
+
 
 func _ready() -> void:
     add_to_group("game_state")
