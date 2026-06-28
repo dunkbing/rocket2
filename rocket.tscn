@@ -154,6 +154,7 @@ process_material = SubResource("ParticleProcessMaterial_5gt1y")
 [node name="Charge" type="GPUParticles2D" parent="." unique_id=988600825]
 z_index = -1
 position = Vector2(-17, 0)
+emitting = false
 amount = 50
 lifetime = 0.75
 preprocess = 0.75

@@ -68,6 +68,7 @@ scale_curve = SubResource("CurveTexture_hump")
 color_ramp = SubResource("GradientTexture1D_fire")
 
 [node name="Explosion" type="GPUParticles2D" unique_id=900000001]
+z_index = 10
 emitting = false
 amount = 24
 texture = SubResource("GradientTexture2D_circle")
