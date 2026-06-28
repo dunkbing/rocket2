@@ -57,10 +57,8 @@ func _ready() -> void:
     ChargeBar.value = 1.0
     FuelBar.value = 1.0
     _select_bottom_tab("play")
-    # Sync the checkboxes to the current bus state BEFORE wiring `toggled`, so
-    # the initial assignment doesn't re-trigger the handlers.
-    SoundCheck.button_pressed = not AudioServer.is_bus_mute(AudioServer.get_bus_index("SFX"))
-    MusicCheck.button_pressed = not AudioServer.is_bus_mute(AudioServer.get_bus_index("Music"))
+    # GameState owns the audio settings; it pushes them via set_audio_settings()
+    # once loaded, so we just wire the toggle handlers here.
     SoundCheck.toggled.connect(_on_sound_toggled)
     MusicCheck.toggled.connect(_on_music_toggled)
     GameUI.hide()  # menu is up at first; the in-game HUD stays hidden until Play
@@ -153,12 +151,17 @@ func _open_settings() -> void:
 func _close_settings() -> void:
     SettingsPanel.hide()
 
-## Checkbox on = bus audible, off = bus muted.
+## Reflect the persisted audio settings into the checkboxes (no re-trigger).
+func set_audio_settings(sound_on: bool, music_on: bool) -> void:
+    SoundCheck.set_pressed_no_signal(sound_on)
+    MusicCheck.set_pressed_no_signal(music_on)
+
+## Checkbox on = audible, off = muted. GameState applies + persists it.
 func _on_sound_toggled(pressed: bool) -> void:
-    AudioServer.set_bus_mute(AudioServer.get_bus_index("SFX"), not pressed)
+    get_tree().call_group("game_state", "set_sound_enabled", pressed)
 
 func _on_music_toggled(pressed: bool) -> void:
-    AudioServer.set_bus_mute(AudioServer.get_bus_index("Music"), not pressed)
+    get_tree().call_group("game_state", "set_music_enabled", pressed)
 
 func _select_upgrade_tab() -> void:
     _select_bottom_tab("upgrade")

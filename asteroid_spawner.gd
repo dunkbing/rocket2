@@ -27,6 +27,17 @@ const _SPLIT_DIRS: Array[Vector2] = [
 ## Extra off-screen distance required before an asteroid can appear/reposition.
 var offscreen_margin: float = 32.0
 
+## Footprint radius for a black hole: nothing else may spawn inside this, so
+## asteroids never appear already caught in the pull field (~pull area radius).
+const _BLACKHOLE_RADIUS: float = 150.0
+## Extra gap (px) kept between a black hole's edge and anything else.
+const _BLACKHOLE_CLEARANCE: float = 40.0
+## Minimum center-to-center distance between any two black holes — keeps them
+## spread across the field instead of clumping.
+const _BLACKHOLE_MIN_SEPARATION: float = 360.0
+## Black holes are pickier to place, so give them more attempts than asteroids.
+const _BLACKHOLE_PLACE_TRIES: int = 40
+
 @onready var _pools: Array[ObjectPool] = [
     $AsteroidPool,
     $RedAsteroidPool,
@@ -123,8 +134,9 @@ func _spawn_position(skip: Node2D) -> Vector2:
     var origin: Vector2 = rocket.global_position if rocket else global_position
     var radius: float = _field_object_radius(skip)
     var clearance: float = radius + offscreen_margin
+    var tries: int = _BLACKHOLE_PLACE_TRIES if _is_blackhole(skip) else place_tries
     var best_offscreen: Vector2 = origin
-    for _attempt in place_tries:
+    for _attempt in tries:
         var angle: float = randf() * TAU
         var distance: float = randf_range(spawn_min_radius, spawn_max_radius)
         var candidate_position: Vector2 = origin + Vector2(distance, 0.0).rotated(angle)
@@ -133,9 +145,12 @@ func _spawn_position(skip: Node2D) -> Vector2:
         best_offscreen = candidate_position
         if not _overlaps(candidate_position, skip, radius):
             return candidate_position
-    if best_offscreen != origin:
-        return best_offscreen
-    return _offscreen_fallback(origin, skip, radius, clearance)
+    # No clear ring spot — search outward for one that's both off-screen and
+    # non-overlapping; only settle for an overlapping spot if even that fails.
+    var pushed: Vector2 = _offscreen_fallback(origin, skip, radius, clearance)
+    if not _overlaps(pushed, skip, radius):
+        return pushed
+    return best_offscreen if best_offscreen != origin else pushed
 
 
 ## Find a guaranteed off-screen point when the configured ring is too small
@@ -146,16 +161,26 @@ func _offscreen_fallback(
     radius: float,
     clearance: float
 ) -> Vector2:
+    var tries: int = _BLACKHOLE_PLACE_TRIES if _is_blackhole(skip) else place_tries
     var best: Vector2 = origin
-    for _attempt in place_tries:
+    for _attempt in tries:
         var direction: Vector2 = Vector2.RIGHT.rotated(randf() * TAU)
         var distance: float = maxf(spawn_max_radius, spawn_min_radius)
         var candidate_position: Vector2 = origin + direction * distance
-        while _is_on_screen(candidate_position, clearance):
+        # Push outward until the spot is off-screen AND clear of everything.
+        var guard: int = 0
+        while (
+            _is_on_screen(candidate_position, clearance)
+            or _overlaps(candidate_position, skip, radius)
+        ) and guard < 24:
             distance += 64.0
             candidate_position = origin + direction * distance
+            guard += 1
         best = candidate_position
-        if not _overlaps(candidate_position, skip, radius):
+        if (
+            not _is_on_screen(candidate_position, clearance)
+            and not _overlaps(candidate_position, skip, radius)
+        ):
             return candidate_position
     return best
 
@@ -170,7 +195,13 @@ func _field_object_active(field_object: Node2D) -> bool:
     return active != false
 
 
+func _is_blackhole(field_object: Node2D) -> bool:
+    return field_object.is_in_group("blackholes")
+
+
 func _field_object_radius(field_object: Node2D) -> float:
+    if _is_blackhole(field_object):
+        return _BLACKHOLE_RADIUS * field_object.scale.x
     var glow_radius: Variant = field_object.get("glow_radius")
     if glow_radius is float or glow_radius is int:
         return float(glow_radius) * field_object.scale.x
@@ -178,10 +209,19 @@ func _field_object_radius(field_object: Node2D) -> float:
 
 
 func _overlaps(pos: Vector2, skip: Node2D, radius: float) -> bool:
+    var placing_blackhole: bool = _is_blackhole(skip)
     for asteroid in _active:
         if asteroid == skip or not _field_object_active(asteroid):
             continue
         var other_radius: float = _field_object_radius(asteroid)
-        if pos.distance_to(asteroid.global_position) < radius + other_radius + 8.0:
+        var min_distance: float = radius + other_radius + 8.0
+        var other_blackhole: bool = _is_blackhole(asteroid)
+        # Keep extra breathing room around any black hole's pull field...
+        if placing_blackhole or other_blackhole:
+            min_distance = radius + other_radius + _BLACKHOLE_CLEARANCE
+        # ...and force two black holes far apart, not merely non-touching.
+        if placing_blackhole and other_blackhole:
+            min_distance = maxf(min_distance, _BLACKHOLE_MIN_SEPARATION)
+        if pos.distance_to(asteroid.global_position) < min_distance:
             return true
     return false

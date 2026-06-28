@@ -14,6 +14,7 @@ extends Control
 @export var rocket_color: Color = Color(1, 1, 1)
 @export var asteroid_color: Color = Color(0.6, 0.62, 0.66)
 @export var hazard_color: Color = Color(1, 0.35, 0.35)
+@export var blackhole_color: Color = Color(0.65, 0.45, 1)
 
 ## The rocket, found via the "player" group (added in rocket.gd's _ready).
 var _rocket: Node2D = null
@@ -42,6 +43,13 @@ func _draw() -> void:
         _rocket = get_tree().get_first_node_in_group("player")
 
     if _rocket:
+        # Black holes first, with a bigger blip so they read as bigger threats.
+        for bh in get_tree().get_nodes_in_group("blackholes"):
+            var rel_bh: Vector2 = (bh.global_position - _rocket.global_position) * scale_factor
+            if rel_bh.length() > radius:
+                rel_bh = rel_bh.normalized() * radius
+            _draw_blip(center + rel_bh, blackhole_color, blip_size + 2.0)
+
         for a in get_tree().get_nodes_in_group("asteroids"):
             # Skip pooled asteroids that are currently parked/hidden.
             if not a.active:
@@ -57,6 +65,6 @@ func _draw() -> void:
     _draw_blip(center, rocket_color)
 
 
-func _draw_blip(pos: Vector2, color: Color) -> void:
-    var top_left: Vector2 = (pos - Vector2(blip_size, blip_size) * 0.5).round()
-    draw_rect(Rect2(top_left, Vector2(blip_size, blip_size)), color)
+func _draw_blip(pos: Vector2, color: Color, blip: float = blip_size) -> void:
+    var top_left: Vector2 = (pos - Vector2(blip, blip) * 0.5).round()
+    draw_rect(Rect2(top_left, Vector2(blip, blip)), color)

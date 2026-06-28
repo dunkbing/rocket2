@@ -2,9 +2,9 @@ extends RigidBody2D
 
 ## How hard the rocket launches. The drag distance (in pixels) is multiplied
 ## by this to get the launch speed.
-@export var power: float = 8.0
+@export var power: float = 6.0
 ## Cap on launch speed so a huge drag doesn't fling it off-screen.
-@export var max_launch_speed: float = 750.0
+@export var max_launch_speed: float = 600.0
 ## How many dots to draw in the trajectory preview (keep it small = short line).
 @export var trajectory_points: int = 8
 ## Seconds between each simulated trajectory dot.
@@ -267,6 +267,11 @@ func _play_launch_puff() -> void:
     $Charge/Puff.visible = true
     $Charge/Puff.speed_scale = 1.0
     $Charge/Puff.restart()
+
+
+## Destroy the rocket from an outside hazard (e.g. a black hole core).
+func kill() -> void:
+    _die()
 
 
 ## Aim timed out while still dragging — blow the rocket up and end the run.

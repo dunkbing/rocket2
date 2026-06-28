@@ -9,11 +9,11 @@ extends Node2D
 
 @export_group("Pull")
 ## Pull force applied to the rocket at the edge of the gravity area.
-@export var pull_strength: float = 220.0
+@export var pull_strength: float = 1000.0
 ## Extra pull added near the core.
 @export var pull_core_boost: float = 520.0
 ## Distance from the center where the pull reaches full strength.
-@export var pull_core_radius: float = 24.0
+@export var pull_core_radius: float = 80.0
 
 @export_group("Lightning")
 ## Minimum seconds between lightning flashes.
@@ -38,7 +38,8 @@ var _pulled_bodies: Array[RigidBody2D] = []
 @onready var _inner_particles: GPUParticles2D = $InnerParticles
 @onready var _lightning: Line2D = $Lightning
 @onready var _lightning_timer: Timer = $LightningTimer
-@onready var _pull_area: Area2D = $Area2D
+@onready var _pull_area: Area2D = $PullArea
+@onready var _explode_area: Area2D = $ExplodeArea
 
 
 func _ready() -> void:
@@ -47,6 +48,7 @@ func _ready() -> void:
     _lightning.visible = false
     _pull_area.body_entered.connect(_on_pull_area_body_entered)
     _pull_area.body_exited.connect(_on_pull_area_body_exited)
+    _explode_area.body_entered.connect(_on_explode_area_body_entered)
     _lightning_timer.timeout.connect(_flash_lightning)
     _restart_lightning_timer()
 
@@ -110,3 +112,9 @@ func _on_pull_area_body_entered(body: Node2D) -> void:
 func _on_pull_area_body_exited(body: Node2D) -> void:
     if body is RigidBody2D:
         _pulled_bodies.erase(body)
+
+
+## The rocket reached the deadly core — destroy it.
+func _on_explode_area_body_entered(body: Node2D) -> void:
+    if body.has_method("kill"):
+        body.kill()
