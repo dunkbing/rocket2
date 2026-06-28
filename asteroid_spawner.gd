@@ -31,9 +31,10 @@ var offscreen_margin: float = 32.0
     $AsteroidPool,
     $RedAsteroidPool,
     $GoldAsteroidPool,
+    $BlackHolePool,
 ]
 
-## Asteroids currently active in the field (used by the placement algorithm).
+## Field objects currently active in the field (used by the placement algorithm).
 var _active: Array[Node2D] = []
 var _spawn_check_elapsed: float = 0.0
 
@@ -60,16 +61,16 @@ func _process(delta: float) -> void:
     _replenish()
 
 
-## A freshly spawned asteroid: track it and place it in the ring.
-func _on_asteroid_spawned(asteroid: Node2D) -> void:
-    if not _active.has(asteroid):
-        _active.append(asteroid)
-    asteroid.global_position = _spawn_position(asteroid)
+## A freshly spawned field object: track it and place it in the ring.
+func _on_asteroid_spawned(field_object: Node2D) -> void:
+    if not _active.has(field_object):
+        _active.append(field_object)
+    field_object.global_position = _spawn_position(field_object)
 
 
-## A destroyed asteroid was parked by its pool: drop it and spawn a fresh one.
-func _on_asteroid_despawned(asteroid: Node2D, pool: ObjectPool) -> void:
-    _active.erase(asteroid)
+## A destroyed object was parked by its pool: drop it and spawn a fresh one.
+func _on_asteroid_despawned(field_object: Node2D, pool: ObjectPool) -> void:
+    _active.erase(field_object)
     pool.spawn()
 
 
@@ -105,10 +106,10 @@ func _replenish() -> void:
     var farthest: Node2D = null
     var farthest_distance: float = spawn_max_radius
     for asteroid in _active:
-        if not asteroid.active:
+        if not _field_object_active(asteroid):
             continue
         var distance: float = asteroid.global_position.distance_to(rocket.global_position)
-        var clearance: float = _asteroid_radius(asteroid) + offscreen_margin
+        var clearance: float = _field_object_radius(asteroid) + offscreen_margin
         if distance > farthest_distance and not _is_on_screen(asteroid.global_position, clearance):
             farthest = asteroid
             farthest_distance = distance
@@ -120,7 +121,7 @@ func _replenish() -> void:
 ## other live asteroids.
 func _spawn_position(skip: Node2D) -> Vector2:
     var origin: Vector2 = rocket.global_position if rocket else global_position
-    var radius: float = _asteroid_radius(skip)
+    var radius: float = _field_object_radius(skip)
     var clearance: float = radius + offscreen_margin
     var best_offscreen: Vector2 = origin
     for _attempt in place_tries:
@@ -164,15 +165,23 @@ func _is_on_screen(world_position: Vector2, margin: float) -> bool:
     return get_viewport_rect().grow(margin).has_point(screen_position)
 
 
-func _asteroid_radius(asteroid: Node2D) -> float:
-    return 32.0 * asteroid.scale.x
+func _field_object_active(field_object: Node2D) -> bool:
+    var active: Variant = field_object.get("active")
+    return active != false
+
+
+func _field_object_radius(field_object: Node2D) -> float:
+    var glow_radius: Variant = field_object.get("glow_radius")
+    if glow_radius is float or glow_radius is int:
+        return float(glow_radius) * field_object.scale.x
+    return 32.0 * field_object.scale.x
 
 
 func _overlaps(pos: Vector2, skip: Node2D, radius: float) -> bool:
     for asteroid in _active:
-        if asteroid == skip or not asteroid.active:
+        if asteroid == skip or not _field_object_active(asteroid):
             continue
-        var other_radius: float = _asteroid_radius(asteroid)
+        var other_radius: float = _field_object_radius(asteroid)
         if pos.distance_to(asteroid.global_position) < radius + other_radius + 8.0:
             return true
     return false

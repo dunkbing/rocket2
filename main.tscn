@@ -11,6 +11,7 @@
 [ext_resource type="Shader" uid="uid://d2q2eg2j68iyx" path="res://vignette.gdshader" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://cmfd3jritdhvb" path="res://gold_asteroid.tscn" id="7_4c57u"]
 [ext_resource type="Shader" uid="uid://kk1nlybn5fde" path="res://chromatic_aberration.gdshader" id="7_272bh"]
+[ext_resource type="PackedScene" uid="uid://btsymmru3ff8j" path="res://black_hole.tscn" id="9_vivmo"]
 [ext_resource type="Script" uid="uid://bjalyupt8hqyr" path="res://game_state.gd" id="12_dg77c"]
 [ext_resource type="AudioStream" uid="uid://bss4rydgemxop" path="res://assets/audio/music.wav" id="13_ycdy4"]
 [ext_resource type="Shader" uid="uid://bioc8ydx3rfki" path="res://red_vignette.gdshader" id="14_lowfuel"]
@@ -18,11 +19,13 @@
 [sub_resource type="Environment" id="Environment_2ueok"]
 background_mode = 3
 glow_enabled = true
+glow_levels/1 = 0.62
+glow_levels/2 = 0.58
 glow_levels/3 = 0.48
 glow_levels/4 = 0.48
 glow_levels/5 = 0.53
-glow_intensity = 0.8
-glow_bloom = 0.1
+glow_intensity = 1.1
+glow_bloom = 0.18
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lquwl"]
 shader = ExtResource("6_7mycd")
@@ -73,6 +76,10 @@ size = 25
 [node name="GoldAsteroidPool" parent="AsteroidSpawner" unique_id=458988853 instance=ExtResource("5_kek77")]
 scene = ExtResource("7_4c57u")
 size = 15
+
+[node name="BlackHolePool" parent="AsteroidSpawner" unique_id=1330242221 instance=ExtResource("5_kek77")]
+scene = ExtResource("9_vivmo")
+size = 10
 
 [node name="HUD" parent="." unique_id=1372647904 node_paths=PackedStringArray("low_fuel_overlay") instance=ExtResource("5_hud")]
 layer = 0
