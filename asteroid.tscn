@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cesm6001h2rrh" path="res://asteroid.gd" id="2_ast"]
 [ext_resource type="PackedScene" uid="uid://30e74xg5mtn1" path="res://floating_text.tscn" id="2_gm5ib"]
-[ext_resource type="Texture2D" uid="uid://bbc5ai3osb2fv" path="res://assets/rocket.png" id="3_gm5ib"]
+[ext_resource type="Texture2D" uid="uid://bbc5ai3osb2fv" path="res://assets/rockets/bird.png" id="3_gm5ib"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ast"]
 radius = 14.0

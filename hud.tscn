@@ -2,6 +2,13 @@
 
 [ext_resource type="Script" uid="uid://cfyj1ffvx3srs" path="res://hud.gd" id="1_hud"]
 [ext_resource type="Script" uid="uid://badm0ow0ll8dh" path="res://minimap.gd" id="2_64ctp"]
+[ext_resource type="Texture2D" uid="uid://dgldgismhlipj" path="res://assets/rockets/bluefin.png" id="3_bluefin"]
+[ext_resource type="Texture2D" uid="uid://bh6uywpc6llef" path="res://assets/rockets/bulwark.png" id="4_bulwark"]
+[ext_resource type="Texture2D" uid="uid://beu7dyxikoq2y" path="res://assets/rockets/comet_wing.png" id="5_comet"]
+[ext_resource type="Texture2D" uid="uid://dlh1h5tibitax" path="res://assets/rockets/crimson_lance.png" id="6_crimson"]
+[ext_resource type="Texture2D" uid="uid://bbvv54w3qcymc" path="res://assets/rockets/ghostray.png" id="7_ghostray"]
+[ext_resource type="Texture2D" uid="uid://cvprlexr85mkg" path="res://assets/rockets/starstreak.png" id="8_starstreak"]
+[ext_resource type="Texture2D" uid="uid://bbc5ai3osb2fv" path="res://assets/rockets/bird.png" id="9_bird"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p0ukn"]
 bg_color = Color(0.2716998, 0.29337206, 0.3491902, 1)
@@ -311,7 +318,6 @@ mouse_filter = 2
 
 [node name="MenuStats" type="VBoxContainer" parent="MenuUI" unique_id=2000000001]
 layout_mode = 1
-anchors_preset = 0
 offset_left = 12.0
 offset_top = 8.0
 offset_right = 200.0
@@ -466,17 +472,323 @@ horizontal_alignment = 1
 
 [node name="SoundCheck" type="CheckBox" parent="MenuUI/SettingsPanel/Panel/VBoxContainer" unique_id=2000000010]
 layout_mode = 2
-button_pressed = true
 theme_override_font_sizes/font_size = 20
+button_pressed = true
 text = "Sound Effects"
 
 [node name="MusicCheck" type="CheckBox" parent="MenuUI/SettingsPanel/Panel/VBoxContainer" unique_id=2000000011]
 layout_mode = 2
-button_pressed = true
 theme_override_font_sizes/font_size = 20
+button_pressed = true
 text = "Music"
 
 [node name="CloseButton" type="Button" parent="MenuUI/SettingsPanel/Panel/VBoxContainer" unique_id=2000000012]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Close"
+
+[node name="ShopPanel" type="Control" parent="MenuUI" unique_id=2000000030]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="MenuUI/ShopPanel" unique_id=2000000031]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.55)
+
+[node name="Panel" type="Panel" parent="MenuUI/ShopPanel" unique_id=2000000032]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 24.0
+offset_right = -16.0
+offset_bottom = -88.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("panel_sb")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuUI/ShopPanel/Panel" unique_id=2000000033]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="MenuUI/ShopPanel/Panel/VBoxContainer" unique_id=2000000034]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "SHOP"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MenuUI/ShopPanel/Panel/VBoxContainer" unique_id=2000000035]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="GridContainer" type="GridContainer" parent="MenuUI/ShopPanel/Panel/VBoxContainer/ScrollContainer" unique_id=2000000036]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="ItemDefault" type="Button" parent="MenuUI/ShopPanel/Panel/VBoxContainer/ScrollContainer/GridContainer" unique_id=2000000046]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "Default"
+icon = ExtResource("9_bird")
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Item0" type="Button" parent="MenuUI/ShopPanel/Panel/VBoxContainer/ScrollContainer/GridContainer" unique_id=2000000040]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "100$"
+icon = ExtResource("3_bluefin")
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Item1" type="Button" parent="MenuUI/ShopPanel/Panel/VBoxContainer/ScrollContainer/GridContainer" unique_id=2000000041]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "250$"
+icon = ExtResource("4_bulwark")
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Item2" type="Button" parent="MenuUI/ShopPanel/Panel/VBoxContainer/ScrollContainer/GridContainer" unique_id=2000000042]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "400$"
+icon = ExtResource("5_comet")
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Item3" type="Button" parent="MenuUI/ShopPanel/Panel/VBoxContainer/ScrollContainer/GridContainer" unique_id=2000000043]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "600$"
+icon = ExtResource("6_crimson")
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Item4" type="Button" parent="MenuUI/ShopPanel/Panel/VBoxContainer/ScrollContainer/GridContainer" unique_id=2000000044]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "800$"
+icon = ExtResource("7_ghostray")
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Item5" type="Button" parent="MenuUI/ShopPanel/Panel/VBoxContainer/ScrollContainer/GridContainer" unique_id=2000000045]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "1000$"
+icon = ExtResource("8_starstreak")
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="CloseButton" type="Button" parent="MenuUI/ShopPanel/Panel/VBoxContainer" unique_id=2000000037]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Close"
+
+[node name="UpgradePanel" type="Control" parent="MenuUI" unique_id=2000000050]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="MenuUI/UpgradePanel" unique_id=2000000051]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.55)
+
+[node name="Panel" type="Panel" parent="MenuUI/UpgradePanel" unique_id=2000000052]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 24.0
+offset_right = -16.0
+offset_bottom = -88.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("panel_sb")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuUI/UpgradePanel/Panel" unique_id=2000000053]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer" unique_id=2000000054]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "UPGRADES"
+horizontal_alignment = 1
+
+[node name="UpgradeList" type="VBoxContainer" parent="MenuUI/UpgradePanel/Panel/VBoxContainer" unique_id=2000000055]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="FuelRow" type="HBoxContainer" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList" unique_id=2000000056]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Info" type="VBoxContainer" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/FuelRow" unique_id=2000000057]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Name" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/FuelRow/Info" unique_id=2000000058]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Max Fuel"
+
+[node name="Level" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/FuelRow/Info" unique_id=2000000059]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.74, 0.8, 1)
+theme_override_font_sizes/font_size = 14
+text = "Lv 0/5"
+
+[node name="BuyButton" type="Button" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/FuelRow" unique_id=2000000060]
+custom_minimum_size = Vector2(96, 44)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 18
+text = "80$"
+
+[node name="ChargeRow" type="HBoxContainer" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList" unique_id=2000000061]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Info" type="VBoxContainer" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/ChargeRow" unique_id=2000000062]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Name" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/ChargeRow/Info" unique_id=2000000063]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Charge Time"
+
+[node name="Level" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/ChargeRow/Info" unique_id=2000000064]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.74, 0.8, 1)
+theme_override_font_sizes/font_size = 14
+text = "Lv 0/5"
+
+[node name="BuyButton" type="Button" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/ChargeRow" unique_id=2000000065]
+custom_minimum_size = Vector2(96, 44)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 18
+text = "120$"
+
+[node name="SplitRow" type="HBoxContainer" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList" unique_id=2000000067]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Info" type="VBoxContainer" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/SplitRow" unique_id=2000000068]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Name" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/SplitRow/Info" unique_id=2000000069]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Asteroid Split"
+
+[node name="Level" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/SplitRow/Info" unique_id=2000000070]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.74, 0.8, 1)
+theme_override_font_sizes/font_size = 14
+text = "Lv 0/5"
+
+[node name="BuyButton" type="Button" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/SplitRow" unique_id=2000000071]
+custom_minimum_size = Vector2(96, 44)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 18
+text = "100$"
+
+[node name="RocketRow" type="HBoxContainer" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList" unique_id=2000000072]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Info" type="VBoxContainer" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/RocketRow" unique_id=2000000073]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Name" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/RocketRow/Info" unique_id=2000000074]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Missiles"
+
+[node name="Level" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/RocketRow/Info" unique_id=2000000075]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.74, 0.8, 1)
+theme_override_font_sizes/font_size = 14
+text = "Lv 0/5"
+
+[node name="BuyButton" type="Button" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/RocketRow" unique_id=2000000076]
+custom_minimum_size = Vector2(96, 44)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 18
+text = "150$"
+
+[node name="CloseButton" type="Button" parent="MenuUI/UpgradePanel/Panel/VBoxContainer" unique_id=2000000066]
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20

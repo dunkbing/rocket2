@@ -62,6 +62,12 @@ extends RigidBody2D
 ## Soft haptic buzz length (ms) on the phone when smashing an asteroid. 0 = off.
 var hit_haptic_ms: int = 20
 
+@export_group("Child Rocket")
+## Homing missile shot out while flying. Assign child_rocket.tscn.
+@export var child_rocket_scene: PackedScene
+## Seconds between child-rocket chance rolls while flying.
+@export var child_rocket_interval: float = 1.0
+
 var _aiming: bool = false
 var _drag_start: Vector2 = Vector2.ZERO
 var _launched: bool = false
@@ -83,6 +89,9 @@ var _aim_time_left: float = 0.0
 var _fuel: float = 0.0
 ## Set once the rocket has timed out — ignores all further input.
 var _dead: bool = false
+
+## Time accumulated toward the next child-rocket chance roll.
+var _child_roll_elapsed: float = 0.0
 
 
 func _ready() -> void:
@@ -118,6 +127,7 @@ func _process(delta: float) -> void:
         # Burn fuel while coasting through space.
         _fuel = maxf(_fuel - fuel_drain_rate * delta, 0.0)
         _push_fuel()
+        _try_spawn_child_rocket(delta)
 
 
 func _on_body_entered(body: Node) -> void:
@@ -216,6 +226,7 @@ func _launch() -> void:
     _launched = true
     freeze = false
     linear_velocity = velocity
+    _child_roll_elapsed = 0.0
     _set_exhaust(true)
     _play_launch_puff()
     $ShootSound.play()
@@ -245,6 +256,29 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
         state.angular_velocity = 0.0
 
 
+## Upgrade hook: GameState seeds max fuel at startup (and on purchase). Tops the
+## tank off so the new capacity is immediately full.
+func set_max_fuel(value: float) -> void:
+    max_fuel = value
+    _fuel = max_fuel
+    _push_fuel()
+
+
+## Upgrade hook: GameState seeds the slow-mo charge time (aim hold limit).
+func set_charge_time(value: float) -> void:
+    aim_time_limit = value
+
+
+## Swap the rocket's body sprite (shop skin). Reached via the "player" group;
+## empty/invalid path is a no-op so the scene default stays.
+func set_skin_path(path: String) -> void:
+    if path.is_empty():
+        return
+    var texture: Texture2D = load(path)
+    if texture:
+        $Sprite2D.texture = texture
+
+
 ## Turn the exhaust (fire + smoke) trail on or off.
 func _set_exhaust(on: bool) -> void:
     $Fire.emitting = on
@@ -259,6 +293,25 @@ func _set_charge_fx(on: bool) -> void:
     $Charge.emitting = on
     # Reset to the starting size each time charging begins/ends.
     $Charge.scale = Vector2.ONE * charge_fx_min_scale
+
+
+## Every `child_rocket_interval` seconds in flight, roll the GameState chance to
+## shoot out a homing child rocket from our current position/heading.
+func _try_spawn_child_rocket(delta: float) -> void:
+    if child_rocket_scene == null:
+        return
+    _child_roll_elapsed += delta
+    if _child_roll_elapsed < child_rocket_interval:
+        return
+    _child_roll_elapsed = 0.0
+    var game_state := get_tree().get_first_node_in_group("game_state")
+    if game_state == null or randf() >= game_state.child_rocket_chance:
+        return
+    var child := child_rocket_scene.instantiate()
+    get_tree().current_scene.add_child(child)
+    child.global_position = global_position
+    if child.has_method("launch"):
+        child.launch(Vector2.RIGHT.rotated(rotation))
 
 
 ## One-shot puff burst fired the instant the rocket launches. Slow-mo is already

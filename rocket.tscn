@@ -2,11 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://ceka20ur5pqpo" path="res://explosion.tscn" id="2_r2l15"]
 [ext_resource type="Script" uid="uid://bsrl15bch4xk2" path="res://rocket.gd" id="2_rkt"]
-[ext_resource type="Texture2D" uid="uid://bbvv54w3qcymc" path="res://assets/rockets/ghostray.png" id="3_awr8v"]
+[ext_resource type="Texture2D" uid="uid://bbc5ai3osb2fv" path="res://assets/rockets/bird.png" id="3_awr8v"]
 [ext_resource type="AudioStream" uid="uid://dvexbpaqqpjyo" path="res://assets/audio/shoot.wav" id="4_tpb7v"]
 [ext_resource type="AudioStream" uid="uid://7vmvylnweqoc" path="res://assets/audio/explosion.wav" id="5_cum1y"]
 [ext_resource type="AudioStream" uid="uid://c44k6ifffc1eu" path="res://assets/audio/hit.wav" id="6_546ky"]
 [ext_resource type="AudioStream" uid="uid://bjleko7gp18by" path="res://assets/audio/pickup_coin.wav" id="7_awr8v"]
+[ext_resource type="PackedScene" uid="uid://bchildrocket1" path="res://child_rocket.tscn" id="8_child"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rh748"]
 radius = 11.0
@@ -128,6 +129,7 @@ script = ExtResource("2_rkt")
 power = 4.0
 death_explosion_scene = ExtResource("2_r2l15")
 punch_through_speed = 600.0
+child_rocket_scene = ExtResource("8_child")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=336697748]
 texture = ExtResource("3_awr8v")

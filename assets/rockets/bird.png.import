@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bbc5ai3osb2fv"
-path="res://.godot/imported/rocket.png-ee7caa6d60b8c73f0b17d79a887f39b7.ctex"
+path="res://.godot/imported/bird.png-8857539b500955df2d75781623a3515c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/rocket.png"
-dest_files=["res://.godot/imported/rocket.png-ee7caa6d60b8c73f0b17d79a887f39b7.ctex"]
+source_file="res://assets/rockets/bird.png"
+dest_files=["res://.godot/imported/bird.png-8857539b500955df2d75781623a3515c.ctex"]
 
 [params]
 

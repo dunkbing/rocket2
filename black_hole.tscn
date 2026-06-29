@@ -85,7 +85,7 @@ scale_curve = SubResource("CurveTexture_particle_fade")
 color_ramp = SubResource("GradientTexture1D_ring_color")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2ueok"]
-radius = 180.0
+radius = 145.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_duwuw"]
 radius = 25.0

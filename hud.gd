@@ -30,6 +30,33 @@ const LOW_FUEL_INTENSITY := 0.2
 @onready var SoundCheck: CheckBox = $MenuUI/SettingsPanel/Panel/VBoxContainer/SoundCheck
 @onready var MusicCheck: CheckBox = $MenuUI/SettingsPanel/Panel/VBoxContainer/MusicCheck
 @onready var SettingsCloseButton: Button = $MenuUI/SettingsPanel/Panel/VBoxContainer/CloseButton
+@onready var ShopPanel: Control = $MenuUI/ShopPanel
+@onready var ShopGrid: GridContainer = $MenuUI/ShopPanel/Panel/VBoxContainer/ScrollContainer/GridContainer
+@onready var ShopCloseButton: Button = $MenuUI/ShopPanel/Panel/VBoxContainer/CloseButton
+@onready var UpgradePanel: Control = $MenuUI/UpgradePanel
+@onready var FuelLevelLabel: Label = $MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/FuelRow/Info/Level
+@onready var FuelBuyButton: Button = $MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/FuelRow/BuyButton
+@onready var ChargeLevelLabel: Label = $MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/ChargeRow/Info/Level
+@onready var ChargeBuyButton: Button = $MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/ChargeRow/BuyButton
+@onready var SplitLevelLabel: Label = $MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/SplitRow/Info/Level
+@onready var SplitBuyButton: Button = $MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/SplitRow/BuyButton
+@onready var RocketLevelLabel: Label = $MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/RocketRow/Info/Level
+@onready var RocketBuyButton: Button = $MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/RocketRow/BuyButton
+@onready var UpgradeCloseButton: Button = $MenuUI/UpgradePanel/Panel/VBoxContainer/CloseButton
+
+## Rocket skins, in the same order as the ShopGrid item buttons. The first is
+## the free default (bird), always owned.
+const ROCKET_SKINS: Array[String] = [
+    "res://assets/rockets/bird.png",
+    "res://assets/rockets/bluefin.png",
+    "res://assets/rockets/bulwark.png",
+    "res://assets/rockets/comet_wing.png",
+    "res://assets/rockets/crimson_lance.png",
+    "res://assets/rockets/ghostray.png",
+    "res://assets/rockets/starstreak.png",
+]
+## Unlock price (coins) for each skin, aligned with ROCKET_SKINS (default = free).
+const ROCKET_PRICES: Array[int] = [0, 100, 250, 400, 600, 800, 1000]
 
 ## Latest values pushed from GameState; cached for the game-over panel.
 var _score := 0
@@ -38,6 +65,9 @@ var _coin := 0
 ## True while the low-fuel warning is active; the looping pulse tween.
 var _low_fuel := false
 var _low_fuel_tween: Tween
+
+## Gold outline applied to the currently-equipped shop tile.
+var _equipped_style: StyleBoxFlat
 
 
 func _ready() -> void:
@@ -51,6 +81,23 @@ func _ready() -> void:
     ShopTabButton.pressed.connect(_select_shop_tab)
     SettingsButton.pressed.connect(_open_settings)
     SettingsCloseButton.pressed.connect(_close_settings)
+    ShopCloseButton.pressed.connect(_close_shop)
+    FuelBuyButton.pressed.connect(_buy_upgrade.bind("fuel"))
+    ChargeBuyButton.pressed.connect(_buy_upgrade.bind("charge"))
+    SplitBuyButton.pressed.connect(_buy_upgrade.bind("split"))
+    RocketBuyButton.pressed.connect(_buy_upgrade.bind("rocket"))
+    UpgradeCloseButton.pressed.connect(_close_upgrades)
+    # Each shop tile buys/equips its matching skin (order mirrors ROCKET_SKINS).
+    var items := ShopGrid.get_children()
+    for i in items.size():
+        if i < ROCKET_SKINS.size():
+            items[i].pressed.connect(_on_shop_item.bind(i))
+    # Gold outline marking the equipped tile (applied in _refresh_shop).
+    _equipped_style = StyleBoxFlat.new()
+    _equipped_style.bg_color = Color(1, 0.916, 0.537, 0.18)
+    _equipped_style.border_color = Color(1, 0.916, 0.537, 1)
+    _equipped_style.set_border_width_all(3)
+    _equipped_style.set_corner_radius_all(6)
     ScoreLabel.text = str(_score)
     CoinLabel.text = "%d$" % _coin
     # Sensible defaults in case the rocket's first emit beat us into the tree.
@@ -169,7 +216,101 @@ func _select_upgrade_tab() -> void:
 func _select_shop_tab() -> void:
     _select_bottom_tab("shop")
 
+## Close the shop by switching back to the Play tab.
+func _close_shop() -> void:
+    _select_bottom_tab("play")
+
+## Close the upgrade panel by switching back to the Play tab.
+func _close_upgrades() -> void:
+    _select_bottom_tab("play")
+
+## Buy the next level of an upgrade via GameState, then refresh the rows.
+func _buy_upgrade(id: String) -> void:
+    var game_state := get_tree().get_first_node_in_group("game_state")
+    if game_state:
+        game_state.buy_upgrade(id)
+    _refresh_upgrades()
+
+## Update both upgrade rows: level text + Buy button (cost / MAX / dimmed).
+func _refresh_upgrades() -> void:
+    var game_state := get_tree().get_first_node_in_group("game_state")
+    if game_state == null:
+        return
+    _refresh_upgrade_row(game_state, "fuel", FuelLevelLabel, FuelBuyButton)
+    _refresh_upgrade_row(game_state, "charge", ChargeLevelLabel, ChargeBuyButton)
+    _refresh_upgrade_row(game_state, "split", SplitLevelLabel, SplitBuyButton)
+    _refresh_upgrade_row(game_state, "rocket", RocketLevelLabel, RocketBuyButton)
+
+func _refresh_upgrade_row(game_state, id: String, level_label: Label, buy_button: Button) -> void:
+    var level: int = game_state.get_upgrade_level(id)
+    var value_text: String = _format_upgrade_value(id, game_state.get_upgrade_value(id))
+    level_label.text = "Lv %d/%d  (%s)" % [level, game_state.get_upgrade_max(), value_text]
+    var cost: int = game_state.get_upgrade_cost(id)
+    if cost < 0:
+        buy_button.text = "MAX"
+        buy_button.disabled = true
+        buy_button.modulate = Color(1, 1, 1, 1)
+    else:
+        buy_button.text = "%d$" % cost
+        buy_button.disabled = false
+        buy_button.modulate = Color(1, 1, 1, 1) if game_state.total_coin >= cost else Color(1, 1, 1, 0.45)
+
+## Human-readable current value per upgrade type.
+func _format_upgrade_value(id: String, value: float) -> String:
+    match id:
+        "fuel": return "%d fuel" % int(value)
+        "charge": return "%.1fs" % value
+        "split", "rocket": return "%d%%" % roundi(value * 100.0)
+    return ""
+
+## Shop tile tapped: buy (if affordable) or equip via GameState, then refresh.
+func _on_shop_item(index: int) -> void:
+    var game_state := get_tree().get_first_node_in_group("game_state")
+    if game_state == null:
+        return
+    game_state.buy_or_equip_skin(ROCKET_SKINS[index], ROCKET_PRICES[index])
+    _refresh_shop()
+
+## Update each tile's label to Equipped / Owned / price, dimming the unaffordable.
+func _refresh_shop() -> void:
+    var game_state := get_tree().get_first_node_in_group("game_state")
+    if game_state == null:
+        return
+    var items := ShopGrid.get_children()
+    for i in items.size():
+        if i >= ROCKET_SKINS.size():
+            continue
+        var path: String = ROCKET_SKINS[i]
+        var price: int = ROCKET_PRICES[i]
+        var btn: Button = items[i]
+        var equipped: bool = game_state.rocket_skin == path
+        if equipped:
+            btn.text = "Equipped"
+            btn.modulate = Color(1, 1, 1, 1)
+        elif game_state.is_skin_owned(path):
+            btn.text = "Owned"
+            btn.modulate = Color(1, 1, 1, 1)
+        else:
+            btn.text = "%d$" % price
+            # Dim locked skins the player can't yet afford.
+            btn.modulate = Color(1, 1, 1, 1) if game_state.total_coin >= price else Color(1, 1, 1, 0.45)
+        _set_tile_highlight(btn, equipped)
+
+## Apply (or remove) the gold equipped-outline across the button's states.
+func _set_tile_highlight(btn: Button, on: bool) -> void:
+    for state in ["normal", "hover", "pressed", "focus"]:
+        if on:
+            btn.add_theme_stylebox_override(state, _equipped_style)
+        else:
+            btn.remove_theme_stylebox_override(state)
+
 func _select_bottom_tab(tab: String) -> void:
     PlayTabButton.button_pressed = tab == "play"
     UpgradeTabButton.button_pressed = tab == "upgrade"
     ShopTabButton.button_pressed = tab == "shop"
+    ShopPanel.visible = tab == "shop"
+    UpgradePanel.visible = tab == "upgrade"
+    if tab == "shop":
+        _refresh_shop()
+    elif tab == "upgrade":
+        _refresh_upgrades()

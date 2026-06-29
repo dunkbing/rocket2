@@ -122,5 +122,4 @@ script = ExtResource("12_dg77c")
 
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=78927563]
 stream = ExtResource("13_ycdy4")
-autoplay = true
 bus = &"Music"

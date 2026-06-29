@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bchildrocket1"]
+
+[ext_resource type="Script" uid="uid://cqrr286nki5lv" path="res://child_rocket.gd" id="1_cr"]
+[ext_resource type="Texture2D" uid="uid://bh6uywpc6llef" path="res://assets/rockets/bulwark.png" id="2_2dm24"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cr"]
+radius = 9.0
+
+[node name="ChildRocket" type="Area2D" unique_id=1375303327]
+z_index = 5
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_cr")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1725061302]
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("2_2dm24")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=168904042]
+shape = SubResource("CircleShape2D_cr")
