@@ -15,6 +15,10 @@
 [ext_resource type="Script" uid="uid://bjalyupt8hqyr" path="res://game_state.gd" id="12_dg77c"]
 [ext_resource type="AudioStream" uid="uid://bss4rydgemxop" path="res://assets/audio/music.wav" id="13_ycdy4"]
 [ext_resource type="Shader" uid="uid://bioc8ydx3rfki" path="res://red_vignette.gdshader" id="14_lowfuel"]
+[ext_resource type="Texture2D" uid="uid://dfijh4b50pkbb" path="res://assets/clouds/cloud1.png" id="15_cloud1"]
+[ext_resource type="Texture2D" uid="uid://bhgy3ha7uwr3n" path="res://assets/clouds/cloud2.png" id="16_cloud2"]
+[ext_resource type="Texture2D" uid="uid://duiho561h56kn" path="res://assets/clouds/cloud3.png" id="17_cloud3"]
+[ext_resource type="Texture2D" uid="uid://b1xqr270aykfc" path="res://assets/clouds/cloud4.png" id="18_cloud4"]
 
 [sub_resource type="Environment" id="Environment_2ueok"]
 background_mode = 3
@@ -45,6 +49,58 @@ shader_parameter/radius = 0.15
 shader_parameter/softness = 0.5
 shader_parameter/intensity = 0.0
 shader_parameter/vignette_color = Color(1, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_starfade"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_starfade"]
+gradient = SubResource("Gradient_starfade")
+
+[sub_resource type="Gradient" id="Gradient_stardot"]
+offsets = PackedFloat32Array(0, 0.25, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.6, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_star"]
+gradient = SubResource("Gradient_stardot")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_stars"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1500, 1500, 1)
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 2.0
+initial_velocity_max = 6.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.25
+scale_max = 0.7
+color_ramp = SubResource("GradientTexture1D_starfade")
+
+[sub_resource type="Gradient" id="Gradient_cloudfade"]
+offsets = PackedFloat32Array(0, 0.15, 0.85, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_cloudfade"]
+gradient = SubResource("Gradient_cloudfade")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2ueok"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1500, 1500, 1)
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 14.0
+initial_velocity_max = 30.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.25
+scale_max = 0.5
+color_ramp = SubResource("GradientTexture1D_cloudfade")
 
 [node name="Main" type="Node2D" unique_id=512084551]
 
@@ -123,3 +179,65 @@ script = ExtResource("12_dg77c")
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=78927563]
 stream = ExtResource("13_ycdy4")
 bus = &"Music"
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=1035402605]
+layer = -1
+
+[node name="BgColor" type="ColorRect" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.035, 0.03, 0.06, 1)
+
+[node name="Stars" type="GPUParticles2D" parent="Background" unique_id=2044387819]
+self_modulate = Color(1, 0.85, 0.45, 1)
+position = Vector2(144, 256)
+amount = 500
+texture = SubResource("GradientTexture2D_star")
+lifetime = 3.5
+preprocess = 3.5
+randomness = 0.8
+process_material = SubResource("ParticleProcessMaterial_stars")
+
+[node name="Clouds" type="Node2D" parent="Background" unique_id=1120090364]
+position = Vector2(144, 256)
+
+[node name="Cloud1" type="GPUParticles2D" parent="Background/Clouds" unique_id=1936112826]
+self_modulate = Color(0.28, 0.3, 0.36, 0.6)
+amount = 25
+texture = ExtResource("15_cloud1")
+lifetime = 34.0
+preprocess = 34.0
+speed_scale = 0.5
+randomness = 0.7
+process_material = SubResource("ParticleProcessMaterial_2ueok")
+
+[node name="Cloud2" type="GPUParticles2D" parent="Background/Clouds" unique_id=775290751]
+self_modulate = Color(0.42, 0.44, 0.52, 0.72)
+amount = 25
+texture = ExtResource("16_cloud2")
+lifetime = 34.0
+preprocess = 34.0
+speed_scale = 0.72
+randomness = 0.7
+process_material = SubResource("ParticleProcessMaterial_2ueok")
+
+[node name="Cloud3" type="GPUParticles2D" parent="Background/Clouds" unique_id=2031254849]
+self_modulate = Color(0.55, 0.58, 0.66, 0.85)
+amount = 25
+texture = ExtResource("17_cloud3")
+lifetime = 34.0
+preprocess = 34.0
+randomness = 0.7
+process_material = SubResource("ParticleProcessMaterial_2ueok")
+
+[node name="Cloud4" type="GPUParticles2D" parent="Background/Clouds" unique_id=1178448119]
+self_modulate = Color(0.7, 0.72, 0.8, 0.95)
+amount = 25
+texture = ExtResource("18_cloud4")
+lifetime = 34.0
+preprocess = 34.0
+speed_scale = 1.3
+randomness = 0.7
+process_material = SubResource("ParticleProcessMaterial_2ueok")

@@ -172,6 +172,7 @@ func on_rocket_dead() -> void:
     _set_low_fuel(false)
     DeathScoreLabel.text = "Score: " + str(_score)
     $DeathPanel.show()
+    $DeathPanel/AnimationPlayer.play("show")
 
 ## Switch from the menu (top-left stats + bottom tabs) to the in-game HUD.
 func enter_game_mode() -> void:
@@ -199,9 +200,18 @@ func _play_from_tabs() -> void:
 
 func _open_settings() -> void:
     SettingsPanel.show()
+    _play_panel_in(SettingsPanel)
 
 func _close_settings() -> void:
     SettingsPanel.hide()
+
+## Play a panel's pop-in animation. seek(0) forces the first frame immediately so
+## there's no full-size flash before playback starts.
+func _play_panel_in(panel: Control) -> void:
+    var ap: AnimationPlayer = panel.get_node_or_null("AnimationPlayer")
+    if ap:
+        ap.play("show")
+        ap.seek(0.0, true)
 
 ## Reflect the persisted audio settings into the checkboxes (no re-trigger).
 func set_audio_settings(sound_on: bool, music_on: bool) -> void:
@@ -317,5 +327,7 @@ func _select_bottom_tab(tab: String) -> void:
     UpgradePanel.visible = tab == "upgrade"
     if tab == "shop":
         _refresh_shop()
+        _play_panel_in(ShopPanel)
     elif tab == "upgrade":
         _refresh_upgrades()
+        _play_panel_in(UpgradePanel)
