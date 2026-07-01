@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dlabk7trnckkm"
-path="res://.godot/imported/bird.png-8857539b500955df2d75781623a3515c.ctex"
+uid="uid://c6iqvk0myxs45"
+path="res://.godot/imported/blue_button.png-17b51579f3e85097a4d6294c1922c12f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/rockets/bird.png"
-dest_files=["res://.godot/imported/bird.png-8857539b500955df2d75781623a3515c.ctex"]
+source_file="res://assets/ui/blue_button.png"
+dest_files=["res://.godot/imported/blue_button.png-17b51579f3e85097a4d6294c1922c12f.ctex"]
 
 [params]
 

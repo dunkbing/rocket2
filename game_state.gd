@@ -52,7 +52,7 @@ var sound_enabled: bool = true
 var music_enabled: bool = true
 
 ## The free starter skin — always owned, never costs coins.
-const DEFAULT_SKIN := "res://assets/rockets/bird.png"
+const DEFAULT_SKIN := "res://assets/rockets/default.png"
 ## Currently equipped rocket skin texture path (persisted).
 var rocket_skin: String = DEFAULT_SKIN
 ## Texture paths of rocket skins the player has unlocked (persisted).

@@ -3,12 +3,21 @@
 [ext_resource type="Script" uid="uid://cfyj1ffvx3srs" path="res://hud.gd" id="1_hud"]
 [ext_resource type="Script" uid="uid://badm0ow0ll8dh" path="res://minimap.gd" id="2_64ctp"]
 [ext_resource type="Texture2D" uid="uid://dgldgismhlipj" path="res://assets/rockets/bluefin.png" id="3_bluefin"]
+[ext_resource type="Texture2D" uid="uid://c6btk022bc56l" path="res://assets/rockets/default.png" id="3_g10ll"]
+[ext_resource type="Texture2D" uid="uid://dscnj4nffglsm" path="res://assets/ui/lavender_button.png" id="4_1fv7p"]
 [ext_resource type="Texture2D" uid="uid://bh6uywpc6llef" path="res://assets/rockets/bulwark.png" id="4_bulwark"]
+[ext_resource type="Texture2D" uid="uid://cttf3vwl0u2x4" path="res://assets/ui/yellow_button.png" id="5_4u2vk"]
 [ext_resource type="Texture2D" uid="uid://beu7dyxikoq2y" path="res://assets/rockets/comet_wing.png" id="5_comet"]
 [ext_resource type="Texture2D" uid="uid://dlh1h5tibitax" path="res://assets/rockets/crimson_lance.png" id="6_crimson"]
 [ext_resource type="Texture2D" uid="uid://bbvv54w3qcymc" path="res://assets/rockets/ghostray.png" id="7_ghostray"]
+[ext_resource type="Texture2D" uid="uid://c6iqvk0myxs45" path="res://assets/ui/blue_button.png" id="7_w71nf"]
 [ext_resource type="Texture2D" uid="uid://cvprlexr85mkg" path="res://assets/rockets/starstreak.png" id="8_starstreak"]
-[ext_resource type="Texture2D" uid="uid://bbc5ai3osb2fv" path="res://assets/rockets/bird.png" id="9_bird"]
+[ext_resource type="PackedScene" uid="uid://dhcpulg4lkrc7" path="res://ui_button.tscn" id="10_uibtn"]
+[ext_resource type="Texture2D" uid="uid://dikbsa0is6a3n" path="res://assets/ui/panel.png" id="11_panel"]
+[ext_resource type="Texture2D" uid="uid://clnnr1tdkered" path="res://assets/ui/upgrade_icon.png" id="12_upic"]
+[ext_resource type="Texture2D" uid="uid://0stydnfojl5m" path="res://assets/ui/cart_icon.png" id="13_cart"]
+[ext_resource type="Texture2D" uid="uid://b41ygor8v44bh" path="res://assets/ui/pause_icon.png" id="14_pause"]
+[ext_resource type="Texture2D" uid="uid://c5v86h3wtbrya" path="res://assets/ui/gear_icon.png" id="15_gear"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p0ukn"]
 bg_color = Color(0.2716998, 0.29337206, 0.3491902, 1)
@@ -37,6 +46,122 @@ border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
 anti_aliasing = false
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_615i1"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pw7dr"]
+content_margin_left = 32.0
+content_margin_top = 29.0
+content_margin_right = 32.0
+content_margin_bottom = 23.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(0.82, 0.82, 0.82, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ap7yk"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(1.08, 1.08, 1.08, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5kc73"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(0.7, 0.7, 0.7, 0.6)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bp16l"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5iihh"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("5_4u2vk")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rgb5v"]
+content_margin_left = 32.0
+content_margin_top = 29.0
+content_margin_right = 32.0
+content_margin_bottom = 23.0
+texture = ExtResource("5_4u2vk")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(0.82, 0.82, 0.82, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_np8ax"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("5_4u2vk")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(1.08, 1.08, 1.08, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8w6vd"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("5_4u2vk")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(0.7, 0.7, 0.7, 0.6)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_shnbk"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("5_4u2vk")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
 [sub_resource type="StyleBoxFlat" id="panel_sb"]
 bg_color = Color(0.11, 0.12, 0.17, 0.96)
 border_width_left = 2
@@ -55,29 +180,348 @@ border_color = Color(1, 1, 1, 0.16)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 
-[sub_resource type="StyleBoxFlat" id="tab_button_sb"]
-bg_color = Color(0.16, 0.18, 0.23, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.12)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+[sub_resource type="StyleBoxEmpty" id="empty_sb"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
 
-[sub_resource type="StyleBoxFlat" id="tab_button_pressed_sb"]
-bg_color = Color(1, 0.91627353, 0.5370987, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o2hcl"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+texture = ExtResource("5_4u2vk")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gh5fi"]
+content_margin_left = 12.0
+content_margin_top = 15.0
+content_margin_right = 12.0
+content_margin_bottom = 9.0
+texture = ExtResource("5_4u2vk")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(0.82, 0.82, 0.82, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nx880"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+texture = ExtResource("5_4u2vk")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(1.08, 1.08, 1.08, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_drihh"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+texture = ExtResource("5_4u2vk")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(0.7, 0.7, 0.7, 0.6)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d5hpo"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+texture = ExtResource("5_4u2vk")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y8web"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cj3fo"]
+content_margin_left = 32.0
+content_margin_top = 29.0
+content_margin_right = 32.0
+content_margin_bottom = 23.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(0.82, 0.82, 0.82, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tcfrd"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(1.08, 1.08, 1.08, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qb75m"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(0.7, 0.7, 0.7, 0.6)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x1wfm"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kasu4"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+texture = ExtResource("7_w71nf")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tqq6i"]
+content_margin_left = 12.0
+content_margin_top = 15.0
+content_margin_right = 12.0
+content_margin_bottom = 9.0
+texture = ExtResource("7_w71nf")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(0.82, 0.82, 0.82, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yucwx"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+texture = ExtResource("7_w71nf")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(1.08, 1.08, 1.08, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xeimn"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+texture = ExtResource("7_w71nf")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(0.7, 0.7, 0.7, 0.6)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mp6wi"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+texture = ExtResource("7_w71nf")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxTexture" id="panel_tex"]
+texture = ExtResource("11_panel")
+texture_margin_left = 32.0
+texture_margin_top = 32.0
+texture_margin_right = 32.0
+texture_margin_bottom = 32.0
+
+[sub_resource type="StyleBoxFlat" id="tile_box"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 10.0
+bg_color = Color(0.07, 0.09, 0.16, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0, 0, 0, 0.7)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+border_color = Color(1, 1, 1, 0.06)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="tile_box_pressed"]
+content_margin_left = 8.0
+content_margin_top = 10.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.05, 0.06, 0.11, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="Theme" id="Theme_shop"]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/constants/outline_size = 4
+Button/styles/disabled = SubResource("tile_box")
+Button/styles/focus = SubResource("tile_box")
+Button/styles/hover = SubResource("tile_box")
+Button/styles/normal = SubResource("tile_box")
+Button/styles/pressed = SubResource("tile_box_pressed")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_64hrl"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_eweso"]
+content_margin_left = 32.0
+content_margin_top = 29.0
+content_margin_right = 32.0
+content_margin_bottom = 23.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(0.82, 0.82, 0.82, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7m7ug"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(1.08, 1.08, 1.08, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bn2fi"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(0.7, 0.7, 0.7, 0.6)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_atjiy"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tfn8a"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ov28w"]
+content_margin_left = 32.0
+content_margin_top = 29.0
+content_margin_right = 32.0
+content_margin_bottom = 23.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(0.82, 0.82, 0.82, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rm01p"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(1.08, 1.08, 1.08, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xdjk3"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(0.7, 0.7, 0.7, 0.6)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l1ws3"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("4_1fv7p")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
 
 [node name="HUD" type="CanvasLayer" unique_id=1372647904]
 script = ExtResource("1_hud")
@@ -96,24 +540,26 @@ layout_mode = 0
 offset_left = 12.0
 offset_top = 8.0
 offset_right = 200.0
-offset_bottom = 44.0
+offset_bottom = 34.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.7)
 theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 28
 text = "0"
+vertical_alignment = 1
 
 [node name="CoinLabel" type="Label" parent="GameUI" unique_id=1825539372]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 42.0
 offset_right = 200.0
-offset_bottom = 68.0
+offset_bottom = 64.0
 theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.7)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 24
 text = "0$"
+vertical_alignment = 1
 
 [node name="PauseButton" type="Button" parent="GameUI" unique_id=1353499646]
 layout_mode = 0
@@ -124,8 +570,13 @@ offset_top = 8.0
 offset_right = -8.0
 offset_bottom = 48.0
 grow_horizontal = 0
-theme_override_font_sizes/font_size = 20
-text = "II"
+theme_override_styles/normal = SubResource("empty_sb")
+theme_override_styles/hover = SubResource("empty_sb")
+theme_override_styles/pressed = SubResource("empty_sb")
+theme_override_styles/disabled = SubResource("empty_sb")
+theme_override_styles/focus = SubResource("empty_sb")
+icon = ExtResource("14_pause")
+expand_icon = true
 
 [node name="ChargeBar" type="ProgressBar" parent="GameUI" unique_id=327738866]
 custom_minimum_size = Vector2(120, 6)
@@ -200,52 +651,80 @@ grow_vertical = 2
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0, 0, 0, 0.55)
+color = Color(0, 0, 0, 0.82)
 
-[node name="Panel" type="Panel" parent="PauseMenu" unique_id=1383779399]
-layout_mode = 0
+[node name="Title" type="Label" parent="PauseMenu" unique_id=1383779399]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 110.0
+offset_bottom = 210.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.35)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 64
+text = "PAUSE"
+horizontal_alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="PauseMenu" unique_id=1122541694]
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -110.0
-offset_top = -120.0
-offset_right = 110.0
-offset_bottom = 120.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("panel_sb")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/Panel" unique_id=1122541694]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 24.0
-offset_top = 24.0
-offset_right = -24.0
-offset_bottom = -24.0
+offset_left = -80.0
+offset_top = -56.0
+offset_right = 80.0
+offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="Title" type="Label" parent="PauseMenu/Panel/VBoxContainer" unique_id=1122541695]
+[node name="ResumeButton" parent="PauseMenu/Buttons" unique_id=149771705 instance=ExtResource("10_uibtn")]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "PAUSED"
-horizontal_alignment = 1
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 0.5)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/outline_size = 6
+theme_override_styles/normal = SubResource("StyleBoxTexture_615i1")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_pw7dr")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ap7yk")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_5kc73")
+theme_override_styles/focus = SubResource("StyleBoxTexture_bp16l")
+text = "RESUME"
+variant = 1
 
-[node name="ResumeButton" type="Button" parent="PauseMenu/Panel/VBoxContainer" unique_id=149771705]
-custom_minimum_size = Vector2(0, 46)
+[node name="RestartButton" parent="PauseMenu/Buttons" unique_id=2010605513 instance=ExtResource("10_uibtn")]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Resume"
-
-[node name="RestartButton" type="Button" parent="PauseMenu/Panel/VBoxContainer" unique_id=2010605513]
-custom_minimum_size = Vector2(0, 46)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Restart"
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 0.5)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/outline_size = 6
+theme_override_styles/normal = SubResource("StyleBoxTexture_5iihh")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_rgb5v")
+theme_override_styles/hover = SubResource("StyleBoxTexture_np8ax")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_8w6vd")
+theme_override_styles/focus = SubResource("StyleBoxTexture_shnbk")
+text = "PLAY AGAIN"
+variant = 2
 
 [node name="DeathPanel" type="Control" parent="." unique_id=1500000001]
 visible = false
@@ -268,22 +747,22 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -120.0
-offset_top = -120.0
-offset_right = 120.0
-offset_bottom = 120.0
+offset_left = -132.0
+offset_top = -140.0
+offset_right = 132.0
+offset_bottom = 140.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("panel_sb")
+theme_override_styles/panel = SubResource("panel_tex")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="DeathPanel/Panel" unique_id=1500000004]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 24.0
-offset_top = 24.0
-offset_right = -24.0
-offset_bottom = -24.0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = -30.0
+offset_bottom = -30.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16
@@ -291,21 +770,31 @@ alignment = 1
 
 [node name="Title" type="Label" parent="DeathPanel/Panel/VBoxContainer" unique_id=1500000005]
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.35)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 34
 text = "GAME OVER"
 horizontal_alignment = 1
 
 [node name="ScoreLabel" type="Label" parent="DeathPanel/Panel/VBoxContainer" unique_id=1500000006]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 20
 text = "Score: 0"
 horizontal_alignment = 1
 
-[node name="RestartButton" type="Button" parent="DeathPanel/Panel/VBoxContainer" unique_id=1500000007]
-custom_minimum_size = Vector2(0, 46)
+[node name="RestartButton" parent="DeathPanel/Panel/VBoxContainer" unique_id=1500000007 instance=ExtResource("10_uibtn")]
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Restart"
+size_flags_horizontal = 3
+variant = 2
+text = "PLAY AGAIN"
 
 [node name="MenuUI" type="Control" parent="." unique_id=967261697]
 layout_mode = 3
@@ -332,6 +821,7 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 0.7)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 28
 text = "Best: 0"
+vertical_alignment = 1
 
 [node name="CoinLabel" type="Label" parent="MenuUI/MenuStats" unique_id=2000000003]
 layout_mode = 2
@@ -340,6 +830,7 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 0.7)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 24
 text = "0$"
+vertical_alignment = 1
 
 [node name="SettingsButton" type="Button" parent="MenuUI" unique_id=2000000004]
 layout_mode = 1
@@ -351,8 +842,13 @@ offset_top = 8.0
 offset_right = -8.0
 offset_bottom = 48.0
 grow_horizontal = 0
-theme_override_font_sizes/font_size = 22
-text = "⚙"
+theme_override_styles/normal = SubResource("empty_sb")
+theme_override_styles/hover = SubResource("empty_sb")
+theme_override_styles/pressed = SubResource("empty_sb")
+theme_override_styles/disabled = SubResource("empty_sb")
+theme_override_styles/focus = SubResource("empty_sb")
+icon = ExtResource("15_gear")
+expand_icon = true
 
 [node name="BottomTabs" type="Panel" parent="MenuUI" unique_id=1598187884]
 layout_mode = 1
@@ -382,45 +878,68 @@ theme_override_constants/margin_bottom = 0
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="UpgradeButton" type="Button" parent="MenuUI/BottomTabs/MarginContainer/HBoxContainer" unique_id=1081194274]
-custom_minimum_size = Vector2(0, 56)
+[node name="UpgradeButton" parent="MenuUI/BottomTabs/MarginContainer/HBoxContainer" unique_id=1081194274 instance=ExtResource("10_uibtn")]
+custom_minimum_size = Vector2(56, 56)
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_pressed_color = Color(0.08, 0.075, 0.055, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("tab_button_sb")
-theme_override_styles/pressed = SubResource("tab_button_pressed_sb")
-theme_override_styles/hover = SubResource("tab_button_sb")
-theme_override_styles/focus = SubResource("tab_button_pressed_sb")
-toggle_mode = true
-text = "Upgrade"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 0.5)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/outline_size = 6
+theme_override_styles/normal = SubResource("StyleBoxTexture_o2hcl")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_gh5fi")
+theme_override_styles/hover = SubResource("StyleBoxTexture_nx880")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_drihh")
+theme_override_styles/focus = SubResource("StyleBoxTexture_d5hpo")
+text = ""
+icon = ExtResource("12_upic")
+expand_icon = true
+variant = 2
+content_margin = Vector2i(12, 12)
 
-[node name="PlayButton" type="Button" parent="MenuUI/BottomTabs/MarginContainer/HBoxContainer" unique_id=441573882]
+[node name="PlayButton" parent="MenuUI/BottomTabs/MarginContainer/HBoxContainer" unique_id=441573882 instance=ExtResource("10_uibtn")]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_pressed_color = Color(0.08, 0.075, 0.055, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("tab_button_sb")
-theme_override_styles/pressed = SubResource("tab_button_pressed_sb")
-theme_override_styles/hover = SubResource("tab_button_sb")
-theme_override_styles/focus = SubResource("tab_button_pressed_sb")
-toggle_mode = true
-button_pressed = true
-text = "Play"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 0.5)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/outline_size = 6
+theme_override_styles/normal = SubResource("StyleBoxTexture_y8web")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_cj3fo")
+theme_override_styles/hover = SubResource("StyleBoxTexture_tcfrd")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_qb75m")
+theme_override_styles/focus = SubResource("StyleBoxTexture_x1wfm")
+text = "PLAY NOW!"
+variant = 1
 
-[node name="ShopButton" type="Button" parent="MenuUI/BottomTabs/MarginContainer/HBoxContainer" unique_id=277360745]
-custom_minimum_size = Vector2(0, 56)
+[node name="ShopButton" parent="MenuUI/BottomTabs/MarginContainer/HBoxContainer" unique_id=277360745 instance=ExtResource("10_uibtn")]
+custom_minimum_size = Vector2(56, 56)
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_pressed_color = Color(0.08, 0.075, 0.055, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("tab_button_sb")
-theme_override_styles/pressed = SubResource("tab_button_pressed_sb")
-theme_override_styles/hover = SubResource("tab_button_sb")
-theme_override_styles/focus = SubResource("tab_button_pressed_sb")
-toggle_mode = true
-text = "Shop"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 0.5)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/outline_size = 6
+theme_override_styles/normal = SubResource("StyleBoxTexture_kasu4")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_tqq6i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_yucwx")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_xeimn")
+theme_override_styles/focus = SubResource("StyleBoxTexture_mp6wi")
+text = ""
+icon = ExtResource("13_cart")
+expand_icon = true
+content_margin = Vector2i(12, 12)
 
 [node name="SettingsPanel" type="Control" parent="MenuUI" unique_id=2000000005]
 visible = false
@@ -443,22 +962,22 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -120.0
-offset_top = -110.0
-offset_right = 120.0
-offset_bottom = 110.0
+offset_left = -132.0
+offset_top = -150.0
+offset_right = 132.0
+offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("panel_sb")
+theme_override_styles/panel = SubResource("panel_tex")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MenuUI/SettingsPanel/Panel" unique_id=2000000008]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 24.0
-offset_top = 24.0
-offset_right = -24.0
-offset_bottom = -24.0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = -30.0
+offset_bottom = -30.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16
@@ -466,27 +985,44 @@ alignment = 1
 
 [node name="Title" type="Label" parent="MenuUI/SettingsPanel/Panel/VBoxContainer" unique_id=2000000009]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.35)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 34
 text = "SETTINGS"
 horizontal_alignment = 1
 
 [node name="SoundCheck" type="CheckBox" parent="MenuUI/SettingsPanel/Panel/VBoxContainer" unique_id=2000000010]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 18
 button_pressed = true
 text = "Sound Effects"
 
 [node name="MusicCheck" type="CheckBox" parent="MenuUI/SettingsPanel/Panel/VBoxContainer" unique_id=2000000011]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 18
 button_pressed = true
 text = "Music"
 
-[node name="CloseButton" type="Button" parent="MenuUI/SettingsPanel/Panel/VBoxContainer" unique_id=2000000012]
-custom_minimum_size = Vector2(0, 46)
+[node name="CloseButton" parent="MenuUI/SettingsPanel/Panel/VBoxContainer" unique_id=2000000012 instance=ExtResource("10_uibtn")]
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Close"
+size_flags_horizontal = 3
+variant = 1
+text = "CLOSE"
 
 [node name="ShopPanel" type="Control" parent="MenuUI" unique_id=2000000030]
 visible = false
@@ -514,24 +1050,30 @@ offset_right = -16.0
 offset_bottom = -88.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("panel_sb")
+theme_override_styles/panel = SubResource("panel_tex")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MenuUI/ShopPanel/Panel" unique_id=2000000033]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 16.0
-offset_top = 16.0
-offset_right = -16.0
-offset_bottom = -16.0
+offset_left = 28.0
+offset_top = 26.0
+offset_right = -28.0
+offset_bottom = -28.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 12
 
 [node name="Title" type="Label" parent="MenuUI/ShopPanel/Panel/VBoxContainer" unique_id=2000000034]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.35)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 40
 text = "SHOP"
 horizontal_alignment = 1
 
@@ -544,6 +1086,7 @@ vertical_scroll_mode = 3
 [node name="GridContainer" type="GridContainer" parent="MenuUI/ShopPanel/Panel/VBoxContainer/ScrollContainer" unique_id=2000000036]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = SubResource("Theme_shop")
 theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
 columns = 2
@@ -554,7 +1097,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "Default"
-icon = ExtResource("9_bird")
+icon = ExtResource("3_g10ll")
 vertical_icon_alignment = 0
 expand_icon = true
 
@@ -618,11 +1161,25 @@ icon = ExtResource("8_starstreak")
 vertical_icon_alignment = 0
 expand_icon = true
 
-[node name="CloseButton" type="Button" parent="MenuUI/ShopPanel/Panel/VBoxContainer" unique_id=2000000037]
-custom_minimum_size = Vector2(0, 46)
+[node name="CloseButton" parent="MenuUI/ShopPanel/Panel/VBoxContainer" unique_id=2000000037 instance=ExtResource("10_uibtn")]
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Close"
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 0.5)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/outline_size = 6
+theme_override_styles/normal = SubResource("StyleBoxTexture_64hrl")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_eweso")
+theme_override_styles/hover = SubResource("StyleBoxTexture_7m7ug")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_bn2fi")
+theme_override_styles/focus = SubResource("StyleBoxTexture_atjiy")
+text = "CLOSE"
+variant = 1
 
 [node name="UpgradePanel" type="Control" parent="MenuUI" unique_id=2000000050]
 visible = false
@@ -650,34 +1207,41 @@ offset_right = -16.0
 offset_bottom = -88.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("panel_sb")
+theme_override_styles/panel = SubResource("panel_tex")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MenuUI/UpgradePanel/Panel" unique_id=2000000053]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 16.0
-offset_top = 16.0
-offset_right = -16.0
-offset_bottom = -16.0
+offset_left = 28.0
+offset_top = 26.0
+offset_right = -28.0
+offset_bottom = -28.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 12
 
 [node name="Title" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer" unique_id=2000000054]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.35)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 40
 text = "UPGRADES"
 horizontal_alignment = 1
 
 [node name="UpgradeList" type="VBoxContainer" parent="MenuUI/UpgradePanel/Panel/VBoxContainer" unique_id=2000000055]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 10
+theme = SubResource("Theme_shop")
+theme_override_constants/separation = 6
 
 [node name="FuelRow" type="HBoxContainer" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList" unique_id=2000000056]
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_constants/separation = 8
 
@@ -688,24 +1252,27 @@ size_flags_vertical = 4
 
 [node name="Name" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/FuelRow/Info" unique_id=2000000058]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Max Fuel"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "MAX FUEL"
 
 [node name="Level" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/FuelRow/Info" unique_id=2000000059]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.74, 0.8, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 11
 text = "Lv 0/5"
 
 [node name="BuyButton" type="Button" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/FuelRow" unique_id=2000000060]
 custom_minimum_size = Vector2(96, 44)
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 15
 text = "80$"
 
 [node name="ChargeRow" type="HBoxContainer" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList" unique_id=2000000061]
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_constants/separation = 8
 
@@ -716,24 +1283,27 @@ size_flags_vertical = 4
 
 [node name="Name" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/ChargeRow/Info" unique_id=2000000063]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Charge Time"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "CHARGE TIME"
 
 [node name="Level" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/ChargeRow/Info" unique_id=2000000064]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.74, 0.8, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 11
 text = "Lv 0/5"
 
 [node name="BuyButton" type="Button" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/ChargeRow" unique_id=2000000065]
 custom_minimum_size = Vector2(96, 44)
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 15
 text = "120$"
 
 [node name="SplitRow" type="HBoxContainer" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList" unique_id=2000000067]
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_constants/separation = 8
 
@@ -744,24 +1314,27 @@ size_flags_vertical = 4
 
 [node name="Name" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/SplitRow/Info" unique_id=2000000069]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Asteroid Split"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "ASTEROID SPLIT"
 
 [node name="Level" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/SplitRow/Info" unique_id=2000000070]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.74, 0.8, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 11
 text = "Lv 0/5"
 
 [node name="BuyButton" type="Button" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/SplitRow" unique_id=2000000071]
 custom_minimum_size = Vector2(96, 44)
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 15
 text = "100$"
 
 [node name="RocketRow" type="HBoxContainer" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList" unique_id=2000000072]
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_constants/separation = 8
 
@@ -772,24 +1345,41 @@ size_flags_vertical = 4
 
 [node name="Name" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/RocketRow/Info" unique_id=2000000074]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Missiles"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "MISSILES"
 
 [node name="Level" type="Label" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/RocketRow/Info" unique_id=2000000075]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.74, 0.8, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 11
 text = "Lv 0/5"
 
 [node name="BuyButton" type="Button" parent="MenuUI/UpgradePanel/Panel/VBoxContainer/UpgradeList/RocketRow" unique_id=2000000076]
 custom_minimum_size = Vector2(96, 44)
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 15
 text = "150$"
 
-[node name="CloseButton" type="Button" parent="MenuUI/UpgradePanel/Panel/VBoxContainer" unique_id=2000000066]
-custom_minimum_size = Vector2(0, 46)
+[node name="CloseButton" parent="MenuUI/UpgradePanel/Panel/VBoxContainer" unique_id=2000000066 instance=ExtResource("10_uibtn")]
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Close"
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 0.5)
+theme_override_colors/font_outline_color = Color(0.11, 0.13, 0.42, 1)
+theme_override_constants/outline_size = 6
+theme_override_styles/normal = SubResource("StyleBoxTexture_tfn8a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ov28w")
+theme_override_styles/hover = SubResource("StyleBoxTexture_rm01p")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_xdjk3")
+theme_override_styles/focus = SubResource("StyleBoxTexture_l1ws3")
+text = "CLOSE"
+variant = 1

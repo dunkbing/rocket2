@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bnaonn3fbafu3"
-path="res://.godot/imported/Asterroid SSAAAA-01.png-4f8244099ef2f36f735adf4af0885a06.ctex"
+uid="uid://bhgy3ha7uwr3n"
+path="res://.godot/imported/cloud2.png-0bc3fc84b4a3d1294676a02578800459.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Asterroid SSAAAA-01.png"
-dest_files=["res://.godot/imported/Asterroid SSAAAA-01.png-4f8244099ef2f36f735adf4af0885a06.ctex"]
+source_file="res://assets/cloud/cloud2.png"
+dest_files=["res://.godot/imported/cloud2.png-0bc3fc84b4a3d1294676a02578800459.ctex"]
 
 [params]
 

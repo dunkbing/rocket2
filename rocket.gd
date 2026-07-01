@@ -339,6 +339,7 @@ func _die() -> void:
     _set_charge_fx(false)
     _clear_trajectory()
     _push_charge(0.0)
+    get_tree().call_group("hud", "hide_pause_button")
     $DeathSound.play()
     if death_explosion_scene:
         var fx: Node2D = death_explosion_scene.instantiate()

@@ -13,8 +13,8 @@ const LOW_FUEL_INTENSITY := 0.2
 @onready var ScoreLabel: Label = $GameUI/ScoreLabel
 @onready var CoinLabel: Label = $GameUI/CoinLabel
 @onready var PauseButton = $GameUI/PauseButton
-@onready var ResumeButton = $PauseMenu/Panel/VBoxContainer/ResumeButton
-@onready var RestartButton = $PauseMenu/Panel/VBoxContainer/RestartButton
+@onready var ResumeButton = $PauseMenu/Buttons/ResumeButton
+@onready var RestartButton = $PauseMenu/Buttons/RestartButton
 @onready var ChargeBar: ProgressBar = $GameUI/ChargeBar
 @onready var FuelBar: ProgressBar = $GameUI/FuelBar
 @onready var DeathRestartButton = $DeathPanel/Panel/VBoxContainer/RestartButton
@@ -47,7 +47,7 @@ const LOW_FUEL_INTENSITY := 0.2
 ## Rocket skins, in the same order as the ShopGrid item buttons. The first is
 ## the free default (bird), always owned.
 const ROCKET_SKINS: Array[String] = [
-    "res://assets/rockets/bird.png",
+    "res://assets/rockets/default.png",
     "res://assets/rockets/bluefin.png",
     "res://assets/rockets/bulwark.png",
     "res://assets/rockets/comet_wing.png",
@@ -94,10 +94,11 @@ func _ready() -> void:
             items[i].pressed.connect(_on_shop_item.bind(i))
     # Gold outline marking the equipped tile (applied in _refresh_shop).
     _equipped_style = StyleBoxFlat.new()
-    _equipped_style.bg_color = Color(1, 0.916, 0.537, 0.18)
+    _equipped_style.bg_color = Color(0.07, 0.09, 0.16, 1)  # match the tile bg
     _equipped_style.border_color = Color(1, 0.916, 0.537, 1)
     _equipped_style.set_border_width_all(3)
-    _equipped_style.set_corner_radius_all(6)
+    _equipped_style.set_corner_radius_all(10)
+    _equipped_style.set_content_margin_all(8)
     ScoreLabel.text = str(_score)
     CoinLabel.text = "%d$" % _coin
     # Sensible defaults in case the rocket's first emit beat us into the tree.
@@ -177,6 +178,10 @@ func enter_game_mode() -> void:
     MenuUI.hide()
     GameUI.show()
 
+## Hide the in-game pause button (called by the rocket the instant it dies).
+func hide_pause_button() -> void:
+    PauseButton.hide()
+
 func _pause() -> void:
     get_tree().paused = true
     $PauseMenu.show()
@@ -251,7 +256,7 @@ func _refresh_upgrade_row(game_state, id: String, level_label: Label, buy_button
         buy_button.disabled = true
         buy_button.modulate = Color(1, 1, 1, 1)
     else:
-        buy_button.text = "%d$" % cost
+        buy_button.text = "$%d" % cost
         buy_button.disabled = false
         buy_button.modulate = Color(1, 1, 1, 1) if game_state.total_coin >= cost else Color(1, 1, 1, 0.45)
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://ceka20ur5pqpo" path="res://explosion.tscn" id="2_r2l15"]
 [ext_resource type="Script" uid="uid://bsrl15bch4xk2" path="res://rocket.gd" id="2_rkt"]
-[ext_resource type="Texture2D" uid="uid://bbc5ai3osb2fv" path="res://assets/rockets/bird.png" id="3_awr8v"]
+[ext_resource type="Texture2D" uid="uid://c6btk022bc56l" path="res://assets/rockets/default.png" id="4_7htxx"]
 [ext_resource type="AudioStream" uid="uid://dvexbpaqqpjyo" path="res://assets/audio/shoot.wav" id="4_tpb7v"]
 [ext_resource type="AudioStream" uid="uid://7vmvylnweqoc" path="res://assets/audio/explosion.wav" id="5_cum1y"]
 [ext_resource type="AudioStream" uid="uid://c44k6ifffc1eu" path="res://assets/audio/hit.wav" id="6_546ky"]
@@ -132,7 +132,7 @@ punch_through_speed = 600.0
 child_rocket_scene = ExtResource("8_child")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=336697748]
-texture = ExtResource("3_awr8v")
+texture = ExtResource("4_7htxx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2113321071]
 rotation = 1.5708

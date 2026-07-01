@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://b2k1lvux73qdd" path="res://assets/base.png" id="1_rpg24"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2ueok"]
-size = Vector2(336, 112)
+size = Vector2(206, 90)
 
 [node name="Base" type="Area2D" unique_id=50186384]
 
@@ -11,4 +11,5 @@ size = Vector2(336, 112)
 texture = ExtResource("1_rpg24")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1091703612]
+position = Vector2(1, -1)
 shape = SubResource("RectangleShape2D_2ueok")

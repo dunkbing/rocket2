@@ -55,7 +55,7 @@ vignette = NodePath("../PostFX/VignetteRect")
 camera = NodePath("../Camera2D")
 
 [node name="Base" parent="." unique_id=50186384 instance=ExtResource("2_kek77")]
-position = Vector2(144, 455)
+position = Vector2(144, 448)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=482363291 node_paths=PackedStringArray("target")]
 script = ExtResource("2_cam")

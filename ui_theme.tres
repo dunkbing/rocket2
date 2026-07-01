@@ -1,6 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://bfocsgmbg6oeb"]
 
-[ext_resource type="FontFile" uid="uid://6g7wtg7supqa" path="res://assets/fonts/VT323-Regular.ttf" id="1_touxu"]
+[ext_resource type="FontFile" uid="uid://dbxkbyew65vgt" path="res://assets/fonts/editundo.ttf" id="1_touxu"]
 
 [resource]
 default_font = ExtResource("1_touxu")

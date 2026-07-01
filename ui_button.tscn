@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dhcpulg4lkrc7"]
+
+[ext_resource type="Texture2D" uid="uid://c6iqvk0myxs45" path="res://assets/ui/blue_button.png" id="1_itcfk"]
+[ext_resource type="Script" uid="uid://7khdthu604ha" path="res://ui_button.gd" id="1_uibtn"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_itcfk"]
+content_margin_left = 32.0
+content_margin_top = 26.0
+content_margin_right = 32.0
+content_margin_bottom = 26.0
+texture = ExtResource("1_itcfk")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[node name="UiButton" type="Button" unique_id=18331399]
+custom_minimum_size = Vector2(140, 56)
+theme_override_styles/normal = SubResource("StyleBoxTexture_itcfk")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_itcfk")
+theme_override_styles/hover = SubResource("StyleBoxTexture_itcfk")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_itcfk")
+theme_override_styles/focus = SubResource("StyleBoxTexture_itcfk")
+text = "Button"
+script = ExtResource("1_uibtn")
