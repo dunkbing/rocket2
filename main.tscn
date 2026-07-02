@@ -14,11 +14,12 @@
 [ext_resource type="PackedScene" uid="uid://btsymmru3ff8j" path="res://black_hole.tscn" id="9_vivmo"]
 [ext_resource type="Script" uid="uid://bjalyupt8hqyr" path="res://game_state.gd" id="12_dg77c"]
 [ext_resource type="AudioStream" uid="uid://bss4rydgemxop" path="res://assets/audio/music.wav" id="13_ycdy4"]
-[ext_resource type="Shader" uid="uid://bioc8ydx3rfki" path="res://red_vignette.gdshader" id="14_lowfuel"]
 [ext_resource type="Texture2D" uid="uid://dfijh4b50pkbb" path="res://assets/clouds/cloud1.png" id="15_cloud1"]
 [ext_resource type="Texture2D" uid="uid://bhgy3ha7uwr3n" path="res://assets/clouds/cloud2.png" id="16_cloud2"]
 [ext_resource type="Texture2D" uid="uid://duiho561h56kn" path="res://assets/clouds/cloud3.png" id="17_cloud3"]
 [ext_resource type="Texture2D" uid="uid://b1xqr270aykfc" path="res://assets/clouds/cloud4.png" id="18_cloud4"]
+[ext_resource type="Script" uid="uid://bby4vfhpcedey" path="res://background_field.gd" id="19_bgfield"]
+[ext_resource type="Shader" uid="uid://c7yern47csluj" path="res://screen_glitch.gdshader" id="20_sglitch"]
 
 [sub_resource type="Environment" id="Environment_2ueok"]
 background_mode = 3
@@ -36,6 +37,10 @@ shader = ExtResource("6_7mycd")
 shader_parameter/radius = 0.25
 shader_parameter/softness = 0.45
 shader_parameter/intensity = 0.65
+shader_parameter/alarm_radius = 0.15
+shader_parameter/alarm_softness = 0.5
+shader_parameter/alarm_intensity = 0.0
+shader_parameter/alarm_color = Color(1, 0, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7mycd"]
 shader = ExtResource("7_272bh")
@@ -43,12 +48,13 @@ shader_parameter/strength = 0.003
 shader_parameter/edge_start = 0.2000000095
 shader_parameter/edge_end = 0.7
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lowfuel"]
-shader = ExtResource("14_lowfuel")
-shader_parameter/radius = 0.15
-shader_parameter/softness = 0.5
-shader_parameter/intensity = 0.0
-shader_parameter/vignette_color = Color(1, 0, 0, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sglitch"]
+shader = ExtResource("20_sglitch")
+shader_parameter/shake_power = 0.06
+shader_parameter/shake_rate = 1.0
+shader_parameter/shake_speed = 12.0
+shader_parameter/shake_block_size = 24.0
+shader_parameter/shake_color_rate = 0.04
 
 [sub_resource type="Gradient" id="Gradient_stardot"]
 offsets = PackedFloat32Array(0, 0.25, 1)
@@ -104,14 +110,15 @@ color_ramp = SubResource("GradientTexture1D_cloudfade")
 
 [node name="Main" type="Node2D" unique_id=512084551]
 
-[node name="Rocket" parent="." unique_id=183115029 node_paths=PackedStringArray("vignette", "camera") instance=ExtResource("1_ig7tw")]
+[node name="Rocket" parent="." unique_id=183115029 node_paths=PackedStringArray("vignette", "camera", "glitch_overlay") instance=ExtResource("1_ig7tw")]
 position = Vector2(144, 385)
 rotation = -1.5707964
 vignette = NodePath("../PostFX/VignetteRect")
 camera = NodePath("../Camera2D")
+glitch_overlay = NodePath("../PostFX/GlitchRect")
 
 [node name="Base" parent="." unique_id=50186384 instance=ExtResource("2_kek77")]
-position = Vector2(144, 448)
+position = Vector2(144, 414)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=482363291 node_paths=PackedStringArray("target")]
 script = ExtResource("2_cam")
@@ -140,7 +147,7 @@ size = 10
 
 [node name="HUD" parent="." unique_id=1372647904 node_paths=PackedStringArray("low_fuel_overlay") instance=ExtResource("5_hud")]
 layer = 0
-low_fuel_overlay = NodePath("../PostFX/LowFuelRect")
+low_fuel_overlay = NodePath("../PostFX/VignetteRect")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=876088466]
 environment = SubResource("Environment_2ueok")
@@ -165,8 +172,9 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="LowFuelRect" type="ColorRect" parent="PostFX" unique_id=1900000001]
-material = SubResource("ShaderMaterial_lowfuel")
+[node name="GlitchRect" type="ColorRect" parent="PostFX" unique_id=1900000003]
+visible = false
+material = SubResource("ShaderMaterial_sglitch")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -191,22 +199,25 @@ anchor_bottom = 1.0
 mouse_filter = 2
 color = Color(0.035, 0.03, 0.06, 1)
 
-[node name="Stars" type="GPUParticles2D" parent="Background" unique_id=2044387819]
+[node name="BackgroundField" type="Node2D" parent="." unique_id=1900000002 node_paths=PackedStringArray("target")]
+z_index = -10
+script = ExtResource("19_bgfield")
+target = NodePath("../Rocket")
+
+[node name="Stars" type="GPUParticles2D" parent="BackgroundField" unique_id=2044387819]
 self_modulate = Color(1, 0.85, 0.45, 1)
-position = Vector2(144, 256)
-amount = 500
+amount = 250
 texture = SubResource("GradientTexture2D_star")
 lifetime = 3.5
 preprocess = 3.5
 randomness = 0.8
 process_material = SubResource("ParticleProcessMaterial_stars")
 
-[node name="Clouds" type="Node2D" parent="Background" unique_id=1120090364]
-position = Vector2(144, 256)
+[node name="Clouds" type="Node2D" parent="BackgroundField" unique_id=1120090364]
 
-[node name="Cloud1" type="GPUParticles2D" parent="Background/Clouds" unique_id=1936112826]
+[node name="Cloud1" type="GPUParticles2D" parent="BackgroundField/Clouds" unique_id=1936112826]
 self_modulate = Color(0.28, 0.3, 0.36, 0.6)
-amount = 25
+amount = 20
 texture = ExtResource("15_cloud1")
 lifetime = 34.0
 preprocess = 34.0
@@ -214,9 +225,9 @@ speed_scale = 0.5
 randomness = 0.7
 process_material = SubResource("ParticleProcessMaterial_2ueok")
 
-[node name="Cloud2" type="GPUParticles2D" parent="Background/Clouds" unique_id=775290751]
+[node name="Cloud2" type="GPUParticles2D" parent="BackgroundField/Clouds" unique_id=775290751]
 self_modulate = Color(0.42, 0.44, 0.52, 0.72)
-amount = 25
+amount = 20
 texture = ExtResource("16_cloud2")
 lifetime = 34.0
 preprocess = 34.0
@@ -224,18 +235,18 @@ speed_scale = 0.72
 randomness = 0.7
 process_material = SubResource("ParticleProcessMaterial_2ueok")
 
-[node name="Cloud3" type="GPUParticles2D" parent="Background/Clouds" unique_id=2031254849]
+[node name="Cloud3" type="GPUParticles2D" parent="BackgroundField/Clouds" unique_id=2031254849]
 self_modulate = Color(0.55, 0.58, 0.66, 0.85)
-amount = 25
+amount = 20
 texture = ExtResource("17_cloud3")
 lifetime = 34.0
 preprocess = 34.0
 randomness = 0.7
 process_material = SubResource("ParticleProcessMaterial_2ueok")
 
-[node name="Cloud4" type="GPUParticles2D" parent="Background/Clouds" unique_id=1178448119]
+[node name="Cloud4" type="GPUParticles2D" parent="BackgroundField/Clouds" unique_id=1178448119]
 self_modulate = Color(0.7, 0.72, 0.8, 0.95)
-amount = 25
+amount = 20
 texture = ExtResource("18_cloud4")
 lifetime = 34.0
 preprocess = 34.0

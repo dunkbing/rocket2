@@ -106,5 +106,5 @@ explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_2ueok")
 
 [node name="Particles" type="GPUParticles2D" parent="." unique_id=1836885825]
-amount = 15
+amount = 10
 process_material = SubResource("ParticleProcessMaterial_duwuw")

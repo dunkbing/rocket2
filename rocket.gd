@@ -37,6 +37,10 @@ extends RigidBody2D
 @export var death_shake_strength: float = 16.0
 ## How long the death camera shake lasts (seconds).
 @export var death_shake_duration: float = 0.4
+## Full-screen glitch overlay flashed once when the rocket dies.
+@export var glitch_overlay: ColorRect
+## How long the single death glitch burst stays on screen (seconds).
+@export var death_glitch_time: float = 0.25
 ## Charge FX scale at the start of a drag (just began charging).
 @export var charge_fx_min_scale: float = 0.5
 ## Charge FX scale once the charge is nearly full (held the longest).
@@ -347,6 +351,9 @@ func _die() -> void:
         get_tree().current_scene.add_child(fx)
     if camera and camera.has_method("shake"):
         camera.shake(death_shake_strength, death_shake_duration)
+    if glitch_overlay:
+        glitch_overlay.show()
+        get_tree().create_timer(death_glitch_time).timeout.connect(glitch_overlay.hide)
     # Deferred: _die() may run inside a physics collision callback, where
     # changing physics state directly is ignored.
     set_deferred("freeze", true)

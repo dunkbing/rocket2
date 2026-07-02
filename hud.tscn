@@ -58,10 +58,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ap7yk"]
 content_margin_left = 32.0
@@ -69,10 +69,10 @@ content_margin_top = 29.0
 content_margin_right = 32.0
 content_margin_bottom = 23.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(0.82, 0.82, 0.82, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5kc73"]
@@ -81,10 +81,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(1.08, 1.08, 1.08, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bp16l"]
@@ -93,10 +93,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(0.7, 0.7, 0.7, 0.6)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5iihh"]
@@ -105,10 +105,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rgb5v"]
 content_margin_left = 32.0
@@ -116,10 +116,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("5_4u2vk")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_np8ax"]
 content_margin_left = 32.0
@@ -127,10 +127,10 @@ content_margin_top = 29.0
 content_margin_right = 32.0
 content_margin_bottom = 23.0
 texture = ExtResource("5_4u2vk")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(0.82, 0.82, 0.82, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8w6vd"]
@@ -139,10 +139,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("5_4u2vk")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(1.08, 1.08, 1.08, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_shnbk"]
@@ -151,10 +151,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("5_4u2vk")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(0.7, 0.7, 0.7, 0.6)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o2hcl"]
@@ -163,17 +163,17 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("5_4u2vk")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxTexture" id="panel_tex"]
 texture = ExtResource("11_panel")
-texture_margin_left = 32.0
-texture_margin_top = 32.0
-texture_margin_right = 32.0
-texture_margin_bottom = 32.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gh5fi"]
 content_margin_left = 32.0
@@ -181,10 +181,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("5_4u2vk")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nx880"]
 content_margin_left = 32.0
@@ -192,10 +192,10 @@ content_margin_top = 29.0
 content_margin_right = 32.0
 content_margin_bottom = 23.0
 texture = ExtResource("5_4u2vk")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(0.82, 0.82, 0.82, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_drihh"]
@@ -204,10 +204,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("5_4u2vk")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(1.08, 1.08, 1.08, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d5hpo"]
@@ -216,10 +216,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("5_4u2vk")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(0.7, 0.7, 0.7, 0.6)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y8web"]
@@ -228,10 +228,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("5_4u2vk")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [sub_resource type="Animation" id="Animation_death_show"]
 resource_name = "show"
@@ -291,10 +291,10 @@ content_margin_top = 12.0
 content_margin_right = 12.0
 content_margin_bottom = 12.0
 texture = ExtResource("5_4u2vk")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tcfrd"]
 content_margin_left = 12.0
@@ -302,10 +302,10 @@ content_margin_top = 15.0
 content_margin_right = 12.0
 content_margin_bottom = 9.0
 texture = ExtResource("5_4u2vk")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(0.82, 0.82, 0.82, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qb75m"]
@@ -314,10 +314,10 @@ content_margin_top = 12.0
 content_margin_right = 12.0
 content_margin_bottom = 12.0
 texture = ExtResource("5_4u2vk")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(1.08, 1.08, 1.08, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x1wfm"]
@@ -326,10 +326,10 @@ content_margin_top = 12.0
 content_margin_right = 12.0
 content_margin_bottom = 12.0
 texture = ExtResource("5_4u2vk")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(0.7, 0.7, 0.7, 0.6)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kasu4"]
@@ -338,10 +338,10 @@ content_margin_top = 12.0
 content_margin_right = 12.0
 content_margin_bottom = 12.0
 texture = ExtResource("5_4u2vk")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tqq6i"]
 content_margin_left = 32.0
@@ -349,10 +349,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yucwx"]
 content_margin_left = 32.0
@@ -360,10 +360,10 @@ content_margin_top = 29.0
 content_margin_right = 32.0
 content_margin_bottom = 23.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(0.82, 0.82, 0.82, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xeimn"]
@@ -372,10 +372,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(1.08, 1.08, 1.08, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mp6wi"]
@@ -384,10 +384,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(0.7, 0.7, 0.7, 0.6)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_64hrl"]
@@ -396,10 +396,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_eweso"]
 content_margin_left = 12.0
@@ -407,10 +407,10 @@ content_margin_top = 12.0
 content_margin_right = 12.0
 content_margin_bottom = 12.0
 texture = ExtResource("7_w71nf")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7m7ug"]
 content_margin_left = 12.0
@@ -418,10 +418,10 @@ content_margin_top = 15.0
 content_margin_right = 12.0
 content_margin_bottom = 9.0
 texture = ExtResource("7_w71nf")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
 modulate_color = Color(0.82, 0.82, 0.82, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bn2fi"]
@@ -430,10 +430,10 @@ content_margin_top = 12.0
 content_margin_right = 12.0
 content_margin_bottom = 12.0
 texture = ExtResource("7_w71nf")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
 modulate_color = Color(1.08, 1.08, 1.08, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_atjiy"]
@@ -442,10 +442,10 @@ content_margin_top = 12.0
 content_margin_right = 12.0
 content_margin_bottom = 12.0
 texture = ExtResource("7_w71nf")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
 modulate_color = Color(0.7, 0.7, 0.7, 0.6)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tfn8a"]
@@ -454,10 +454,10 @@ content_margin_top = 12.0
 content_margin_right = 12.0
 content_margin_bottom = 12.0
 texture = ExtResource("7_w71nf")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ov28w"]
 content_margin_left = 32.0
@@ -465,10 +465,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rm01p"]
 content_margin_left = 32.0
@@ -476,10 +476,10 @@ content_margin_top = 29.0
 content_margin_right = 32.0
 content_margin_bottom = 23.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(0.82, 0.82, 0.82, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xdjk3"]
@@ -488,10 +488,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(1.08, 1.08, 1.08, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l1ws3"]
@@ -500,10 +500,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(0.7, 0.7, 0.7, 0.6)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_g1v4a"]
@@ -512,10 +512,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxFlat" id="tile_box"]
 content_margin_left = 8.0
@@ -563,10 +563,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nh8ay"]
 content_margin_left = 32.0
@@ -574,10 +574,10 @@ content_margin_top = 29.0
 content_margin_right = 32.0
 content_margin_bottom = 23.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(0.82, 0.82, 0.82, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8g2ae"]
@@ -586,10 +586,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(1.08, 1.08, 1.08, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e1iyw"]
@@ -598,10 +598,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(0.7, 0.7, 0.7, 0.6)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qutmn"]
@@ -610,10 +610,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p2fb0"]
 content_margin_left = 32.0
@@ -621,10 +621,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mnjhu"]
 content_margin_left = 32.0
@@ -632,10 +632,10 @@ content_margin_top = 29.0
 content_margin_right = 32.0
 content_margin_bottom = 23.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(0.82, 0.82, 0.82, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b0atu"]
@@ -644,10 +644,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(1.08, 1.08, 1.08, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0dr30"]
@@ -656,10 +656,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 modulate_color = Color(0.7, 0.7, 0.7, 0.6)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_knjrn"]
@@ -668,10 +668,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("4_1fv7p")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [node name="HUD" type="CanvasLayer" unique_id=1372647904]
 script = ExtResource("1_hud")
@@ -688,9 +688,9 @@ mouse_filter = 2
 [node name="ScoreLabel" type="Label" parent="GameUI" unique_id=1441902931]
 layout_mode = 0
 offset_left = 12.0
-offset_top = 8.0
+offset_top = 32.0
 offset_right = 200.0
-offset_bottom = 34.0
+offset_bottom = 58.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.7)
 theme_override_constants/outline_size = 6
@@ -701,9 +701,9 @@ vertical_alignment = 1
 [node name="CoinLabel" type="Label" parent="GameUI" unique_id=1825539372]
 layout_mode = 0
 offset_left = 12.0
-offset_top = 42.0
+offset_top = 66.0
 offset_right = 200.0
-offset_bottom = 64.0
+offset_bottom = 88.0
 theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.7)
 theme_override_constants/outline_size = 4
@@ -716,9 +716,9 @@ layout_mode = 0
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -48.0
-offset_top = 8.0
+offset_top = 32.0
 offset_right = -8.0
-offset_bottom = 48.0
+offset_bottom = 72.0
 grow_horizontal = 0
 theme_override_styles/normal = SubResource("empty_sb")
 theme_override_styles/pressed = SubResource("empty_sb")
@@ -734,9 +734,9 @@ layout_mode = 0
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 12.0
-offset_top = -32.0
+offset_top = -52.0
 offset_right = 132.0
-offset_bottom = -26.0
+offset_bottom = -46.0
 grow_vertical = 0
 theme_override_styles/background = SubResource("StyleBoxFlat_p0ukn")
 theme_override_styles/fill = SubResource("StyleBoxFlat_37p78")
@@ -750,9 +750,9 @@ layout_mode = 0
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 12.0
-offset_top = -24.0
+offset_top = -44.0
 offset_right = 132.0
-offset_bottom = -12.0
+offset_bottom = -32.0
 grow_vertical = 0
 theme_override_styles/background = SubResource("StyleBoxFlat_p0ukn")
 theme_override_styles/fill = SubResource("StyleBoxFlat_64ctp")
@@ -978,9 +978,9 @@ mouse_filter = 2
 [node name="MenuStats" type="VBoxContainer" parent="MenuUI" unique_id=2000000001]
 layout_mode = 1
 offset_left = 12.0
-offset_top = 8.0
+offset_top = 32.0
 offset_right = 200.0
-offset_bottom = 80.0
+offset_bottom = 104.0
 mouse_filter = 2
 theme_override_constants/separation = 4
 
@@ -1008,9 +1008,9 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -48.0
-offset_top = 8.0
+offset_top = 32.0
 offset_right = -8.0
-offset_bottom = 48.0
+offset_bottom = 72.0
 grow_horizontal = 0
 theme_override_styles/normal = SubResource("empty_sb")
 theme_override_styles/pressed = SubResource("empty_sb")
@@ -1026,7 +1026,8 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -72.0
+offset_top = -92.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("bottom_tabs_sb")
