@@ -117,9 +117,10 @@ position = Vector2(144, 448)
 script = ExtResource("2_cam")
 target = NodePath("../Rocket")
 
-[node name="Spawner" type="Node2D" parent="." unique_id=999638244 node_paths=PackedStringArray("rocket")]
+[node name="Spawner" type="Node2D" parent="." unique_id=999638244 node_paths=PackedStringArray("rocket", "base")]
 script = ExtResource("3_spw")
 rocket = NodePath("../Rocket")
+base = NodePath("../Base")
 
 [node name="AsteroidPool" parent="Spawner" unique_id=1381087159 instance=ExtResource("5_kek77")]
 scene = ExtResource("4_ast")

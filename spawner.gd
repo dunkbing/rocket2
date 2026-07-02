@@ -13,6 +13,8 @@ extends Node2D
 
 ## The rocket to spawn around / keep clear of.
 @export var rocket: Node2D
+## The home base; nothing may spawn on top of or overlapping it.
+@export var base: Node2D
 ## Tries to find a non-overlapping ring spot before giving up.
 @export var place_tries: int = 12
 
@@ -37,6 +39,9 @@ const _BLACKHOLE_CLEARANCE: float = 40.0
 const _BLACKHOLE_MIN_SEPARATION: float = 360.0
 ## Black holes are pickier to place, so give them more attempts than asteroids.
 const _BLACKHOLE_PLACE_TRIES: int = 40
+
+## Keep-clear radius around the base — covers its 206x90 footprint plus a gap.
+const _BASE_CLEARANCE: float = 130.0
 
 @onready var _pools: Array[ObjectPool] = [
     $AsteroidPool,
@@ -209,6 +214,8 @@ func _field_object_radius(field_object: Node2D) -> float:
 
 
 func _overlaps(pos: Vector2, skip: Node2D, radius: float) -> bool:
+    if base != null and pos.distance_to(base.global_position) < radius + _BASE_CLEARANCE:
+        return true
     var placing_blackhole: bool = _is_blackhole(skip)
     for asteroid in _active:
         if asteroid == skip or not _field_object_active(asteroid):
