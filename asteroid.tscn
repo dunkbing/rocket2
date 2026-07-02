@@ -51,7 +51,7 @@ color_initial_ramp = SubResource("GradientTexture1D_gm5ib")
 
 [sub_resource type="Gradient" id="Gradient_8gfwb"]
 offsets = PackedFloat32Array(0, 0.9903226)
-colors = PackedColorArray(0.0045364476, 0.004536448, 0.0045364476, 1, 0.050708726, 0.012920001, 0, 0.5)
+colors = PackedColorArray(0.6314, 0.6275, 0.6118, 1, 0.4431, 0.4392, 0.4353, 0.5)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_mc61r"]
 gradient = SubResource("Gradient_8gfwb")
@@ -89,10 +89,11 @@ coin = 5
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1116532903]
 z_index = 1
+position = Vector2(-1, 0)
+scale = Vector2(0.5714286, 0.53571427)
 texture = ExtResource("3_gm5ib")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=348058972]
-visible = false
 shape = SubResource("CircleShape2D_ast")
 
 [node name="Explosion" type="GPUParticles2D" parent="." unique_id=2128565426]

@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://djbaiefjm15tv" path="res://rocket.tscn" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://oxko16ddhws5" path="res://follow_camera.gd" id="2_cam"]
 [ext_resource type="PackedScene" uid="uid://cia7nbtouiuwp" path="res://base.tscn" id="2_kek77"]
-[ext_resource type="Script" uid="uid://bmwuuljl2q0f2" path="res://asteroid_spawner.gd" id="3_spw"]
+[ext_resource type="Script" uid="uid://bmwuuljl2q0f2" path="res://spawner.gd" id="3_spw"]
 [ext_resource type="PackedScene" uid="uid://cb1dkn6sfyxym" path="res://asteroid.tscn" id="4_ast"]
 [ext_resource type="PackedScene" uid="uid://bax5fyrxmnr56" path="res://red_asteroid.tscn" id="5_5vw27"]
 [ext_resource type="PackedScene" uid="uid://cncgkuybi5txp" path="res://hud.tscn" id="5_hud"]
@@ -50,13 +50,6 @@ shader_parameter/softness = 0.5
 shader_parameter/intensity = 0.0
 shader_parameter/vignette_color = Color(1, 0, 0, 1)
 
-[sub_resource type="Gradient" id="Gradient_starfade"]
-offsets = PackedFloat32Array(0, 0.5, 1)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_starfade"]
-gradient = SubResource("Gradient_starfade")
-
 [sub_resource type="Gradient" id="Gradient_stardot"]
 offsets = PackedFloat32Array(0, 0.25, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.6, 1, 1, 1, 0)
@@ -68,6 +61,13 @@ height = 16
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
+
+[sub_resource type="Gradient" id="Gradient_starfade"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_starfade"]
+gradient = SubResource("Gradient_starfade")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_stars"]
 particle_flag_disable_z = true
@@ -117,23 +117,23 @@ position = Vector2(144, 448)
 script = ExtResource("2_cam")
 target = NodePath("../Rocket")
 
-[node name="AsteroidSpawner" type="Node2D" parent="." unique_id=999638244 node_paths=PackedStringArray("rocket")]
+[node name="Spawner" type="Node2D" parent="." unique_id=999638244 node_paths=PackedStringArray("rocket")]
 script = ExtResource("3_spw")
 rocket = NodePath("../Rocket")
 
-[node name="AsteroidPool" parent="AsteroidSpawner" unique_id=1381087159 instance=ExtResource("5_kek77")]
+[node name="AsteroidPool" parent="Spawner" unique_id=1381087159 instance=ExtResource("5_kek77")]
 scene = ExtResource("4_ast")
 size = 70
 
-[node name="RedAsteroidPool" parent="AsteroidSpawner" unique_id=971688508 instance=ExtResource("5_kek77")]
+[node name="RedAsteroidPool" parent="Spawner" unique_id=971688508 instance=ExtResource("5_kek77")]
 scene = ExtResource("5_5vw27")
 size = 25
 
-[node name="GoldAsteroidPool" parent="AsteroidSpawner" unique_id=458988853 instance=ExtResource("5_kek77")]
+[node name="GoldAsteroidPool" parent="Spawner" unique_id=458988853 instance=ExtResource("5_kek77")]
 scene = ExtResource("7_4c57u")
 size = 15
 
-[node name="BlackHolePool" parent="AsteroidSpawner" unique_id=1330242221 instance=ExtResource("5_kek77")]
+[node name="BlackHolePool" parent="Spawner" unique_id=1330242221 instance=ExtResource("5_kek77")]
 scene = ExtResource("9_vivmo")
 size = 10
 
@@ -183,7 +183,7 @@ bus = &"Music"
 [node name="Background" type="CanvasLayer" parent="." unique_id=1035402605]
 layer = -1
 
-[node name="BgColor" type="ColorRect" parent="Background"]
+[node name="BgColor" type="ColorRect" parent="Background" unique_id=805750278]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
