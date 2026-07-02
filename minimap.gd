@@ -7,6 +7,8 @@ extends Control
 @export var blip_size: float = 3.0
 ## Overall minimap opacity (0 = invisible, 1 = solid).
 @export_range(0.0, 1.0, 0.05) var map_opacity: float = 0.5
+## Seconds between redraws. Blips don't need 60 Hz; ~10 Hz reads the same.
+@export var refresh_interval: float = 0.1
 
 @export_group("Colors")
 @export var bg_color: Color = Color(0.06, 0.07, 0.10, 0.85)
@@ -18,6 +20,7 @@ extends Control
 
 ## The rocket, found via the "player" group (added in rocket.gd's _ready).
 var _rocket: Node2D = null
+var _refresh_elapsed: float = 0.0
 
 
 func _ready() -> void:
@@ -25,7 +28,13 @@ func _ready() -> void:
     _rocket = get_tree().get_first_node_in_group("player")
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+    if not is_visible_in_tree():
+        return
+    _refresh_elapsed += delta
+    if _refresh_elapsed < refresh_interval:
+        return
+    _refresh_elapsed = 0.0
     queue_redraw()
 
 

@@ -1,9 +1,18 @@
 [gd_scene format=3 uid="uid://btsymmru3ff8j"]
 
 [ext_resource type="Script" uid="uid://dfcwyjhwe0f4w" path="res://black_hole.gd" id="1_sjfy6"]
+[ext_resource type="Shader" uid="uid://bgmuqekf4pltj" path="res://glitch.gdshader" id="2_glitch"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
 blend_mode = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_glitch"]
+shader = ExtResource("2_glitch")
+shader_parameter/shake_power = 0.1
+shader_parameter/shake_rate = 0.2000000095
+shader_parameter/shake_speed = 2.0
+shader_parameter/shake_block_size = 10.0
+shader_parameter/shake_color_rate = 0.050000002375
 
 [sub_resource type="Gradient" id="Gradient_core"]
 interpolation_mode = 1
@@ -49,10 +58,10 @@ curve = SubResource("Curve_particle_fade")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3mjym"]
 particle_flag_disable_z = true
 emission_shape = 1
-emission_sphere_radius = 64.0
+emission_sphere_radius = 90.0
 spread = 180.0
-initial_velocity_min = 8.0
-initial_velocity_max = 34.0
+initial_velocity_min = 50.0
+initial_velocity_max = 80.0
 angular_velocity_min = -220.0
 angular_velocity_max = 220.0
 radial_velocity_min = -68.0
@@ -96,18 +105,20 @@ material = SubResource("CanvasItemMaterial_add")
 script = ExtResource("1_sjfy6")
 
 [node name="Core" type="Sprite2D" parent="." unique_id=847973376]
+material = SubResource("ShaderMaterial_glitch")
 scale = Vector2(1.35, 1.35)
 texture = SubResource("GradientTexture2D_core")
 
 [node name="AccretionParticles" type="GPUParticles2D" parent="." unique_id=1925679041]
 z_index = 1
 use_parent_material = true
-amount = 120
+amount = 60
 texture = SubResource("GradientTexture2D_particle")
 lifetime = 1.5
 preprocess = 1.5
 speed_scale = 0.8
 randomness = 0.45
+visibility_rect = Rect2(-160, -160, 320, 320)
 process_material = SubResource("ParticleProcessMaterial_3mjym")
 
 [node name="InnerParticles" type="GPUParticles2D" parent="." unique_id=530883313]
@@ -118,6 +129,7 @@ texture = SubResource("GradientTexture2D_particle")
 lifetime = 0.4
 preprocess = 0.4
 randomness = 0.6
+visibility_rect = Rect2(-160, -160, 320, 320)
 process_material = SubResource("ParticleProcessMaterial_sjfy6")
 
 [node name="Lightning" type="Line2D" parent="." unique_id=1287357063]

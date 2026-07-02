@@ -1,6 +1,7 @@
 extends CanvasLayer
 
-## Full-screen red vignette (lives on the PostFX layer) pulsed when fuel is low.
+## The shared PostFX vignette rect; its `alarm_intensity` red layer is pulsed
+## when fuel is low.
 @export var low_fuel_overlay: ColorRect
 
 ## Fuel fraction at/below which the low-fuel warning kicks in.
@@ -165,7 +166,7 @@ func _pulse_low_fuel(v: float) -> void:
     LowFuelLabel.modulate.a = lerpf(0.15, 1.0, v)
     var mat = (low_fuel_overlay.material as ShaderMaterial) if low_fuel_overlay else null
     if mat:
-        mat.set_shader_parameter("intensity", v * LOW_FUEL_INTENSITY)
+        mat.set_shader_parameter("alarm_intensity", v * LOW_FUEL_INTENSITY)
 
 ## The rocket ran out of aim time and exploded — end the run.
 func on_rocket_dead() -> void:
