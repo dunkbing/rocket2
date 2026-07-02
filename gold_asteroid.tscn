@@ -60,7 +60,7 @@ radius = 14.0
 
 [sub_resource type="Gradient" id="Gradient_gm5ib"]
 interpolation_mode = 1
-colors = PackedColorArray(0.3491902, 0.3491902, 0.3491902, 1, 0.5370987, 0.5370987, 0.5370987, 1)
+colors = PackedColorArray(0.85, 0.58, 0.12, 1, 1, 0.88, 0.4, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_gm5ib"]
 gradient = SubResource("Gradient_gm5ib")
@@ -88,7 +88,7 @@ scale_max = 3.0
 scale_curve = SubResource("CurveTexture_q7epf")
 color_initial_ramp = SubResource("GradientTexture1D_gm5ib")
 
-[node name="GoldAsteroid" type="StaticBody2D" unique_id=1254519483 groups=["gold"]]
+[node name="GoldAsteroid" type="StaticBody2D" unique_id=1254519483 groups=["asteroids", "gold"]]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_qduwi")

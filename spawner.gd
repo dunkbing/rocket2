@@ -22,6 +22,17 @@ extends Node2D
 ## Hard cap on live normal asteroids so repeated splits can't flood the field.
 @export var max_split_asteroids: int = 110
 
+@export_group("Meteor")
+## Random wait (seconds) between meteor drops.
+@export var meteor_interval_min: float = 6.0
+@export var meteor_interval_max: float = 14.0
+## How far above the rocket a meteor starts falling.
+@export var meteor_spawn_height: float = 1200.0
+## Horizontal scatter around the rocket for the drop point.
+@export var meteor_spread_x: float = 240.0
+## A meteor this far below the rocket is gone for good — free it.
+@export var meteor_cull_distance: float = 900.0
+
 ## The four diagonal directions a destroyed asteroid splinters into.
 const _SPLIT_DIRS: Array[Vector2] = [
     Vector2(-1, -1), Vector2(1, -1), Vector2(-1, 1), Vector2(1, 1),
@@ -49,10 +60,18 @@ const _BASE_CLEARANCE: float = 130.0
     $GoldAsteroidPool,
     $BlackHolePool,
 ]
+## Meteors are pooled but NOT part of _pools: they're dropped on a timer, not
+## placed in the ring around the rocket.
+@onready var _meteor_pool: ObjectPool = $MeteorPool
 
 ## Field objects currently active in the field (used by the placement algorithm).
 var _active: Array[Node2D] = []
 var _spawn_check_elapsed: float = 0.0
+
+## Live falling meteors (not pooled; freed once far below the rocket).
+var _meteors: Array[RigidBody2D] = []
+var _meteor_elapsed: float = 0.0
+var _meteor_wait: float = 0.0
 
 
 func _ready() -> void:
@@ -65,16 +84,67 @@ func _ready() -> void:
         pool.despawned.connect(_on_asteroid_despawned.bind(pool))
         for i in pool.size:
             pool.spawn()
+    _meteor_wait = randf_range(meteor_interval_min, meteor_interval_max)
 
 
 func _process(delta: float) -> void:
-    if rocket == null or _active.is_empty():
+    if rocket == null:
+        return
+    _meteor_tick(delta)
+    if _active.is_empty():
         return
     _spawn_check_elapsed += delta
     if _spawn_check_elapsed < spawn_check_interval:
         return
     _spawn_check_elapsed = 0.0
     _replenish()
+
+
+## Count toward the next random meteor drop. The timer only runs while the
+## rocket is actually flying (freeze is true in the menu and while aiming), so
+## meteors never rain on the menu screen or a parked rocket.
+func _meteor_tick(delta: float) -> void:
+    if _meteor_pool == null:
+        return
+    _cull_meteors()
+    if rocket.get("freeze") != false:
+        return
+    _meteor_elapsed += delta
+    if _meteor_elapsed < _meteor_wait:
+        return
+    _meteor_elapsed = 0.0
+    _meteor_wait = randf_range(meteor_interval_min, meteor_interval_max)
+    _drop_meteor()
+
+
+## Shoot one meteor from a random point far above the rocket, aimed straight
+## at the rocket's current position.
+func _drop_meteor() -> void:
+    var meteor: RigidBody2D = _meteor_pool.spawn()
+    if meteor == null:
+        return  # every pooled meteor is mid-air; skip this drop
+    meteor.global_position = rocket.global_position + Vector2(
+        randf_range(-meteor_spread_x, meteor_spread_x),
+        -meteor_spawn_height
+    )
+    var aim: Vector2 = (rocket.global_position - meteor.global_position).normalized()
+    ## Downward launch speed range (gravity accelerates it further).
+    var meteor_speed_min = 100.0
+    var meteor_speed_max = 200.0
+    meteor.linear_velocity = aim * randf_range(meteor_speed_min, meteor_speed_max)
+    _meteors.append(meteor)
+
+
+## Park meteors that have fallen far below the rocket — they can never return.
+func _cull_meteors() -> void:
+    for i in range(_meteors.size() - 1, -1, -1):
+        var meteor: RigidBody2D = _meteors[i]
+        # Exploded meteors are parked (out of tree) by the pool via `died`.
+        if not is_instance_valid(meteor) or not meteor.is_inside_tree():
+            _meteors.remove_at(i)
+        elif meteor.global_position.y > rocket.global_position.y + meteor_cull_distance:
+            _meteors.remove_at(i)
+            _meteor_pool.despawn(meteor)
 
 
 ## A freshly spawned field object: track it and place it in the ring.

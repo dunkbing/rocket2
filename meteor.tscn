@@ -1,11 +1,10 @@
-[gd_scene format=3 uid="uid://cb1dkn6sfyxym"]
+[gd_scene format=3 uid="uid://b6ht4g2n3uotn"]
 
-[ext_resource type="Script" uid="uid://cesm6001h2rrh" path="res://asteroid.gd" id="2_ast"]
-[ext_resource type="PackedScene" uid="uid://30e74xg5mtn1" path="res://floating_text.tscn" id="2_gm5ib"]
-[ext_resource type="Texture2D" uid="uid://cpc4duhgb3iu2" path="res://assets/asteroid.png" id="3_gm5ib"]
+[ext_resource type="Script" path="res://meteor.gd" id="1_met"]
+[ext_resource type="Texture2D" uid="uid://6sfyeyqv2fnv" path="res://assets/purple.png" id="3_xunib"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ast"]
-radius = 14.0
+radius = 12.0
 
 [sub_resource type="Gradient" id="Gradient_circle"]
 interpolation_mode = 1
@@ -50,11 +49,12 @@ scale_curve = SubResource("CurveTexture_q7epf")
 color_initial_ramp = SubResource("GradientTexture1D_gm5ib")
 
 [sub_resource type="Gradient" id="Gradient_8gfwb"]
-offsets = PackedFloat32Array(0, 0.9903226)
-colors = PackedColorArray(0.6314, 0.6275, 0.6118, 1, 0.4431, 0.4392, 0.4353, 0.5)
+offsets = PackedFloat32Array(0, 0.4, 1)
+colors = PackedColorArray(1.7, 1.2, 2.2, 1, 1.1, 0.4, 1.8, 0.85, 0.3, 0.05, 0.6, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_mc61r"]
 gradient = SubResource("Gradient_8gfwb")
+use_hdr = true
 
 [sub_resource type="Curve" id="Curve_8gfwb"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -66,69 +66,30 @@ curve = SubResource("Curve_8gfwb")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_duwuw"]
 particle_flag_disable_z = true
 emission_shape = 1
-emission_sphere_radius = 10.0
-direction = Vector3(0, 0, 0)
-spread = 180.0
-initial_velocity_min = 50.0
-initial_velocity_max = 50.0
+emission_sphere_radius = 6.0
+direction = Vector3(0, -1, 0)
+spread = 20.0
+initial_velocity_min = 40.0
+initial_velocity_max = 90.0
 angular_velocity_min = -180.00002
 angular_velocity_max = 179.99998
 gravity = Vector3(0, 0, 0)
-scale_min = 3.0
-scale_max = 5.0
+scale_max = 2.2
 scale_curve = SubResource("CurveTexture_gm5ib")
+color_ramp = SubResource("GradientTexture1D_mc61r")
 color_initial_ramp = SubResource("GradientTexture1D_mc61r")
 
-[sub_resource type="Animation" id="Animation_gm5ib"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0.5714286, 0.53571427)]
-}
-
-[sub_resource type="Animation" id="Animation_8gfwb"]
-resource_name = "spawn"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(1e-05, 1e-05), Vector2(0.5714286, 0.53571427)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_mc61r"]
-_data = {
-&"RESET": SubResource("Animation_gm5ib"),
-&"spawn": SubResource("Animation_8gfwb")
-}
-
-[node name="Asteroid" type="StaticBody2D" unique_id=1254519483 groups=["asteroids"]]
+[node name="Meteor" type="RigidBody2D" unique_id=438610781 groups=["asteroids", "hazards"]]
 collision_layer = 2
 collision_mask = 0
-script = ExtResource("2_ast")
-floating_text_scene = ExtResource("2_gm5ib")
-score = 100
-coin = 5
+gravity_scale = 0.3
+script = ExtResource("1_met")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1116532903]
 z_index = 1
-position = Vector2(-1, 0)
-scale = Vector2(0.5714286, 0.53571427)
-texture = ExtResource("3_gm5ib")
+position = Vector2(-5.9604645e-08, -1.8775463e-06)
+scale = Vector2(0.8125, 0.87499994)
+texture = ExtResource("3_xunib")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=348058972]
 shape = SubResource("CircleShape2D_ast")
@@ -143,8 +104,9 @@ explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_2ueok")
 
 [node name="Particles" type="GPUParticles2D" parent="." unique_id=1836885825]
-amount = 10
+amount = 40
+texture = SubResource("GradientTexture2D_gm5ib")
+lifetime = 0.7
+randomness = 0.4
+visibility_rect = Rect2(-120, -300, 240, 360)
 process_material = SubResource("ParticleProcessMaterial_duwuw")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=448331398]
-libraries/ = SubResource("AnimationLibrary_mc61r")

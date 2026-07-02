@@ -10,12 +10,12 @@ config_version=5
 
 [application]
 
-config/name="rocket"
+config/name="Rocket Smash"
 run/main_scene="uid://cycnwg42r8lsd"
 config/features=PackedStringArray("4.7", "Mobile")
-boot_splash/image="uid://c6btk022bc56l"
+boot_splash/show_image=false
+boot_splash/image="uid://c0cugf4l86dq4"
 config/icon="res://icon.svg"
-boot_splash/minimum_display_time=1
 
 [audio]
 

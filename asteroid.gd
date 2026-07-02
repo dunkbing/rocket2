@@ -21,12 +21,9 @@ var active: bool = false
 @onready var _collision: CollisionShape2D = $CollisionShape2D
 @onready var _sprite: Sprite2D = $Sprite2D
 ## The asteroid's own explosion particles (may be absent on some variants).
-@onready var _explosion: GPUParticles2D = get_node_or_null("Explosion")
-
-
-func _ready() -> void:
-    # The rocket looks for this group to know what it can destroy.
-    add_to_group("asteroids")
+@onready var _explosion: GPUParticles2D = $Explosion
+## Pop-in animation played on spawn (may be absent on some variants).
+@onready var _anim: AnimationPlayer = $AnimationPlayer
 
 
 ## Called by the rocket when it hits this asteroid.
@@ -81,6 +78,9 @@ func on_spawned() -> void:
     active = true
     _sprite.show()
     _collision.set_deferred("disabled", false)
+    if _anim and _anim.has_animation("spawn"):
+        _anim.play("spawn")
+        _anim.seek(0.0, true)  # apply the zero-scale frame now: no full-size flash
 
 
 ## ObjectPool hook: park this asteroid (hidden, non-collidable) for reuse.
@@ -88,3 +88,5 @@ func on_despawned() -> void:
     active = false
     _sprite.hide()
     _collision.set_deferred("disabled", true)
+    if _anim:
+        _anim.stop()

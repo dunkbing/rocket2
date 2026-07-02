@@ -135,9 +135,12 @@ func _process(delta: float) -> void:
 
 
 func _on_body_entered(body: Node) -> void:
-    # Deadly red asteroids kill on contact — check this first, since they're
-    # also in the "asteroids" group via the shared script.
+    # Deadly hazards (red asteroids, meteors) kill on contact — check this
+    # first, since they're also in the "asteroids" group. Mutual destruction:
+    # the hazard blows up along with us.
     if body.is_in_group("hazards"):
+        if body.has_method("explode"):
+            body.explode()
         _die()
         return
     # Asteroids add themselves to the "asteroids" group in their _ready().

@@ -34,6 +34,30 @@ point_count = 2
 [sub_resource type="CurveTexture" id="CurveTexture_ember_scale"]
 curve = SubResource("Curve_ember_scale")
 
+[sub_resource type="Gradient" id="Gradient_explode_ramp"]
+interpolation_mode = 1
+colors = PackedColorArray(1.5, 0.2, 0.08, 1, 1.9, 0.8, 0.25, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_explode_ramp"]
+gradient = SubResource("Gradient_explode_ramp")
+use_hdr = true
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_explode"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+initial_velocity_min = 150.0
+initial_velocity_max = 300.0
+angular_velocity_min = -360.0
+angular_velocity_max = 360.0
+gravity = Vector3(0, 0, 0)
+damping_min = 80.0
+damping_max = 150.0
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_ember_scale")
+color_initial_ramp = SubResource("GradientTexture1D_explode_ramp")
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tfhwr"]
 particle_flag_disable_z = true
 emission_shape = 1
@@ -49,7 +73,7 @@ scale_max = 2.6
 scale_curve = SubResource("CurveTexture_ember_scale")
 color_ramp = SubResource("GradientTexture1D_ember_ramp")
 
-[node name="RedAsteroid" type="StaticBody2D" unique_id=1254519483 groups=["hazards"]]
+[node name="RedAsteroid" type="StaticBody2D" unique_id=1254519483 groups=["asteroids", "hazards"]]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_u4cq1")
@@ -69,3 +93,12 @@ process_material = SubResource("ParticleProcessMaterial_tfhwr")
 position = Vector2(-1, -1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_u4cq1")
+
+[node name="Explosion" type="GPUParticles2D" parent="." unique_id=2128565427]
+emitting = false
+amount = 30
+texture = SubResource("GradientTexture2D_ember")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_explode")

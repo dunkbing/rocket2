@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://b1xqr270aykfc" path="res://assets/clouds/cloud4.png" id="18_cloud4"]
 [ext_resource type="Script" uid="uid://bby4vfhpcedey" path="res://background_field.gd" id="19_bgfield"]
 [ext_resource type="Shader" uid="uid://c7yern47csluj" path="res://screen_glitch.gdshader" id="20_sglitch"]
+[ext_resource type="PackedScene" uid="uid://b6ht4g2n3uotn" path="res://meteor.tscn" id="21_meteor"]
 
 [sub_resource type="Environment" id="Environment_2ueok"]
 background_mode = 3
@@ -128,6 +129,8 @@ target = NodePath("../Rocket")
 script = ExtResource("3_spw")
 rocket = NodePath("../Rocket")
 base = NodePath("../Base")
+meteor_interval_min = 1.5
+meteor_interval_max = 3.0
 
 [node name="AsteroidPool" parent="Spawner" unique_id=1381087159 instance=ExtResource("5_kek77")]
 scene = ExtResource("4_ast")
@@ -144,6 +147,10 @@ size = 15
 [node name="BlackHolePool" parent="Spawner" unique_id=1330242221 instance=ExtResource("5_kek77")]
 scene = ExtResource("9_vivmo")
 size = 10
+
+[node name="MeteorPool" parent="Spawner" unique_id=1076952897 instance=ExtResource("5_kek77")]
+scene = ExtResource("21_meteor")
+size = 5
 
 [node name="HUD" parent="." unique_id=1372647904 node_paths=PackedStringArray("low_fuel_overlay") instance=ExtResource("5_hud")]
 layer = 0
