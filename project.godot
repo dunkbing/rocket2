@@ -10,11 +10,12 @@ config_version=5
 
 [application]
 
-config/name="rocket2"
+config/name="rocket"
 run/main_scene="uid://cycnwg42r8lsd"
 config/features=PackedStringArray("4.7", "Mobile")
 boot_splash/image="uid://c6btk022bc56l"
 config/icon="res://icon.svg"
+boot_splash/minimum_display_time=1
 
 [audio]
 
@@ -28,6 +29,7 @@ window/size/window_width_override=864
 window/size/window_height_override=1536
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+window/handheld/orientation=1
 
 [gui]
 
@@ -58,4 +60,5 @@ thrust={
 textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
 viewport/hdr_2d=true
