@@ -18,7 +18,8 @@
 [ext_resource type="Texture2D" uid="uid://bhgy3ha7uwr3n" path="res://assets/clouds/cloud2.png" id="16_cloud2"]
 [ext_resource type="Texture2D" uid="uid://duiho561h56kn" path="res://assets/clouds/cloud3.png" id="17_cloud3"]
 [ext_resource type="Texture2D" uid="uid://b1xqr270aykfc" path="res://assets/clouds/cloud4.png" id="18_cloud4"]
-[ext_resource type="Script" path="res://background_field.gd" id="19_bgfield"]
+[ext_resource type="Script" uid="uid://bby4vfhpcedey" path="res://background_field.gd" id="19_bgfield"]
+[ext_resource type="Shader" uid="uid://c7yern47csluj" path="res://screen_glitch.gdshader" id="20_sglitch"]
 
 [sub_resource type="Environment" id="Environment_2ueok"]
 background_mode = 3
@@ -46,6 +47,14 @@ shader = ExtResource("7_272bh")
 shader_parameter/strength = 0.003
 shader_parameter/edge_start = 0.2000000095
 shader_parameter/edge_end = 0.7
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sglitch"]
+shader = ExtResource("20_sglitch")
+shader_parameter/shake_power = 0.06
+shader_parameter/shake_rate = 1.0
+shader_parameter/shake_speed = 12.0
+shader_parameter/shake_block_size = 24.0
+shader_parameter/shake_color_rate = 0.04
 
 [sub_resource type="Gradient" id="Gradient_stardot"]
 offsets = PackedFloat32Array(0, 0.25, 1)
@@ -101,14 +110,15 @@ color_ramp = SubResource("GradientTexture1D_cloudfade")
 
 [node name="Main" type="Node2D" unique_id=512084551]
 
-[node name="Rocket" parent="." unique_id=183115029 node_paths=PackedStringArray("vignette", "camera") instance=ExtResource("1_ig7tw")]
+[node name="Rocket" parent="." unique_id=183115029 node_paths=PackedStringArray("vignette", "camera", "glitch_overlay") instance=ExtResource("1_ig7tw")]
 position = Vector2(144, 385)
 rotation = -1.5707964
 vignette = NodePath("../PostFX/VignetteRect")
 camera = NodePath("../Camera2D")
+glitch_overlay = NodePath("../PostFX/GlitchRect")
 
 [node name="Base" parent="." unique_id=50186384 instance=ExtResource("2_kek77")]
-position = Vector2(144, 448)
+position = Vector2(144, 414)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=482363291 node_paths=PackedStringArray("target")]
 script = ExtResource("2_cam")
@@ -162,6 +172,15 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
+[node name="GlitchRect" type="ColorRect" parent="PostFX" unique_id=1900000003]
+visible = false
+material = SubResource("ShaderMaterial_sglitch")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="GameState" type="Node" parent="." unique_id=1433314615]
 script = ExtResource("12_dg77c")

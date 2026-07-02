@@ -2,10 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cesm6001h2rrh" path="res://asteroid.gd" id="1_qduwi"]
 [ext_resource type="PackedScene" uid="uid://30e74xg5mtn1" path="res://floating_text.tscn" id="2_cfnh1"]
-[ext_resource type="Texture2D" uid="uid://dcru8t04vsxfd" path="res://assets/gold.png" id="2_qduwi"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_ast"]
-radius = 14.0
+[ext_resource type="Texture2D" uid="uid://btue68o6pijx1" path="res://assets/gold.png" id="2_qduwi"]
 
 [sub_resource type="Gradient" id="Gradient_circle"]
 interpolation_mode = 1
@@ -18,6 +15,48 @@ height = 8
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
+
+[sub_resource type="Gradient" id="Gradient_golddust"]
+offsets = PackedFloat32Array(0, 0.9903226)
+colors = PackedColorArray(0.95, 0.8, 0.35, 1, 0.72, 0.52, 0.15, 0.5)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_golddust"]
+gradient = SubResource("Gradient_golddust")
+
+[sub_resource type="Gradient" id="Gradient_sparkle_ramp"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(2, 1.8, 0.9, 1, 1.8, 1.3, 0.3, 1, 1.2, 0.8, 0.2, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_sparkle_ramp"]
+gradient = SubResource("Gradient_sparkle_ramp")
+use_hdr = true
+
+[sub_resource type="Curve" id="Curve_golddust"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_golddust"]
+curve = SubResource("Curve_golddust")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_duwuw"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 10.0
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+angular_velocity_min = -180.00002
+angular_velocity_max = 179.99998
+gravity = Vector3(0, 0, 0)
+scale_min = 0.6
+scale_max = 1.2
+scale_curve = SubResource("CurveTexture_golddust")
+color_ramp = SubResource("GradientTexture1D_sparkle_ramp")
+color_initial_ramp = SubResource("GradientTexture1D_golddust")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ast"]
+radius = 14.0
 
 [sub_resource type="Gradient" id="Gradient_gm5ib"]
 interpolation_mode = 1
@@ -57,11 +96,20 @@ floating_text_scene = ExtResource("2_cfnh1")
 score = 200
 coin = 50
 
+[node name="Particles" type="GPUParticles2D" parent="." unique_id=2069075075]
+amount = 12
+texture = SubResource("GradientTexture2D_gm5ib")
+lifetime = 0.7
+preprocess = 0.7
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_duwuw")
+
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1116532903]
+position = Vector2(-0.50000095, -0.50000095)
+scale = Vector2(0.515625, 0.515625)
 texture = ExtResource("2_qduwi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=348058972]
-visible = false
 shape = SubResource("CircleShape2D_ast")
 
 [node name="Explosion" type="GPUParticles2D" parent="." unique_id=2128565426]

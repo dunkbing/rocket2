@@ -13,6 +13,14 @@ const _TEXTURES := {
     Variant.YELLOW: "res://assets/ui/yellow_button.png",
 }
 
+## Default nine-patch border per variant, matched to each texture's size
+## (blue is 64x64, lavender/yellow are 32x32).
+const _PATCH_MARGINS := {
+    Variant.BLUE: 20,
+    Variant.LAVENDER: 10,
+    Variant.YELLOW: 10,
+}
+
 ## Which button image to show.
 @export var variant: Variant = Variant.BLUE:
     set(value):
@@ -20,7 +28,8 @@ const _TEXTURES := {
         _apply_style()
 
 ## Nine-patch border (px kept un-stretched at each edge/corner as it scales).
-@export var patch_margin: int = 24:
+## 0 or less = automatic: the variant's default border from _PATCH_MARGINS.
+@export var patch_margin: int = 0:
     set(value):
         patch_margin = value
         _apply_style()
@@ -81,7 +90,8 @@ func _apply_boxes(texture: Texture2D) -> void:
 func _make_box(texture: Texture2D, tint: Color, press_shift: int) -> StyleBoxTexture:
     var box := StyleBoxTexture.new()
     box.texture = texture
-    box.set_texture_margin_all(patch_margin)  # the nine-patch guides
+    var margin: int = patch_margin if patch_margin > 0 else _PATCH_MARGINS[variant]
+    box.set_texture_margin_all(margin)  # the nine-patch guides
     box.modulate_color = tint
     box.content_margin_left = content_margin.x
     box.content_margin_right = content_margin.x

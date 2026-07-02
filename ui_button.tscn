@@ -9,10 +9,10 @@ content_margin_top = 26.0
 content_margin_right = 32.0
 content_margin_bottom = 26.0
 texture = ExtResource("1_itcfk")
-texture_margin_left = 24.0
-texture_margin_top = 24.0
-texture_margin_right = 24.0
-texture_margin_bottom = 24.0
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
 
 [node name="UiButton" type="Button" unique_id=18331399]
 custom_minimum_size = Vector2(140, 56)
