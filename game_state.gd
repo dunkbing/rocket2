@@ -7,6 +7,12 @@ extends Node
 
 const SAVE_PATH := "user://save.cfg"
 
+## Scene glow — disabled while low spec mode is on.
+@export var world_environment: WorldEnvironment
+## Post-processing overlays (vignette, chromatic aberration, glitch) — hidden
+## while low spec mode is on.
+@export var postfx: CanvasLayer
+
 var score: int = 0
 var coin: int = 0
 
@@ -51,6 +57,10 @@ var child_rocket_chance: float = _ROCKET_BASE
 var sound_enabled: bool = true
 var music_enabled: bool = true
 
+## Low spec mode (persisted): turns off HDR 2D, glow, and the PostFX overlays.
+## Defaults on for Android, off elsewhere (iOS/desktop).
+var low_spec_enabled: bool = OS.get_name() == "Android"
+
 ## The free starter skin — always owned, never costs coins.
 const DEFAULT_SKIN := "res://assets/rockets/default.png"
 ## Currently equipped rocket skin texture path (persisted).
@@ -63,6 +73,7 @@ func _ready() -> void:
     add_to_group("game_state")
     _load()
     _apply_audio()  # mute/unmute the buses to match the loaded settings
+    _apply_low_spec()
     # Defer so the HUD / rocket have joined their groups before we reach them.
     _push.call_deferred()
     _apply_rocket_skin.call_deferred()
@@ -181,6 +192,23 @@ func set_music_enabled(on: bool) -> void:
     _save()
 
 
+## Persist + apply the low spec toggle (called by the HUD checkbox).
+func set_low_spec_enabled(on: bool) -> void:
+    low_spec_enabled = on
+    _apply_low_spec()
+    _save()
+
+
+## Turn HDR 2D, glow, and the PostFX overlays on/off to match the setting.
+func _apply_low_spec() -> void:
+    var effects_on: bool = not low_spec_enabled
+    get_viewport().use_hdr_2d = effects_on
+    if world_environment and world_environment.environment:
+        world_environment.environment.glow_enabled = effects_on
+    if postfx:
+        postfx.visible = effects_on
+
+
 ## Mirror the current settings onto the audio buses.
 func _apply_audio() -> void:
     var sfx: int = AudioServer.get_bus_index("SFX")
@@ -209,6 +237,7 @@ func _push() -> void:
     get_tree().call_group("hud", "set_high_score", high_score)
     get_tree().call_group("hud", "set_total_coin", total_coin)
     get_tree().call_group("hud", "set_audio_settings", sound_enabled, music_enabled)
+    get_tree().call_group("hud", "set_low_spec_setting", low_spec_enabled)
 
 
 ## Read the persisted high score / total coins / audio settings from disk.
@@ -220,6 +249,8 @@ func _load() -> void:
     total_coin = int(cfg.get_value("stats", "total_coin", 0))
     sound_enabled = bool(cfg.get_value("audio", "sound", true))
     music_enabled = bool(cfg.get_value("audio", "music", true))
+    # Fall back to the per-platform default when the save predates the setting.
+    low_spec_enabled = bool(cfg.get_value("video", "low_spec", low_spec_enabled))
     rocket_skin = str(cfg.get_value("rocket", "skin", DEFAULT_SKIN))
     if rocket_skin == "":
         rocket_skin = DEFAULT_SKIN  # normalize old saves that stored ""
@@ -237,6 +268,7 @@ func _save() -> void:
     cfg.set_value("stats", "total_coin", total_coin)
     cfg.set_value("audio", "sound", sound_enabled)
     cfg.set_value("audio", "music", music_enabled)
+    cfg.set_value("video", "low_spec", low_spec_enabled)
     cfg.set_value("rocket", "skin", rocket_skin)
     cfg.set_value("rocket", "owned", owned_skins)
     cfg.set_value("upgrades", "fuel_level", fuel_level)

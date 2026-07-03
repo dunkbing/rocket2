@@ -30,6 +30,7 @@ const LOW_FUEL_INTENSITY := 0.2
 @onready var SettingsPanel: Control = $MenuUI/SettingsPanel
 @onready var SoundCheck: CheckBox = $MenuUI/SettingsPanel/Panel/VBoxContainer/SoundCheck
 @onready var MusicCheck: CheckBox = $MenuUI/SettingsPanel/Panel/VBoxContainer/MusicCheck
+@onready var LowSpecCheck: CheckBox = $MenuUI/SettingsPanel/Panel/VBoxContainer/LowSpecCheck
 @onready var SettingsCloseButton: Button = $MenuUI/SettingsPanel/Panel/VBoxContainer/CloseButton
 @onready var ShopPanel: Control = $MenuUI/ShopPanel
 @onready var ShopGrid: GridContainer = $MenuUI/ShopPanel/Panel/VBoxContainer/ScrollContainer/GridContainer
@@ -110,6 +111,7 @@ func _ready() -> void:
     # once loaded, so we just wire the toggle handlers here.
     SoundCheck.toggled.connect(_on_sound_toggled)
     MusicCheck.toggled.connect(_on_music_toggled)
+    LowSpecCheck.toggled.connect(_on_low_spec_toggled)
     GameUI.hide()  # menu is up at first; the in-game HUD stays hidden until Play
 
 # --- Stat display (called via the "hud" group from GameState) ---
@@ -225,6 +227,14 @@ func _on_sound_toggled(pressed: bool) -> void:
 
 func _on_music_toggled(pressed: bool) -> void:
     get_tree().call_group("game_state", "set_music_enabled", pressed)
+
+## Reflect the persisted low spec setting into the checkbox (no re-trigger).
+func set_low_spec_setting(on: bool) -> void:
+    LowSpecCheck.set_pressed_no_signal(on)
+
+## Checkbox on = low spec: GameState turns off HDR/glow/PostFX and persists it.
+func _on_low_spec_toggled(pressed: bool) -> void:
+    get_tree().call_group("game_state", "set_low_spec_enabled", pressed)
 
 func _select_upgrade_tab() -> void:
     _select_bottom_tab("upgrade")

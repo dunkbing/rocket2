@@ -112,7 +112,7 @@ color_ramp = SubResource("GradientTexture1D_cloudfade")
 [node name="Main" type="Node2D" unique_id=512084551]
 
 [node name="Rocket" parent="." unique_id=183115029 node_paths=PackedStringArray("vignette", "camera", "glitch_overlay") instance=ExtResource("1_ig7tw")]
-position = Vector2(144, 385)
+position = Vector2(144, 387)
 rotation = -1.5707964
 vignette = NodePath("../PostFX/VignetteRect")
 camera = NodePath("../Camera2D")
@@ -189,8 +189,10 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="GameState" type="Node" parent="." unique_id=1433314615]
+[node name="GameState" type="Node" parent="." unique_id=1433314615 node_paths=PackedStringArray("world_environment", "postfx")]
 script = ExtResource("12_dg77c")
+world_environment = NodePath("../WorldEnvironment")
+postfx = NodePath("../PostFX")
 
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=78927563]
 stream = ExtResource("13_ycdy4")

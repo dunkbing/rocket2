@@ -10,13 +10,19 @@ extends Node2D
 @export var spawn_max_radius: float = 720.0
 ## How often to move asteroids that the rocket has left behind.
 @export var spawn_check_interval: float = 0.25
+## Anything farther than this from the rocket is pulled back into the spawn
+## ring, so the field always surrounds the player. Keep it a bit above
+## spawn_max_radius or freshly placed objects would relocate immediately.
+@export var relocate_distance: float = 820.0
 
 ## The rocket to spawn around / keep clear of.
 @export var rocket: Node2D
 ## The home base; nothing may spawn on top of or overlapping it.
 @export var base: Node2D
 ## Tries to find a non-overlapping ring spot before giving up.
-@export var place_tries: int = 12
+@export var place_tries: int = 20
+## Minimum empty gap (px) kept between any two placed objects.
+@export var min_gap: float = 32.0
 
 @export_group("Split")
 ## Hard cap on live normal asteroids so repeated splits can't flood the field.
@@ -186,21 +192,29 @@ func try_split(origin: Vector2) -> void:
         tween.finished.connect(asteroid.set_collision_enabled.bind(true))
 
 
-## Move one asteroid the rocket has left far behind back near it. Only an
-## asteroid fully outside the viewport is eligible, so it never visibly pops.
+## Hard cap on relocations per check: bounds the per-frame placement cost so a
+## big trailing band of asteroids is pulled in over a few ticks, not one frame.
+const _MAX_RELOCATIONS_PER_CHECK: int = 6
+
+
+## Keep the field wrapped around the rocket: every object the rocket has left
+## farther than relocate_distance behind is moved back into the spawn ring.
+## Only objects fully outside the viewport are touched, so nothing visibly pops.
 func _replenish() -> void:
-    var farthest: Node2D = null
-    var farthest_distance: float = spawn_max_radius
+    var relocated: int = 0
     for asteroid in _active:
         if not _field_object_active(asteroid):
             continue
         var distance: float = asteroid.global_position.distance_to(rocket.global_position)
+        if distance <= relocate_distance:
+            continue
         var clearance: float = _field_object_radius(asteroid) + offscreen_margin
-        if distance > farthest_distance and not _is_on_screen(asteroid.global_position, clearance):
-            farthest = asteroid
-            farthest_distance = distance
-    if farthest != null:
-        farthest.global_position = _spawn_position(farthest)
+        if _is_on_screen(asteroid.global_position, clearance):
+            continue
+        asteroid.global_position = _spawn_position(asteroid)
+        relocated += 1
+        if relocated >= _MAX_RELOCATIONS_PER_CHECK:
+            return
 
 
 ## A point in the ring around the rocket, outside the viewport and avoiding
@@ -210,22 +224,28 @@ func _spawn_position(skip: Node2D) -> Vector2:
     var radius: float = _field_object_radius(skip)
     var clearance: float = radius + offscreen_margin
     var tries: int = _BLACKHOLE_PLACE_TRIES if _is_blackhole(skip) else place_tries
+    # Failure fallback: remember the off-screen candidate with the most open
+    # space around it, so even a "bad" placement lands in the least-crowded spot.
     var best_offscreen: Vector2 = origin
+    var best_breathing_room: float = -INF
     for _attempt in tries:
         var angle: float = randf() * TAU
         var distance: float = randf_range(spawn_min_radius, spawn_max_radius)
         var candidate_position: Vector2 = origin + Vector2(distance, 0.0).rotated(angle)
         if _is_on_screen(candidate_position, clearance):
             continue
-        best_offscreen = candidate_position
         if not _overlaps(candidate_position, skip, radius):
             return candidate_position
-    # No clear ring spot — search outward for one that's both off-screen and
-    # non-overlapping; only settle for an overlapping spot if even that fails.
-    var pushed: Vector2 = _offscreen_fallback(origin, skip, radius, clearance)
-    if not _overlaps(pushed, skip, radius):
-        return pushed
-    return best_offscreen if best_offscreen != origin else pushed
+        var breathing_room: float = _nearest_neighbor_distance(candidate_position, skip)
+        if breathing_room > best_breathing_room:
+            best_breathing_room = breathing_room
+            best_offscreen = candidate_position
+    # Crowded ring: settle for the least-crowded off-screen candidate. Only run
+    # the expensive outward search when every candidate was on-screen (ring
+    # smaller than the viewport) and we found nothing usable at all.
+    if best_breathing_room > -INF:
+        return best_offscreen
+    return _offscreen_fallback(origin, skip, radius, clearance)
 
 
 ## Find a guaranteed off-screen point when the configured ring is too small
@@ -260,6 +280,18 @@ func _offscreen_fallback(
     return best
 
 
+## Distance from `pos` to the closest other live field object (or the base).
+func _nearest_neighbor_distance(pos: Vector2, skip: Node2D) -> float:
+    var nearest: float = INF
+    if base != null:
+        nearest = pos.distance_to(base.global_position)
+    for other in _active:
+        if other == skip or not _field_object_active(other):
+            continue
+        nearest = minf(nearest, pos.distance_to(other.global_position))
+    return nearest
+
+
 func _is_on_screen(world_position: Vector2, margin: float) -> bool:
     var screen_position: Vector2 = get_viewport_transform() * world_position
     return get_viewport_rect().grow(margin).has_point(screen_position)
@@ -291,7 +323,7 @@ func _overlaps(pos: Vector2, skip: Node2D, radius: float) -> bool:
         if asteroid == skip or not _field_object_active(asteroid):
             continue
         var other_radius: float = _field_object_radius(asteroid)
-        var min_distance: float = radius + other_radius + 8.0
+        var min_distance: float = radius + other_radius + min_gap
         var other_blackhole: bool = _is_blackhole(asteroid)
         # Keep extra breathing room around any black hole's pull field...
         if placing_blackhole or other_blackhole:
