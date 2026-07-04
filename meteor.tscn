@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://b6ht4g2n3uotn"]
 
-[ext_resource type="Script" path="res://meteor.gd" id="1_met"]
+[ext_resource type="Script" uid="uid://cjcwt5bqiepsl" path="res://meteor.gd" id="1_met"]
 [ext_resource type="Texture2D" uid="uid://6sfyeyqv2fnv" path="res://assets/purple.png" id="3_xunib"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ast"]
-radius = 12.0
+radius = 18.0
 
 [sub_resource type="Gradient" id="Gradient_circle"]
 interpolation_mode = 1
@@ -66,7 +66,7 @@ curve = SubResource("Curve_8gfwb")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_duwuw"]
 particle_flag_disable_z = true
 emission_shape = 1
-emission_sphere_radius = 6.0
+emission_sphere_radius = 28.0
 direction = Vector3(0, -1, 0)
 spread = 20.0
 initial_velocity_min = 40.0
@@ -88,7 +88,7 @@ script = ExtResource("1_met")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1116532903]
 z_index = 1
 position = Vector2(-5.9604645e-08, -1.8775463e-06)
-scale = Vector2(0.8125, 0.87499994)
+scale = Vector2(1.4, 1.4)
 texture = ExtResource("3_xunib")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=348058972]
@@ -104,7 +104,7 @@ explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_2ueok")
 
 [node name="Particles" type="GPUParticles2D" parent="." unique_id=1836885825]
-amount = 40
+amount = 45
 texture = SubResource("GradientTexture2D_gm5ib")
 lifetime = 0.7
 randomness = 0.4

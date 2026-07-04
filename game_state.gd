@@ -31,7 +31,7 @@ var rocket_level: int = 0
 
 ## Upgrade tuning: applied value = base + per_level * level; next level costs
 ## cost_step * next_level coins.
-const _FUEL_BASE := 100.0
+const _FUEL_BASE := 30.0
 const _FUEL_PER_LEVEL := 20.0
 const _FUEL_COST_STEP := 80
 const _CHARGE_BASE := 1.2

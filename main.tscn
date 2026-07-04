@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cycnwg42r8lsd"]
 
 [ext_resource type="PackedScene" uid="uid://djbaiefjm15tv" path="res://rocket.tscn" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://1hhr08n783rn" path="res://main.gd" id="1_ryguw"]
 [ext_resource type="Script" uid="uid://oxko16ddhws5" path="res://follow_camera.gd" id="2_cam"]
 [ext_resource type="PackedScene" uid="uid://cia7nbtouiuwp" path="res://base.tscn" id="2_kek77"]
 [ext_resource type="Script" uid="uid://bmwuuljl2q0f2" path="res://spawner.gd" id="3_spw"]
@@ -110,6 +111,7 @@ scale_max = 0.5
 color_ramp = SubResource("GradientTexture1D_cloudfade")
 
 [node name="Main" type="Node2D" unique_id=512084551]
+script = ExtResource("1_ryguw")
 
 [node name="Rocket" parent="." unique_id=183115029 node_paths=PackedStringArray("vignette", "camera", "glitch_overlay") instance=ExtResource("1_ig7tw")]
 position = Vector2(144, 387)
