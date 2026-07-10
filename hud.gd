@@ -4,10 +4,17 @@ extends CanvasLayer
 ## when fuel is low.
 @export var low_fuel_overlay: ColorRect
 
+@export_group("Rewarded Ad")
+## Replace these Google test IDs with your rewarded ad unit IDs before release.
+@export var android_rewarded_ad_unit_id: String = "ca-app-pub-3940256099942544/5224354917"
+@export var ios_rewarded_ad_unit_id: String = "ca-app-pub-3940256099942544/1712485313"
+
 ## Fuel fraction at/below which the low-fuel warning kicks in.
 const LOW_FUEL_RATIO := 0.25
 ## Peak alpha of the red screen vignette at the top of each pulse.
 const LOW_FUEL_INTENSITY := 0.2
+
+static var _mobile_ads_initialized: bool = false
 
 @onready var GameUI: Control = $GameUI
 @onready var LowFuelLabel: Label = $GameUI/LowFuelLabel
@@ -19,6 +26,7 @@ const LOW_FUEL_INTENSITY := 0.2
 @onready var ChargeBar: ProgressBar = $GameUI/ChargeBar
 @onready var FuelBar: ProgressBar = $GameUI/FuelBar
 @onready var DeathRestartButton = $DeathPanel/Panel/VBoxContainer/RestartButton
+@onready var DeathRewardButton: Button = $DeathPanel/Panel/VBoxContainer/RewardButton
 @onready var DeathScoreLabel = $DeathPanel/Panel/VBoxContainer/ScoreLabel
 @onready var MenuUI: Control = $MenuUI
 @onready var MenuHighScoreLabel: Label = $MenuUI/MenuStats/HighScoreLabel
@@ -71,6 +79,16 @@ var _low_fuel_tween: Tween
 ## Gold outline applied to the currently-equipped shop tile.
 var _equipped_style: StyleBoxFlat
 
+var _rewarded_ad: RewardedAd
+var _reward_listener := OnUserEarnedRewardListener.new()
+var _rewarded_load_callback := RewardedAdLoadCallback.new()
+var _rewarded_content_callback := FullScreenContentCallback.new()
+var _rewarded_ad_loading: bool = false
+var _rewarded_ad_showing: bool = false
+var _reward_earned: bool = false
+var _ad_dismissed: bool = false
+var _revive_used: bool = false
+
 
 func _ready() -> void:
     add_to_group("hud")  # the game state & rocket reach us via this group
@@ -78,6 +96,7 @@ func _ready() -> void:
     ResumeButton.pressed.connect(_resume)
     RestartButton.pressed.connect(_restart)
     DeathRestartButton.pressed.connect(_restart)
+    DeathRewardButton.pressed.connect(_show_rewarded_ad)
     PlayTabButton.pressed.connect(_play_from_tabs)
     UpgradeTabButton.pressed.connect(_select_upgrade_tab)
     ShopTabButton.pressed.connect(_select_shop_tab)
@@ -113,6 +132,8 @@ func _ready() -> void:
     SoundCheck.toggled.connect(_on_sound_toggled)
     MusicCheck.toggled.connect(_on_music_toggled)
     LowSpecCheck.toggled.connect(_on_low_spec_toggled)
+    _configure_rewarded_callbacks()
+    _initialize_rewarded_ads()
     GameUI.hide()  # menu is up at first; the in-game HUD stays hidden until Play
 
 # --- Stat display (called via the "hud" group from GameState) ---
@@ -179,6 +200,9 @@ func _pulse_low_fuel(v: float) -> void:
 func on_rocket_dead() -> void:
     _set_low_fuel(false)
     DeathScoreLabel.text = "Score: " + str(_score)
+    if _rewarded_ad == null and not _rewarded_ad_loading:
+        _load_rewarded_ad()
+    _update_reward_button()
     $DeathPanel.show()
     $DeathPanel/AnimationPlayer.play("show")
 
@@ -202,6 +226,168 @@ func _resume() -> void:
 func _restart() -> void:
     get_tree().paused = false      # unpause first, or the new scene starts frozen
     get_tree().reload_current_scene()
+
+
+func _configure_rewarded_callbacks() -> void:
+    _reward_listener.on_user_earned_reward = _on_user_earned_reward
+    _rewarded_load_callback.on_ad_loaded = _on_rewarded_ad_loaded
+    _rewarded_load_callback.on_ad_failed_to_load = _on_rewarded_ad_failed_to_load
+    _rewarded_content_callback.on_ad_dismissed_full_screen_content = (
+        _on_rewarded_ad_dismissed
+    )
+    _rewarded_content_callback.on_ad_failed_to_show_full_screen_content = (
+        _on_rewarded_ad_failed_to_show
+    )
+
+
+func _initialize_rewarded_ads() -> void:
+    if not _rewarded_ads_supported():
+        _update_reward_button()
+        return
+    if not _mobile_ads_initialized:
+        MobileAds.initialize()
+        _mobile_ads_initialized = true
+    _load_rewarded_ad()
+
+
+func _rewarded_ads_supported() -> bool:
+    if OS.get_name() != "Android" and OS.get_name() != "iOS":
+        return false
+    return (
+        Engine.has_singleton("PoingGodotAdMob")
+        and Engine.has_singleton("PoingGodotAdMobRewardedAd")
+    )
+
+
+func _rewarded_ad_unit_id() -> String:
+    if OS.get_name() == "Android":
+        return android_rewarded_ad_unit_id
+    if OS.get_name() == "iOS":
+        return ios_rewarded_ad_unit_id
+    return ""
+
+
+func _load_rewarded_ad() -> void:
+    if (
+        not _rewarded_ads_supported()
+        or _rewarded_ad_loading
+        or _rewarded_ad != null
+        or _revive_used
+    ):
+        _update_reward_button()
+        return
+    var unit_id: String = _rewarded_ad_unit_id()
+    if unit_id.is_empty():
+        _update_reward_button()
+        return
+    _rewarded_ad_loading = true
+    _update_reward_button()
+    RewardedAdLoader.new().load(
+        unit_id,
+        AdRequest.new(),
+        _rewarded_load_callback
+    )
+
+
+func _on_rewarded_ad_loaded(ad: RewardedAd) -> void:
+    _rewarded_ad_loading = false
+    if _revive_used or not is_inside_tree():
+        ad.destroy()
+        return
+    _destroy_rewarded_ad()
+    _rewarded_ad = ad
+    _rewarded_ad.full_screen_content_callback = _rewarded_content_callback
+    _update_reward_button()
+
+
+func _on_rewarded_ad_failed_to_load(error: LoadAdError) -> void:
+    _rewarded_ad_loading = false
+    push_warning("Rewarded ad failed to load: " + error.message)
+    _update_reward_button()
+
+
+func _show_rewarded_ad() -> void:
+    if _rewarded_ad == null or _rewarded_ad_showing or _revive_used:
+        return
+    _rewarded_ad_showing = true
+    _reward_earned = false
+    _ad_dismissed = false
+    _update_reward_button()
+    _rewarded_ad.show(_reward_listener)
+
+
+func _on_user_earned_reward(_item: RewardedItem) -> void:
+    _reward_earned = true
+    if _ad_dismissed:
+        _grant_rewarded_revive()
+
+
+func _on_rewarded_ad_dismissed() -> void:
+    _ad_dismissed = true
+    if _reward_earned:
+        _grant_rewarded_revive()
+    # Some mediated networks dispatch reward and dismissal on adjacent frames.
+    await get_tree().process_frame
+    if _reward_earned:
+        _grant_rewarded_revive()
+    _finish_rewarded_ad()
+
+
+func _on_rewarded_ad_failed_to_show(error: AdError) -> void:
+    push_warning("Rewarded ad failed to show: " + error.message)
+    _finish_rewarded_ad()
+
+
+func _grant_rewarded_revive() -> void:
+    if _revive_used:
+        return
+    var rocket: Node = get_tree().get_first_node_in_group("player")
+    if rocket == null or not rocket.has_method("revive"):
+        return
+    _revive_used = true
+    $DeathPanel/AnimationPlayer.stop()
+    $DeathPanel.hide()
+    PauseButton.show()
+    rocket.revive()
+    _update_reward_button()
+
+
+func _finish_rewarded_ad() -> void:
+    _rewarded_ad_showing = false
+    _destroy_rewarded_ad()
+    if not _revive_used:
+        _load_rewarded_ad()
+    _update_reward_button()
+
+
+func _destroy_rewarded_ad() -> void:
+    if _rewarded_ad == null:
+        return
+    _rewarded_ad.destroy()
+    _rewarded_ad = null
+
+
+func _update_reward_button() -> void:
+    if not _rewarded_ads_supported() or _revive_used:
+        DeathRewardButton.hide()
+        return
+    DeathRewardButton.show()
+    if _rewarded_ad_showing:
+        DeathRewardButton.text = "WATCHING AD..."
+        DeathRewardButton.disabled = true
+    elif _rewarded_ad != null:
+        DeathRewardButton.text = "WATCH AD + REVIVE"
+        DeathRewardButton.disabled = false
+    elif _rewarded_ad_loading:
+        DeathRewardButton.text = "LOADING AD..."
+        DeathRewardButton.disabled = true
+    else:
+        DeathRewardButton.text = "AD UNAVAILABLE"
+        DeathRewardButton.disabled = true
+
+
+func _exit_tree() -> void:
+    _destroy_rewarded_ad()
 
 func _play_from_tabs() -> void:
     enter_game_mode()

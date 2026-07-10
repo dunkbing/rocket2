@@ -31,6 +31,10 @@ window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=1
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/admob/plugin.cfg")
+
 [gui]
 
 theme/custom="uid://bfocsgmbg6oeb"

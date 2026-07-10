@@ -382,6 +382,34 @@ func kill() -> void:
     _die()
 
 
+## Rewarded-ad continue: restore a controllable rocket away from the death spot.
+func revive() -> void:
+    if not _dead:
+        return
+    _dead = false
+    _aiming = false
+    _launched = false
+    _aim_time_left = 0.0
+    _child_roll_elapsed = 0.0
+    global_position += Vector2.UP * 160.0
+    rotation = -PI * 0.5
+    freeze = true
+    sleeping = false
+    linear_velocity = Vector2.ZERO
+    angular_velocity = 0.0
+    _fuel = max_fuel
+    _push_fuel()
+    _push_charge(1.0)
+    _set_charge_bar_visible(false)
+    _set_exhaust(false)
+    _set_charge_fx(false)
+    _set_aim_effect(false)
+    _activate_shield()
+    if glitch_overlay:
+        glitch_overlay.hide()
+    show()
+
+
 ## True while hazard asteroids and boss bullets cannot kill the rocket.
 func is_shielded() -> bool:
     return _shield_time_left > 0.0
