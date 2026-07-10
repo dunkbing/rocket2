@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://cexl6e11h2xf"]
+
+[ext_resource type="Texture2D" uid="uid://rfxulvdx6c1m" path="res://assets/bullet.png" id="1_ybu4u"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m1pe2"]
+radius = 8.0
+
+[sub_resource type="Gradient" id="Gradient_trail_dot"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.7, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_trail_dot"]
+gradient = SubResource("Gradient_trail_dot")
+width = 8
+height = 8
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="Gradient" id="Gradient_trail_color"]
+offsets = PackedFloat32Array(0, 0.4, 1)
+colors = PackedColorArray(1.8, 2, 2, 0.9, 0.15, 1.5, 2, 0.65, 0.05, 0.25, 1.2, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_trail_color"]
+gradient = SubResource("Gradient_trail_color")
+use_hdr = true
+
+[sub_resource type="Curve" id="Curve_trail_scale"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_trail_scale"]
+curve = SubResource("Curve_trail_scale")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ybu4u"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_min = 1.2
+scale_max = 2.4
+scale_curve = SubResource("CurveTexture_trail_scale")
+color_ramp = SubResource("GradientTexture1D_trail_color")
+
+[node name="BossBullet" type="Area2D" unique_id=1208565497 groups=["hazards"]]
+z_index = 9
+collision_layer = 16
+collision_mask = 17
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=114010575]
+texture = ExtResource("1_ybu4u")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1369782590]
+shape = SubResource("CircleShape2D_m1pe2")
+
+[node name="Trail" type="GPUParticles2D" parent="." unique_id=1961976771]
+z_index = -1
+emitting = false
+amount = 20
+texture = SubResource("GradientTexture2D_trail_dot")
+lifetime = 0.32
+randomness = 0.2
+local_coords = false
+visibility_rect = Rect2(-120, -120, 240, 240)
+process_material = SubResource("ParticleProcessMaterial_ybu4u")

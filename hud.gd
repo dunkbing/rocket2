@@ -105,6 +105,7 @@ func _ready() -> void:
     CoinLabel.text = "%d$" % _coin
     # Sensible defaults in case the rocket's first emit beat us into the tree.
     ChargeBar.value = 1.0
+    ChargeBar.hide()
     FuelBar.value = 1.0
     _select_bottom_tab("play")
     # GameState owns the audio settings; it pushes them via set_audio_settings()
@@ -139,6 +140,10 @@ func set_total_coin(value: int) -> void:
 ## Aim-timer fill, 0..1. Full when a drag starts, empties as time runs out.
 func set_charge(ratio: float) -> void:
     ChargeBar.value = ratio
+
+## Show the charge countdown only while the rocket is actively aiming.
+func set_charge_visible(on: bool) -> void:
+    ChargeBar.visible = on
 
 ## Fuel fill, 0..1. Drains in flight, refills on asteroid hits.
 func set_fuel(ratio: float) -> void:

@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cia7nbtouiuwp" path="res://base.tscn" id="2_kek77"]
 [ext_resource type="Script" uid="uid://bmwuuljl2q0f2" path="res://spawner.gd" id="3_spw"]
 [ext_resource type="PackedScene" uid="uid://cb1dkn6sfyxym" path="res://asteroid.tscn" id="4_ast"]
-[ext_resource type="PackedScene" uid="uid://bax5fyrxmnr56" path="res://red_asteroid.tscn" id="5_5vw27"]
+[ext_resource type="PackedScene" uid="uid://bax5fyrxmnr56" path="res://bomb.tscn" id="5_5vw27"]
 [ext_resource type="PackedScene" uid="uid://cncgkuybi5txp" path="res://hud.tscn" id="5_hud"]
 [ext_resource type="PackedScene" uid="uid://458oy8efyvam" path="res://object_pool.tscn" id="5_kek77"]
 [ext_resource type="Shader" uid="uid://d2q2eg2j68iyx" path="res://vignette.gdshader" id="6_7mycd"]
@@ -22,6 +22,8 @@
 [ext_resource type="Script" uid="uid://bby4vfhpcedey" path="res://background_field.gd" id="19_bgfield"]
 [ext_resource type="Shader" uid="uid://c7yern47csluj" path="res://screen_glitch.gdshader" id="20_sglitch"]
 [ext_resource type="PackedScene" uid="uid://b6ht4g2n3uotn" path="res://meteor.tscn" id="21_meteor"]
+[ext_resource type="PackedScene" uid="uid://cu27kj6rvw3u2" path="res://ufo.tscn" id="22_ufo"]
+[ext_resource type="PackedScene" uid="uid://bektvhfh5ntyh" path="res://shield.tscn" id="23_shield"]
 
 [sub_resource type="Environment" id="Environment_2ueok"]
 background_mode = 3
@@ -80,7 +82,7 @@ gradient = SubResource("Gradient_starfade")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_stars"]
 particle_flag_disable_z = true
 emission_shape = 3
-emission_box_extents = Vector3(1500, 1500, 1)
+emission_box_extents = Vector3(1500, 750, 1)
 direction = Vector3(-1, 0, 0)
 spread = 0.0
 initial_velocity_min = 2.0
@@ -100,7 +102,7 @@ gradient = SubResource("Gradient_cloudfade")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2ueok"]
 particle_flag_disable_z = true
 emission_shape = 3
-emission_box_extents = Vector3(1500, 1500, 1)
+emission_box_extents = Vector3(1500, 750, 1)
 direction = Vector3(-1, 0, 0)
 spread = 0.0
 initial_velocity_min = 14.0
@@ -109,6 +111,42 @@ gravity = Vector3(0, 0, 0)
 scale_min = 0.25
 scale_max = 0.5
 color_ramp = SubResource("GradientTexture1D_cloudfade")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m1pe2"]
+size = Vector2(12000, 200)
+
+[sub_resource type="Gradient" id="Gradient_lava_ember"]
+offsets = PackedFloat32Array(0, 0.35, 0.75, 1)
+colors = PackedColorArray(2.2, 1.5, 0.2, 1, 2, 0.35, 0.03, 0.9, 0.9, 0.05, 0.01, 0.55, 0.2, 0.01, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_lava_ember"]
+gradient = SubResource("Gradient_lava_ember")
+use_hdr = true
+
+[sub_resource type="Curve" id="Curve_lava_ember"]
+_data = [Vector2(0, 0.45), 0.0, 0.0, 0, 0, Vector2(0.2, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_lava_ember"]
+curve = SubResource("Curve_lava_ember")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m1pe2"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(6000, 4, 1)
+direction = Vector3(0, -1, 0)
+spread = 18.0
+initial_velocity_min = 45.0
+initial_velocity_max = 120.0
+angular_velocity_min = -180.0
+angular_velocity_max = 180.0
+gravity = Vector3(0, 22, 0)
+damping_min = 4.0
+damping_max = 14.0
+scale_min = 0.5
+scale_max = 1.8
+scale_curve = SubResource("CurveTexture_lava_ember")
+color_ramp = SubResource("GradientTexture1D_lava_ember")
 
 [node name="Main" type="Node2D" unique_id=512084551]
 script = ExtResource("1_ryguw")
@@ -127,10 +165,12 @@ position = Vector2(144, 414)
 script = ExtResource("2_cam")
 target = NodePath("../Rocket")
 
-[node name="Spawner" type="Node2D" parent="." unique_id=999638244 node_paths=PackedStringArray("rocket", "base")]
+[node name="Spawner" type="Node2D" parent="." unique_id=999638244 node_paths=PackedStringArray("rocket", "base", "ground")]
 script = ExtResource("3_spw")
 rocket = NodePath("../Rocket")
 base = NodePath("../Base")
+ground = NodePath("../Ground")
+boss_scene = ExtResource("22_ufo")
 meteor_interval_min = 1.5
 meteor_interval_max = 3.0
 
@@ -148,11 +188,15 @@ size = 15
 
 [node name="BlackHolePool" parent="Spawner" unique_id=1330242221 instance=ExtResource("5_kek77")]
 scene = ExtResource("9_vivmo")
-size = 10
+size = 6
 
 [node name="MeteorPool" parent="Spawner" unique_id=1076952897 instance=ExtResource("5_kek77")]
 scene = ExtResource("21_meteor")
 size = 5
+
+[node name="ShieldPool" parent="Spawner" unique_id=671132395 instance=ExtResource("5_kek77")]
+scene = ExtResource("23_shield")
+size = 4
 
 [node name="HUD" parent="." unique_id=1372647904 node_paths=PackedStringArray("low_fuel_overlay") instance=ExtResource("5_hud")]
 layer = 0
@@ -210,10 +254,11 @@ anchor_bottom = 1.0
 mouse_filter = 2
 color = Color(0.035, 0.03, 0.06, 1)
 
-[node name="BackgroundField" type="Node2D" parent="." unique_id=1900000002 node_paths=PackedStringArray("target")]
+[node name="BackgroundField" type="Node2D" parent="." unique_id=1900000002 node_paths=PackedStringArray("target", "ground")]
 z_index = -10
 script = ExtResource("19_bgfield")
 target = NodePath("../Rocket")
+ground = NodePath("../Ground")
 
 [node name="Stars" type="GPUParticles2D" parent="BackgroundField" unique_id=2044387819]
 self_modulate = Color(1, 0.85, 0.45, 1)
@@ -222,6 +267,7 @@ texture = SubResource("GradientTexture2D_star")
 lifetime = 3.5
 preprocess = 3.5
 randomness = 0.8
+visibility_rect = Rect2(-1600, -850, 3200, 1700)
 process_material = SubResource("ParticleProcessMaterial_stars")
 
 [node name="Clouds" type="Node2D" parent="BackgroundField" unique_id=1120090364]
@@ -234,6 +280,7 @@ lifetime = 34.0
 preprocess = 34.0
 speed_scale = 0.5
 randomness = 0.7
+visibility_rect = Rect2(-2700, -850, 4400, 1700)
 process_material = SubResource("ParticleProcessMaterial_2ueok")
 
 [node name="Cloud2" type="GPUParticles2D" parent="BackgroundField/Clouds" unique_id=775290751]
@@ -244,6 +291,7 @@ lifetime = 34.0
 preprocess = 34.0
 speed_scale = 0.72
 randomness = 0.7
+visibility_rect = Rect2(-2700, -850, 4400, 1700)
 process_material = SubResource("ParticleProcessMaterial_2ueok")
 
 [node name="Cloud3" type="GPUParticles2D" parent="BackgroundField/Clouds" unique_id=2031254849]
@@ -253,6 +301,7 @@ texture = ExtResource("17_cloud3")
 lifetime = 34.0
 preprocess = 34.0
 randomness = 0.7
+visibility_rect = Rect2(-2700, -850, 4400, 1700)
 process_material = SubResource("ParticleProcessMaterial_2ueok")
 
 [node name="Cloud4" type="GPUParticles2D" parent="BackgroundField/Clouds" unique_id=1178448119]
@@ -263,4 +312,28 @@ lifetime = 34.0
 preprocess = 34.0
 speed_scale = 1.3
 randomness = 0.7
+visibility_rect = Rect2(-2700, -850, 4400, 1700)
 process_material = SubResource("ParticleProcessMaterial_2ueok")
+
+[node name="Ground" type="Node2D" parent="." unique_id=159655266]
+position = Vector2(140, 800)
+
+[node name="LavaRect" type="Polygon2D" parent="Ground" unique_id=876226608]
+color = Color(1.15, 0.12, 0.015, 1)
+polygon = PackedVector2Array(-6000, -100, 6000, -100, 6000, 100, -6000, 100)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Ground" unique_id=1474581578 groups=["lava"]]
+collision_layer = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/StaticBody2D" unique_id=706334320]
+shape = SubResource("RectangleShape2D_m1pe2")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Ground" unique_id=1293845845]
+position = Vector2(0, -100)
+amount = 420
+texture = SubResource("GradientTexture2D_star")
+lifetime = 1.5
+preprocess = 1.5
+randomness = 0.75
+visibility_rect = Rect2(-6100, -220, 12200, 300)
+process_material = SubResource("ParticleProcessMaterial_m1pe2")

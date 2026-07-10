@@ -3,8 +3,9 @@
 [ext_resource type="Script" uid="uid://cqrr286nki5lv" path="res://child_rocket.gd" id="1_cr"]
 [ext_resource type="Texture2D" uid="uid://bh6uywpc6llef" path="res://assets/rockets/bulwark.png" id="2_2dm24"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_cr"]
-radius = 9.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4fn8o"]
+radius = 3.2
+height = 15.0
 
 [node name="ChildRocket" type="Area2D" unique_id=1375303327]
 z_index = 5
@@ -17,4 +18,5 @@ scale = Vector2(0.55, 0.55)
 texture = ExtResource("2_2dm24")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=168904042]
-shape = SubResource("CircleShape2D_cr")
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_4fn8o")

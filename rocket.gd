@@ -59,6 +59,8 @@ extends RigidBody2D
 ## keeps flying instead of stopping dead. If it was already faster, it keeps its
 ## own speed; this is just the floor.
 @export var punch_through_speed: float = 400.0
+## Speed applied away from the UFO after damaging it.
+@export var boss_bounce_speed: float = 420.0
 ## How much the post-hit direction is pulled toward straight-up (0 = keep
 ## heading, 1 = always straight up). The rocket keeps its horizontal lean but
 ## never gets blasted downward.
@@ -71,6 +73,14 @@ var hit_haptic_ms: int = 20
 @export var child_rocket_scene: PackedScene
 ## Seconds between child-rocket chance rolls while flying.
 @export var child_rocket_interval: float = 1.0
+
+@export_group("Shield")
+## Real seconds of invincibility granted by a shield pickup.
+@export var shield_duration: float = 6.0
+## Start blinking when this many real seconds of protection remain.
+@export var shield_warning_time: float = 1.5
+
+@onready var _shield_animation: AnimationPlayer = $Shield/AnimationPlayer
 
 var _aiming: bool = false
 var _drag_start: Vector2 = Vector2.ZERO
@@ -96,6 +106,8 @@ var _dead: bool = false
 
 ## Time accumulated toward the next child-rocket chance roll.
 var _child_roll_elapsed: float = 0.0
+## Real seconds remaining on the current shield.
+var _shield_time_left: float = 0.0
 
 
 func _ready() -> void:
@@ -104,6 +116,7 @@ func _ready() -> void:
     freeze = true
     _set_exhaust(false)
     _set_charge_fx(false)
+    _set_shield(false)
     _clear_trajectory()
     # Report contacts so we can blow up asteroids we hit.
     contact_monitor = true
@@ -112,11 +125,13 @@ func _ready() -> void:
     _fuel = max_fuel
     _push_fuel()
     _push_charge(1.0)  # full when idle; only drains while dragging
+    _set_charge_bar_visible(false)
 
 
 func _process(delta: float) -> void:
     if _dead:
         return
+    _update_shield(delta)
     if _aiming:
         # Count down in REAL time so the aim slow-mo doesn't stretch the timer.
         var real_delta: float = delta / maxf(Engine.time_scale, 0.0001)
@@ -135,14 +150,45 @@ func _process(delta: float) -> void:
 
 
 func _on_body_entered(body: Node) -> void:
+    # Lava always ends the run, even while shielded.
+    if body.is_in_group("lava"):
+        _die()
+        return
+    if body.is_in_group("shields"):
+        _activate_shield()
+        # Preserve travel speed through the static pickup until it is despawned.
+        _punch_velocity = linear_velocity
+        _punch_pending = _launched
+        get_tree().call_group("asteroid_spawner", "collect_shield", body)
+        return
+    # Boss impacts deal one hit and throw the rocket back out of contact.
+    if body.is_in_group("bosses") and body.has_method("take_damage"):
+        var boss: Node2D = body as Node2D
+        if boss == null:
+            return
+        body.take_damage()
+        var bounce_direction: Vector2 = global_position - boss.global_position
+        if bounce_direction.length() < 1.0:
+            bounce_direction = -linear_velocity
+        if bounce_direction.length() < 1.0:
+            bounce_direction = Vector2.DOWN
+        _punch_velocity = bounce_direction.normalized() * maxf(
+            linear_velocity.length(),
+            boss_bounce_speed
+        )
+        _punch_pending = true
+        $HitSound.play()
+        Input.vibrate_handheld(hit_haptic_ms, 0.4)
+        return
     # Deadly hazards (red asteroids, meteors) kill on contact — check this
     # first, since they're also in the "asteroids" group. Mutual destruction:
     # the hazard blows up along with us.
     if body.is_in_group("hazards"):
-        if body.has_method("explode"):
-            body.explode()
-        _die()
-        return
+        if not is_shielded():
+            if body.has_method("explode"):
+                body.explode()
+            _die()
+            return
     # Asteroids add themselves to the "asteroids" group in their _ready().
     if body.is_in_group("asteroids") and body.has_method("explode"):
         # Smashing an asteroid tops the fuel back up.
@@ -202,6 +248,7 @@ func _start_aim() -> void:
     _launched = false
     _aim_time_left = aim_time_limit
     _push_charge(1.0)
+    _set_charge_bar_visible(true)
     _drag_start = get_global_mouse_position()
     # Halt any current motion and hold the rocket still while aiming.
     freeze = true
@@ -223,6 +270,7 @@ func _launch_velocity() -> Vector2:
 
 
 func _launch() -> void:
+    _set_charge_bar_visible(false)
     _set_aim_effect(false)
     _set_charge_fx(false)
     _push_charge(1.0)  # released in time — reset the aim-timer bar to full
@@ -334,11 +382,43 @@ func kill() -> void:
     _die()
 
 
+## True while hazard asteroids and boss bullets cannot kill the rocket.
+func is_shielded() -> bool:
+    return _shield_time_left > 0.0
+
+
+func _activate_shield() -> void:
+    _shield_time_left = shield_duration
+    _set_shield(true)
+
+
+func _update_shield(delta: float) -> void:
+    if _shield_time_left <= 0.0:
+        return
+    var real_delta: float = delta / maxf(Engine.time_scale, 0.0001)
+    _shield_time_left = maxf(_shield_time_left - real_delta, 0.0)
+    if _shield_time_left <= 0.0:
+        _set_shield(false)
+    elif _shield_time_left <= shield_warning_time:
+        _shield_animation.speed_scale = 1.0 / maxf(Engine.time_scale, 0.0001)
+        if _shield_animation.current_animation != "blink":
+            _shield_animation.play("blink")
+
+
+func _set_shield(on: bool) -> void:
+    _shield_animation.stop()
+    _shield_animation.speed_scale = 1.0
+    $Shield/Sprite2D.modulate = Color.WHITE
+    $Shield.visible = on
+
+
 ## Aim timed out while still dragging — blow the rocket up and end the run.
 func _die() -> void:
     if _dead:
         return
     _dead = true
+    _shield_time_left = 0.0
+    _set_shield(false)
     _aiming = false
     _launched = false
     _set_aim_effect(false)
@@ -346,6 +426,7 @@ func _die() -> void:
     _set_charge_fx(false)
     _clear_trajectory()
     _push_charge(0.0)
+    _set_charge_bar_visible(false)
     get_tree().call_group("hud", "hide_pause_button")
     $DeathSound.play()
     if death_explosion_scene:
@@ -370,6 +451,10 @@ func _die() -> void:
 ## Push the current aim-timer fill (0..1) to the HUD.
 func _push_charge(ratio: float) -> void:
     get_tree().call_group("hud", "set_charge", ratio)
+
+
+func _set_charge_bar_visible(on: bool) -> void:
+    get_tree().call_group("hud", "set_charge_visible", on)
 
 
 ## Push the current fuel fill (0..1) to the HUD.

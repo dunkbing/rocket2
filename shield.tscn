@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bektvhfh5ntyh"]
+
+[ext_resource type="Texture2D" uid="uid://dnwntn36xqldr" path="res://assets/shield.png" id="1_ffst0"]
+[ext_resource type="Texture2D" uid="uid://dul380wufnk1b" path="res://assets/shield_ball.png" id="2_dmnlx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m1pe2"]
+radius = 22.0
+
+[node name="Shield" type="StaticBody2D" unique_id=741756309 groups=["shields"]]
+collision_layer = 32
+
+[node name="ShieldSprite" type="Sprite2D" parent="." unique_id=985926489]
+texture = ExtResource("1_ffst0")
+
+[node name="ShieldBallSprite" type="Sprite2D" parent="." unique_id=685531198]
+scale = Vector2(2, 2)
+texture = ExtResource("2_dmnlx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1690764851]
+shape = SubResource("CircleShape2D_m1pe2")

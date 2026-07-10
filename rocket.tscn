@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://c44k6ifffc1eu" path="res://assets/audio/hit.wav" id="6_546ky"]
 [ext_resource type="AudioStream" uid="uid://bjleko7gp18by" path="res://assets/audio/pickup_coin.wav" id="7_awr8v"]
 [ext_resource type="PackedScene" uid="uid://bchildrocket1" path="res://child_rocket.tscn" id="8_child"]
+[ext_resource type="Texture2D" uid="uid://dul380wufnk1b" path="res://assets/shield_ball.png" id="9_mnerj"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rh748"]
 radius = 11.0
@@ -120,9 +121,50 @@ scale_max = 2.0
 scale_curve = SubResource("CurveTexture_lm57y")
 color_ramp = SubResource("GradientTexture1D_7htxx")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_m1pe2"]
+radius = 22.0
+
+[sub_resource type="Animation" id="Animation_shield_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_shield_blink"]
+resource_name = "blink"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.2), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_shield"]
+_data = {
+&"RESET": SubResource("Animation_shield_reset"),
+&"blink": SubResource("Animation_shield_blink")
+}
+
 [node name="Rocket" type="RigidBody2D" unique_id=183115029]
 z_index = 10
-collision_mask = 6
+collision_mask = 118
 gravity_scale = 0.4
 continuous_cd = 1
 script = ExtResource("2_rkt")
@@ -186,3 +228,20 @@ bus = &"SFX"
 [node name="CoinSound" type="AudioStreamPlayer" parent="." unique_id=781675633]
 stream = ExtResource("7_awr8v")
 bus = &"SFX"
+
+[node name="Shield" type="Area2D" parent="." unique_id=1608805679]
+visible = false
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="Sprite2D" type="Sprite2D" parent="Shield" unique_id=757883912]
+scale = Vector2(2, 2)
+texture = ExtResource("9_mnerj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shield" unique_id=352406152]
+shape = SubResource("CircleShape2D_m1pe2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Shield" unique_id=866151045]
+libraries/ = SubResource("AnimationLibrary_shield")

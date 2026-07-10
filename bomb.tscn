@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bax5fyrxmnr56"]
 
 [ext_resource type="Script" uid="uid://cesm6001h2rrh" path="res://asteroid.gd" id="1_u4cq1"]
-[ext_resource type="Texture2D" uid="uid://djxr8oiaxprcj" path="res://assets/red.png" id="3_u4cq1"]
+[ext_resource type="Texture2D" uid="uid://cbkq7e5nhm7bq" path="res://assets/bomb.png" id="2_tfhwr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ast"]
 radius = 14.0
@@ -101,7 +101,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(1e-05, 1e-05), Vector2(0.5, 0.5)]
+"values": [Vector2(1e-05, 1e-05), Vector2(1.2, 1.2)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_03ss7"]
@@ -110,7 +110,7 @@ _data = {
 &"spawn": SubResource("Animation_u4cq1")
 }
 
-[node name="RedAsteroid" type="StaticBody2D" unique_id=1254519483 groups=["asteroids", "hazards"]]
+[node name="Bomb" type="StaticBody2D" unique_id=1254519483 groups=["asteroids", "hazards"]]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_u4cq1")
@@ -127,9 +127,9 @@ randomness = 0.5
 process_material = SubResource("ParticleProcessMaterial_tfhwr")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1116532903]
-position = Vector2(-1, -1)
+position = Vector2(0, -1)
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("3_u4cq1")
+texture = ExtResource("2_tfhwr")
 
 [node name="Explosion" type="GPUParticles2D" parent="." unique_id=2128565427]
 emitting = false
